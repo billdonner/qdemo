@@ -11,6 +11,7 @@
 		8812BD4D2BC56529001E8D42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4C2BC56529001E8D42 /* ContentView.swift */; };
 		8812BD4F2BC5652B001E8D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
+		8812BD5A2BCB02E3001E8D42 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 8812BD592BCB02E3001E8D42 /* q20kshare */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8812BD5A2BCB02E3001E8D42 /* q20kshare in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = qdemo;
+			packageProductDependencies = (
+				8812BD592BCB02E3001E8D42 /* q20kshare */,
+			);
 			productName = qdemo;
 			productReference = 8812BD472BC56529001E8D42 /* qdemo.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = 8812BD3E2BC56529001E8D42;
+			packageReferences = (
+				8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */,
+			);
 			productRefGroup = 8812BD482BC56529001E8D42 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -344,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/billdonner/q20kshare";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.25;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8812BD592BCB02E3001E8D42 /* q20kshare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */;
+			productName = q20kshare;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8812BD3F2BC56529001E8D42 /* Project object */;
 }
