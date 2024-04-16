@@ -1,64 +1,125 @@
 //
 //  ContentView.swift
-//  qdemo
+//  qdemo2
 //
-//  Created by bill donner on 4/9/24.
+//  Created by bill donner on 4/14/24.
 //
+
 import SwiftUI
 import q20kshare
 
 
+
+let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
+
+let MAX_ROWS = 50.0
+let MAX_COLS = 50.0
+
 var questions:[String] = []
-// Define an array of pastel colors for the background
 let pastelColors: [Color] = [
-  Color(red: 0.98, green: 0.85, blue: 0.87),
-  Color(red: 0.84, green: 0.98, blue: 0.85),
-  Color(red: 0.86, green: 0.91, blue: 0.98),
-  Color(red: 0.98, green: 0.92, blue: 0.85),
-  Color(red: 0.88, green: 0.85, blue: 0.98),
-  Color(red: 0.98, green: 0.85, blue: 0.89),
-  Color(red: 0.85, green: 0.98, blue: 0.96),
+    Color(red: 0.98, green: 0.85, blue: 0.87),
+    Color(red: 0.84, green: 0.98, blue: 0.85),
+    Color(red: 0.86, green: 0.91, blue: 0.98),
+    Color(red: 0.98, green: 0.92, blue: 0.85),
+    Color(red: 0.88, green: 0.85, blue: 0.98),
+    Color(red: 0.98, green: 0.85, blue: 0.89),
+    Color(red: 0.85, green: 0.98, blue: 0.96),
+    Color(red: 0.93, green: 0.85, blue: 0.98),
+    Color(red: 0.98, green: 0.89, blue: 0.85),
+    Color(red: 0.85, green: 0.95, blue: 0.98),
+    Color(red: 0.98, green: 0.87, blue: 0.90),
+    Color(red: 0.90, green: 0.98, blue: 0.87),
+    Color(red: 0.87, green: 0.90, blue: 0.98),
+    Color(red: 0.98, green: 0.90, blue: 0.83),
+    Color(red: 0.83, green: 0.96, blue: 0.98),
+    Color(red: 0.92, green: 0.88, blue: 0.98),
+    Color(red: 0.98, green: 0.95, blue: 0.89),
+    Color(red: 0.89, green: 0.98, blue: 0.93),
+    Color(red: 0.85, green: 0.89, blue: 0.98),
+    Color(red: 0.98, green: 0.91, blue: 0.87),
+    Color(red: 0.91, green: 0.98, blue: 0.85),
+    Color(red: 0.85, green: 0.87, blue: 0.98),
+    Color(red: 0.96, green: 0.85, blue: 0.98),
+    Color(red: 0.98, green: 0.93, blue: 0.90),
+    Color(red: 0.90, green: 0.87, blue: 0.98),
 ]
 
 let formatter = NumberFormatter()
+
+@Observable class AppSettings  {
+  enum options {
+    case numeric
+    case worded
+    case questions
+  }
+  var elementWidth: CGFloat = 100
+  var elementHeight: CGFloat = 100
+  var shaky: Bool = false
+  var displayOption = options.numeric
+  var rows: Double = 4
+  var columns: Double = 3
+  var fontsize: Double = 24
+}
+
 // Convert number to words
 func convertNumberToWords(_ number: Int) -> String? {
- let r =  formatter.string(from: NSNumber(value: number)) ?? ""
- return  (r as NSString).replacingOccurrences(of: "-", with: " ")
+  let r =  formatter.string(from: NSNumber(value: number)) ?? ""
+  return  (r as NSString).replacingOccurrences(of: "-", with: " ")
 }
 // Convert number to question from q20k
 func convertNumberToQuestion(_ number: Int) -> String? {
   guard number > 0 && number <= questions.count else {return nil}
- return questions [number-1]
+  return questions [number-1]
 }
 
-@Observable class AppSettings  {
-  var elementWidth: CGFloat = 100
-  var elementHeight: CGFloat = 100
-  var shaky: Bool = false
-  var worded: Bool = false
-  var questions: Bool = true
-  var rows: Double = 4
-  var columns: Double = 3
-  var fontsize: Double = 16
+func downloadFile(from url: URL ) async throws -> Data {
+  let (data, _) = try await URLSession.shared.data(from: url)
+  return data
+}
+
+func restorePlayDataURL(_ url:URL) async  throws -> PlayData? {
+  do {
+    let start_time = Date()
+    let tada = try await  downloadFile(from:url)
+    let str = String(data:tada,encoding:.utf8) ?? ""
+    do {
+      let pd = try JSONDecoder().decode(PlayData.self,from:tada)
+      let elapsed = Date().timeIntervalSince(start_time)
+      print("************")
+      print("Downloaded \(pd.playDataId) in \(elapsed) secs from \(url)")
+      let challengeCount = pd.gameDatum.reduce(0,{$0 + $1.challenges.count})
+      print("Loaded"," \(pd.gameDatum.count) topics, \(challengeCount) challenges in \(elapsed) secs")
+      print("************")
+      return pd
+    }
+    catch {
+      print(">>> could not decode playdata from \(url) \n>>> original str:\n\(str)")
+    }
+  }
+  catch {
+    throw error
+  }
+  return nil
 }
 
 func boxCon (_ number:Int,settings:AppSettings) -> String {
-  if settings.questions {
-    let a =  convertNumberToQuestion(number)
+  switch settings.displayOption {
+  case .numeric: break
+  case .questions:
+    let a = convertNumberToQuestion(number)
     if a != nil { return a! }
-  }
-  if settings.worded {
+  case.worded:
     let b = convertNumberToWords(number)
     if b != nil {return b! }
   }
-    return "\(number)"
-  }
+  return "\(number)"
+}
+
 struct MatrixItem: View {
   let number: Int
   let backgroundColor: Color
   let settings:AppSettings
-  var onTap: (() -> Void)? // Closure to be executed on tap
+  var onTap: ((Int) -> Void)? // Closure to be executed on tap
   
   
   var body: some View {
@@ -72,7 +133,7 @@ struct MatrixItem: View {
       .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
       .padding(2)
       .onTapGesture {
-        onTap?() // Execute the closure if it exists
+        onTap?(number) // Execute the closure if it exists
       }
   }
   
@@ -107,16 +168,16 @@ struct OneRowView: View {
   @Binding var background:Color
   @Binding var isPresented:Bool
   var body: some View {
-    let delta = Int((settings.rows-1) * (settings.columns))-1
-    let lower = firstnum+Int(settings.rows*settings.columns)-delta
-    let upper = firstnum+Int(settings.rows+1)*Int(settings.columns)-delta
+    let lower = firstnum
+    let upper = firstnum +  Int(settings.columns)
     HStack {
       //for number in lower..<upper {
       ForEach(lower..<upper, id: \.self) { number in
-        MatrixItem(number: number, backgroundColor: pastelColors[number % pastelColors.count],settings:settings) {
+        MatrixItem(number: number, backgroundColor: pastelColors[number % pastelColors.count],settings:settings) { renumber in
           // This block will be called when the item is tapped
-          selected = number
-          background  = pastelColors[number % pastelColors.count]
+          assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
+          selected = renumber
+          background  = pastelColors[renumber % pastelColors.count]
           isPresented = true
         }
       }
@@ -124,18 +185,18 @@ struct OneRowView: View {
   }
 }
 
-struct OuterMatrixView: View {
+struct QuestionsGridScreen: View {
   let settings:AppSettings
   @State private var isSheetPresented = false
   @State private var selected: Int = -1
   @State private var selectedItemBackgroundColor: Color = .clear
   
-  
+  let origined = 1 // start with 1
   var body: some View {
     ScrollView([.horizontal, .vertical], showsIndicators: true) {
       VStack {
         ForEach(0..<Int(settings.rows), id: \.self) { row in
-          OneRowView(firstnum:(row-1)*Int(settings.columns),
+          OneRowView(firstnum:row*Int(settings.columns)+origined,
                      settings:settings,selected:$selected,background:$selectedItemBackgroundColor, isPresented: $isSheetPresented)
         }
       }
@@ -143,64 +204,81 @@ struct OuterMatrixView: View {
     .sheet(isPresented: $isSheetPresented) {
       if selected > 0 {
         DetailView(selected:selected, backgroundColor: selectedItemBackgroundColor,settings:settings)
+      } else {
+        Circle().foregroundColor(.red)
       }
     }
   }
 }
 #Preview ("Game"){
-  OuterMatrixView(settings: AppSettings())
+  QuestionsGridScreen(settings: AppSettings())
 }
-let MAX_ROWS = 30.0
-let MAX_COLS = 30.0
 
-struct SettingsFormView: View {
+
+struct SettingsFormScreen: View {
   @Bindable var  settings: AppSettings
   @State private var isPresentingMainView = false
+  @State var selectedLevel:Int = 0
   var body: some View {
-    // NavigationView {
-    Form {
-      Section(header: Text("Settings")) {
-        VStack(alignment: .leading) {
-          Text("ROWS Current: \(settings.rows, specifier: "%.0f")")
-          Slider(value: $settings.rows, in: 1...MAX_ROWS, step: 1.0)
+      Text("Q20K Controls")
+      Form {
+        Section(header: Text("Settings")) {
+          VStack(alignment: .leading) {
+            Text("ROWS Current: \(settings.rows, specifier: "%.0f")")
+            Slider(value: $settings.rows, in: 1...MAX_ROWS, step: 1.0)
+          }
+          VStack(alignment: .leading) {
+            Text("COLS Current: \(settings.columns, specifier: "%.0f")")
+            Slider(value: $settings.columns, in: 1...MAX_COLS, step: 1.0)
+          }
+          VStack(alignment: .leading) {
+            Text("WIDTH Current: \(settings.elementWidth, specifier: "%.0f")")
+            Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
+          }
+          VStack(alignment: .leading) {
+            Text("HEIGHT Current: \(settings.elementHeight, specifier: "%.0f")")
+            Slider(value: $settings.elementHeight, in: 60...300, step: 1.0)
+          }
+          VStack(alignment: .leading) {
+            Text("FONTSIZE Current: \(settings.fontsize, specifier: "%.0f")")
+            Slider(value: $settings.fontsize, in: 8...40, step: 2.0)
+          }
+          
+          VStack {
+            Picker("Select Celltype", selection: $selectedLevel) {
+              Text("numeric").tag(1).font(.largeTitle)
+              Text("number words").tag(2).font(.largeTitle)
+              Text("questions").tag(3).font(.largeTitle)
+            }
+            // .pickerStyle(InlinePickerStyle())// You can adjust the picker style
+            
+          }.padding()
+            .onChange(of: selectedLevel,initial:true) {
+              switch selectedLevel {
+              case 1:
+                settings.displayOption = .numeric
+              case 2:
+                settings.displayOption = .worded
+              case 3:
+                settings.displayOption = .questions
+              default:
+                settings.displayOption = .numeric
+              }
+            }
         }
-        VStack(alignment: .leading) {
-          Text("COLS Current: \(settings.columns, specifier: "%.0f")")
-          Slider(value: $settings.columns, in: 1...MAX_COLS, step: 1.0)
-        }
-        VStack(alignment: .leading) {
-          Text("WIDTH Current: \(settings.elementWidth, specifier: "%.0f")")
-          Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
-        }
-        VStack(alignment: .leading) {
-          Text("HEIGHT Current: \(settings.elementHeight, specifier: "%.0f")")
-          Slider(value: $settings.elementHeight, in: 60...300, step: 1.0)
-        }
-        VStack(alignment: .leading) {
-          Text("FONTSIZE Current: \(settings.fontsize, specifier: "%.0f")")
-          Slider(value: $settings.fontsize, in: 8...40, step: 2.0)
+        Section(header: Text("Features")) {
+          Toggle(isOn: $settings.shaky) {
+            Text("Shaky")
+          }
         }
       }
-      Section(header: Text("Features")) {
-        Toggle(isOn: $settings.shaky) {
-          Text("Shaky")
-        }
-        
-        Toggle(isOn:$settings.worded) {
-          Text("Worded")
-        }
-        
-        Toggle(isOn:$settings.questions) {
-          Text("Questions")
-        }
-      }
-      
-    }
+    Spacer()
+    Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
   }
 }
 
 #Preview ("Settings"){
-  SettingsFormView(settings: AppSettings())
+  SettingsFormScreen(settings: AppSettings())
 }
 
 struct ContentView: View {
@@ -212,18 +290,14 @@ struct ContentView: View {
   }
   @State private var isLoaded = false
   var body: some View {
-    NavigationView {
-      ZStack {
-        ProgressView().opacity(!isLoaded ? 1.0:0.0)
-        VStack{
-          SettingsFormView(settings: settings)
-            .frame(height:300)
-          Divider()
-          OuterMatrixView(settings:settings)
-        }.opacity(isLoaded ? 1.0:0.0)
-      }
-      .navigationTitle("Q20K Laboratory")
-    }.navigationViewStyle(.stack)
+    //  NavigationView {
+    ZStack {
+      ProgressView().opacity(!isLoaded ? 1.0:0.0)
+        QuestionsGridScreen(settings:settings)
+    .opacity(isLoaded ? 1.0:0.0)
+    }
+    .navigationTitle("Q20K Laboratory")
+    .navigationSplitViewStyle(.automatic)
     .task {
       do{
         var gamedatum:[GameData] = []
