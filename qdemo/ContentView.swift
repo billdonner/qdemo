@@ -13,35 +13,38 @@ import q20kshare
 let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
 
 let MAX_ROWS = 50.0
-let MAX_COLS = 50.0
+let MAX_COLS = 200.0
 
-var questions:[String] = []
+var challenges:[Challenge] = []
+
+
+
 let pastelColors: [Color] = [
-    Color(red: 0.98, green: 0.85, blue: 0.87),
-    Color(red: 0.84, green: 0.98, blue: 0.85),
-    Color(red: 0.86, green: 0.91, blue: 0.98),
-    Color(red: 0.98, green: 0.92, blue: 0.85),
-    Color(red: 0.88, green: 0.85, blue: 0.98),
-    Color(red: 0.98, green: 0.85, blue: 0.89),
-    Color(red: 0.85, green: 0.98, blue: 0.96),
-    Color(red: 0.93, green: 0.85, blue: 0.98),
-    Color(red: 0.98, green: 0.89, blue: 0.85),
-    Color(red: 0.85, green: 0.95, blue: 0.98),
-    Color(red: 0.98, green: 0.87, blue: 0.90),
-    Color(red: 0.90, green: 0.98, blue: 0.87),
-    Color(red: 0.87, green: 0.90, blue: 0.98),
-    Color(red: 0.98, green: 0.90, blue: 0.83),
-    Color(red: 0.83, green: 0.96, blue: 0.98),
-    Color(red: 0.92, green: 0.88, blue: 0.98),
-    Color(red: 0.98, green: 0.95, blue: 0.89),
-    Color(red: 0.89, green: 0.98, blue: 0.93),
-    Color(red: 0.85, green: 0.89, blue: 0.98),
-    Color(red: 0.98, green: 0.91, blue: 0.87),
-    Color(red: 0.91, green: 0.98, blue: 0.85),
-    Color(red: 0.85, green: 0.87, blue: 0.98),
-    Color(red: 0.96, green: 0.85, blue: 0.98),
-    Color(red: 0.98, green: 0.93, blue: 0.90),
-    Color(red: 0.90, green: 0.87, blue: 0.98),
+  Color(red: 0.98, green: 0.85, blue: 0.87),
+  Color(red: 0.84, green: 0.98, blue: 0.85),
+  Color(red: 0.86, green: 0.91, blue: 0.98),
+  Color(red: 0.98, green: 0.92, blue: 0.85),
+  Color(red: 0.88, green: 0.85, blue: 0.98),
+  Color(red: 0.98, green: 0.85, blue: 0.89),
+  Color(red: 0.85, green: 0.98, blue: 0.96),
+  Color(red: 0.93, green: 0.85, blue: 0.98),
+  Color(red: 0.98, green: 0.89, blue: 0.85),
+  Color(red: 0.85, green: 0.95, blue: 0.98),
+  Color(red: 0.98, green: 0.87, blue: 0.90),
+  Color(red: 0.90, green: 0.98, blue: 0.87),
+  Color(red: 0.87, green: 0.90, blue: 0.98),
+  Color(red: 0.98, green: 0.90, blue: 0.83),
+  Color(red: 0.83, green: 0.96, blue: 0.98),
+  Color(red: 0.92, green: 0.88, blue: 0.98),
+  Color(red: 0.98, green: 0.95, blue: 0.89),
+  Color(red: 0.89, green: 0.98, blue: 0.93),
+  Color(red: 0.85, green: 0.89, blue: 0.98),
+  Color(red: 0.98, green: 0.91, blue: 0.87),
+  Color(red: 0.91, green: 0.98, blue: 0.85),
+  Color(red: 0.85, green: 0.87, blue: 0.98),
+  Color(red: 0.96, green: 0.85, blue: 0.98),
+  Color(red: 0.98, green: 0.93, blue: 0.90),
+  Color(red: 0.90, green: 0.87, blue: 0.98),
 ]
 
 let formatter = NumberFormatter()
@@ -55,10 +58,13 @@ let formatter = NumberFormatter()
   var elementWidth: CGFloat = 100
   var elementHeight: CGFloat = 100
   var shaky: Bool = false
+  var topicColors: Bool = true
   var displayOption = options.numeric
   var rows: Double = 4
   var columns: Double = 3
   var fontsize: Double = 24
+  var padding: Double = 5
+  var border: Double = 2
 }
 
 // Convert number to words
@@ -68,8 +74,8 @@ func convertNumberToWords(_ number: Int) -> String? {
 }
 // Convert number to question from q20k
 func convertNumberToQuestion(_ number: Int) -> String? {
-  guard number > 0 && number <= questions.count else {return nil}
-  return questions [number-1]
+  guard number > 0 && number <= challenges.count else {return nil}
+  return challenges [number-1].question
 }
 
 func downloadFile(from url: URL ) async throws -> Data {
@@ -121,20 +127,23 @@ struct MatrixItem: View {
   let settings:AppSettings
   var onTap: ((Int) -> Void)? // Closure to be executed on tap
   
-  
   var body: some View {
-    Text(boxCon(number,settings: settings))
-      .font(.system(size:settings.fontsize))
-      .lineLimit(5)
-      .minimumScaleFactor(0.1)
-      .frame(width:settings.elementWidth, height: settings.elementHeight, alignment: .center)
-      .background(backgroundColor)
-      .foregroundColor(Color.black)
-      .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
-      .padding(2)
-      .onTapGesture {
-        onTap?(number) // Execute the closure if it exists
-      }
+    ZStack {
+      Rectangle()//cornerSize: CGSize(width: 30, height: 30))
+        .frame(width:settings.elementWidth+settings.border, height: settings.elementHeight+settings.border, alignment: .center)
+      Text(boxCon(number,settings: settings))
+        .font(.system(size:settings.fontsize))
+        .lineLimit(5)
+        .minimumScaleFactor(0.1)
+        .frame(width:settings.elementWidth, height: settings.elementHeight, alignment: .center)
+        .background(backgroundColor)
+        .foregroundColor(Color.black)
+        .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
+        .padding(.all, settings.padding)
+        .onTapGesture {
+          onTap?(number) // Execute the closure if it exists
+        }
+    }
   }
   
 }
@@ -220,58 +229,68 @@ struct SettingsFormScreen: View {
   @State private var isPresentingMainView = false
   @State var selectedLevel:Int = 0
   var body: some View {
-      Text("Q20K Controls")
-      Form {
-        Section(header: Text("Settings")) {
-          VStack(alignment: .leading) {
-            Text("ROWS Current: \(settings.rows, specifier: "%.0f")")
-            Slider(value: $settings.rows, in: 1...MAX_ROWS, step: 1.0)
-          }
-          VStack(alignment: .leading) {
-            Text("COLS Current: \(settings.columns, specifier: "%.0f")")
-            Slider(value: $settings.columns, in: 1...MAX_COLS, step: 1.0)
-          }
-          VStack(alignment: .leading) {
-            Text("WIDTH Current: \(settings.elementWidth, specifier: "%.0f")")
-            Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
-          }
-          VStack(alignment: .leading) {
-            Text("HEIGHT Current: \(settings.elementHeight, specifier: "%.0f")")
-            Slider(value: $settings.elementHeight, in: 60...300, step: 1.0)
-          }
-          VStack(alignment: .leading) {
-            Text("FONTSIZE Current: \(settings.fontsize, specifier: "%.0f")")
-            Slider(value: $settings.fontsize, in: 8...40, step: 2.0)
-          }
-          
-          VStack {
-            Picker("Select Celltype", selection: $selectedLevel) {
-              Text("numeric").tag(1).font(.largeTitle)
-              Text("number words").tag(2).font(.largeTitle)
-              Text("questions").tag(3).font(.largeTitle)
-            }
-            // .pickerStyle(InlinePickerStyle())// You can adjust the picker style
-            
-          }.padding()
-            .onChange(of: selectedLevel,initial:true) {
-              switch selectedLevel {
-              case 1:
-                settings.displayOption = .numeric
-              case 2:
-                settings.displayOption = .worded
-              case 3:
-                settings.displayOption = .questions
-              default:
-                settings.displayOption = .numeric
-              }
-            }
+    Text("Q20K Controls")
+    Form {
+      Section(header: Text("Settings")) {
+        VStack(alignment: .leading) {
+          Text("ROWS Current: \(settings.rows, specifier: "%.0f")")
+          Slider(value: $settings.rows, in: 1...MAX_ROWS, step: 1.0)
         }
-        Section(header: Text("Features")) {
-          Toggle(isOn: $settings.shaky) {
-            Text("Shaky")
+        VStack(alignment: .leading) {
+          Text("COLS Current: \(settings.columns, specifier: "%.0f")")
+          Slider(value: $settings.columns, in: 1...MAX_COLS, step: 1.0)
+        }
+        VStack(alignment: .leading) {
+          Text("WIDTH Current: \(settings.elementWidth, specifier: "%.0f")")
+          Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
+        }
+        VStack(alignment: .leading) {
+          Text("HEIGHT Current: \(settings.elementHeight, specifier: "%.0f")")
+          Slider(value: $settings.elementHeight, in: 60...300, step: 1.0)
+        }
+        VStack(alignment: .leading) {
+          Text("FONTSIZE Current: \(settings.fontsize, specifier: "%.0f")")
+          Slider(value: $settings.fontsize, in: 8...40, step: 2.0)
+        }
+        VStack(alignment: .leading) {
+          Text("PADDING Current: \(settings.padding, specifier: "%.0f")")
+          Slider(value: $settings.padding, in: 1...40, step: 1.0)
+        }
+        VStack(alignment: .leading) {
+          Text("BORDER Current: \(settings.border, specifier: "%.0f")")
+          Slider(value: $settings.border, in: 0...20, step: 1.0)
+        }
+        VStack {
+          Picker("Select Celltype", selection: $selectedLevel) {
+            Text("numeric").tag(1).font(.largeTitle)
+            Text("number words").tag(2).font(.largeTitle)
+            Text("questions").tag(3).font(.largeTitle)
           }
+          // .pickerStyle(InlinePickerStyle())// You can adjust the picker style
+          
+        }.padding()
+          .onChange(of: selectedLevel,initial:true) {
+            switch selectedLevel {
+            case 1:
+              settings.displayOption = .numeric
+            case 2:
+              settings.displayOption = .worded
+            case 3:
+              settings.displayOption = .questions
+            default:
+              settings.displayOption = .numeric
+            }
+          }
+      }
+      Section(header: Text("Features")) {
+        Toggle(isOn: $settings.shaky) {
+          Text("Shaky")
+        }
+        Toggle(isOn: $settings.topicColors) {
+          Text("Colors by Topic")
         }
       }
+    }
     Spacer()
     Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
   }
@@ -293,8 +312,8 @@ struct ContentView: View {
     //  NavigationView {
     ZStack {
       ProgressView().opacity(!isLoaded ? 1.0:0.0)
-        QuestionsGridScreen(settings:settings)
-    .opacity(isLoaded ? 1.0:0.0)
+      QuestionsGridScreen(settings:settings)
+        .opacity(isLoaded ? 1.0:0.0)
     }
     .navigationTitle("Q20K Laboratory")
     .navigationSplitViewStyle(.automatic)
@@ -304,19 +323,20 @@ struct ContentView: View {
         let playdata = try await restorePlayDataURL(url)
         if let playdata = playdata {
           gamedatum = playdata.gameDatum
-          var r:[String] = []
+          let topics = playdata.topicData.topics
+          var r:[Challenge] = []
           var totq: Int = 0
           //keep filling till all we can ever need
           while totq < Int(MAX_ROWS*MAX_COLS){
             for gd in gamedatum {
               for a in gd.challenges {
-                r.append(a.question)
+                r.append(a)
                 totq+=1
               }
             }
           }
           
-          questions = r
+          challenges = r
           isLoaded = true
           print(playdata.playDataId," now available")
         }

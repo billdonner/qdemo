@@ -10,7 +10,7 @@ import q20kshare
 
 
 @main
-struct qdemo2App: App {
+struct qdemoApp: App {
  let  settings = AppSettings()
     var body: some Scene {
         WindowGroup {
