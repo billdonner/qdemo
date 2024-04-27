@@ -47,6 +47,18 @@ struct GameState {
   var thisOutcome:ChallengeOutcomes
   var showing:ShowingState
 }
+extension GameState {
+static   let thisChallenge = Challenge(question: "When will they ever learn?", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
+  static var  mock = GameState(thisChallenge: thisChallenge,
+                       thisOutcome: ChallengeOutcomes.unplayed, showing: ShowingState.qanda)
+  static func makeMock() -> GameState {
+    //blast over these globals when mocking
+    challenges = [thisChallenge]
+    outcomes  = [.unplayed]
+    return GameState.mock
+  }
+
+}
 
 struct HintBottomSheetView : View {
   let hint:String
@@ -169,15 +181,11 @@ struct EssentialChallengeView: View {
 
 
 
-//#Preview {  
-//  EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
-//                                   gameState: SampleData.mock)
-////.environmentObject(  LogEntryManager.mock)
-//}
-//#Preview {
-//  EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
-//                                      gameState: SampleData.mock)
-  //  .environmentObject(  LogEntryManager.mock)
- //.preferredColorScheme(.dark)
-//}
+#Preview ("light"){
+  EssentialChallengeView(  gameState: GameState.mock)
+}
+#Preview ("dark"){
+  EssentialChallengeView(  gameState: GameState.mock)
+ .preferredColorScheme(.dark)
+}
 

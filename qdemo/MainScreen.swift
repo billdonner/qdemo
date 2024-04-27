@@ -22,6 +22,7 @@ struct MatrixItem: View {
         .frame(width:settings.elementWidth+settings.border, 
                height: settings.elementHeight+settings.border,
                alignment: .center)
+        .background(.white)
       Text(boxCon(number,settings: settings))
         .font(.system(size:settings.fontsize))
         .lineLimit(5)
@@ -87,7 +88,7 @@ struct QuestionsGridScreen: View {
         }
       }
     }
-    .sheet(isPresented: $isSheetPresented) {
+    .fullScreenCover(isPresented: $isSheetPresented) {
       if selected > 0 {
    
         // build gameState here for the momemt
@@ -97,8 +98,10 @@ struct QuestionsGridScreen: View {
                      backgroundColor: selectedItemBackgroundColor,
                      settings:settings, gameState:gs)
       } else {
-  
-        Circle().foregroundColor(.red)
+        ZStack {
+          DismissButtonView() 
+          Circle().foregroundColor(.red)
+        }
       }
     }
   }

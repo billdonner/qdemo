@@ -11,7 +11,7 @@
 		8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4C2BC56529001E8D42 /* MainScreen.swift */; };
 		8812BD4F2BC5652B001E8D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
-		8812BD5A2BCB02E3001E8D42 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 8812BD592BCB02E3001E8D42 /* q20kshare */; };
+		887E752E2BDD6AC500AC7851 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 887E752D2BDD6AC500AC7851 /* q20kshare */; };
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
 		88F66CF12BD95D890099A4D4 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF02BD95D890099A4D4 /* DetailScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8812BD5A2BCB02E3001E8D42 /* q20kshare in Frameworks */,
+				887E752E2BDD6AC500AC7851 /* q20kshare in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,7 @@
 			);
 			name = qdemo;
 			packageProductDependencies = (
-				8812BD592BCB02E3001E8D42 /* q20kshare */,
+				887E752D2BDD6AC500AC7851 /* q20kshare */,
 			);
 			productName = qdemo;
 			productReference = 8812BD472BC56529001E8D42 /* qdemo.app */;
@@ -389,7 +389,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8812BD592BCB02E3001E8D42 /* q20kshare */ = {
+		887E752D2BDD6AC500AC7851 /* q20kshare */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */;
 			productName = q20kshare;

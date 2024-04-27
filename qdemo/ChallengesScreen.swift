@@ -51,18 +51,20 @@ struct ChallengesScreen: View {
 //  let loginID : String
   
   var body: some View {
-    NavigationStack{
+   // NavigationStack{
      // MenuView(gameState: gameState, gd: $gd)
       // keep Question outside vstack to give it a chance to remain fullsize
       ZStack {
+
         Image(systemName:"pencil").font(.system(size:250)).foregroundColor(.gray.opacity(0.08))
         VStack {
+          Text (gameState.thisChallenge.topic).font(.largeTitle).padding()
           EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
                                  gameState: gameState)//, topicIndex: topicIndex)
  //         StatsTextView(gameState: gameState)  // show dynamic stats
   //        ChallengesToolbarView(gameState: gameState).navigationTitle(fixTopicName(gameState.thisChallenge.topic))
         }
-      }.navigationTitle(gameState.thisChallenge.topic)
+      }//.navigationTitle(gameState.thisChallenge.topic)
 //        .task {
 //          // assert (topicIndex==gameState.currentTopicIndex)
 //          // gameState.isTimerRunning = gameState.showing == ShowingState.qanda // still fresh
@@ -78,25 +80,10 @@ struct ChallengesScreen: View {
 //          Task {
 //            sendLogout(LogoutRec(datetime: Date(), initialUUID: loginID),lem: logManager)
 //          }
-        }
+       // }
     }
   }
 }
-//struct ChallengesScreen_Previews: PreviewProvider {
-//  static var previews: some View {
-//    Group {
-//      ChallengesScreen(gameState: SampleData.mock,
-//                  gd: .constant(SampleData.gd),
-//                       backgroundPic:"pencil",
-//                        loginID: "XXX-NOT_UUID")
-//      .environmentObject(  LogEntryManager.mock)
-//   
-//      ChallengesScreen(gameState: SampleData.mock,
-//                       gd: .constant(SampleData.gd),
-//                        backgroundPic:"pencil",
-//                        loginID: "XXX-NOT_UUID")
-//      .environmentObject(  LogEntryManager.mock)
-//      .preferredColorScheme(.dark)
-//    }
-//  }
-//}
+#Preview {
+  ChallengesScreen(gameState: GameState.mock)
+}

@@ -28,18 +28,21 @@ let MAX_COLS = 200.0
 var challenges:[Challenge] = []
 var outcomes:[ChallengeOutcomes] = []
 
-let pastelColors: [Color] = [
+let pastelColors: [Color] = [ 
+  Color(red: 0.98, green: 0.89, blue: 0.85),
+  Color(red: 0.85, green: 0.95, blue: 0.98),
+  Color(red: 0.98, green: 0.87, blue: 0.90),
   Color(red: 0.98, green: 0.85, blue: 0.87),
   Color(red: 0.84, green: 0.98, blue: 0.85),
   Color(red: 0.86, green: 0.91, blue: 0.98),
+  Color(red: 0.96, green: 0.85, blue: 0.98),
+  Color(red: 0.98, green: 0.93, blue: 0.90),
+  Color(red: 0.90, green: 0.87, blue: 0.98),
   Color(red: 0.98, green: 0.92, blue: 0.85),
   Color(red: 0.88, green: 0.85, blue: 0.98),
   Color(red: 0.98, green: 0.85, blue: 0.89),
   Color(red: 0.85, green: 0.98, blue: 0.96),
   Color(red: 0.93, green: 0.85, blue: 0.98),
-  Color(red: 0.98, green: 0.89, blue: 0.85),
-  Color(red: 0.85, green: 0.95, blue: 0.98),
-  Color(red: 0.98, green: 0.87, blue: 0.90),
   Color(red: 0.90, green: 0.98, blue: 0.87),
   Color(red: 0.87, green: 0.90, blue: 0.98),
   Color(red: 0.98, green: 0.90, blue: 0.83),
@@ -51,9 +54,6 @@ let pastelColors: [Color] = [
   Color(red: 0.98, green: 0.91, blue: 0.87),
   Color(red: 0.91, green: 0.98, blue: 0.85),
   Color(red: 0.85, green: 0.87, blue: 0.98),
-  Color(red: 0.96, green: 0.85, blue: 0.98),
-  Color(red: 0.98, green: 0.93, blue: 0.90),
-  Color(red: 0.90, green: 0.87, blue: 0.98),
 ]
 
 
