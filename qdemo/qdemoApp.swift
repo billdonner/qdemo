@@ -24,8 +24,8 @@ var isIpad: Bool {
 
 let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
 
-let MAX_ROWS = 50.0
-let MAX_COLS = 200.0
+let MAX_ROWS = 40.0
+let MAX_COLS = 40.0
 
 var challenges:[Challenge] = []
 var gameState = GameState.makeMock() // will replace 
@@ -76,6 +76,7 @@ func convertNumberToWords(_ number: Int) -> String? {
 // Convert number to question from q20k
 func convertNumberToQuestion(_ number: Int) -> String? {
   guard number > 0 && number <= challenges.count else {return nil}
+  
   return challenges [number-1].question
 }
 
@@ -115,6 +116,9 @@ func boxCon (_ number:Int,settings:AppSettings) -> String {
   case .questions:
     let a = convertNumberToQuestion(number)
     if a != nil { return a! }
+    
+    
+    
   case .worded:
     let b = convertNumberToWords(number)
     if b != nil {return b! }

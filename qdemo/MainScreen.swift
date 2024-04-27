@@ -14,10 +14,12 @@ struct MatrixItem: View {
   let number: Int
   let backgroundColor: Color
   let settings:AppSettings
+  @Binding var selected:Int
   var onTap: ((Int) -> Void)? // Closure to be executed on tap
   
   var body: some View {
-
+    //let oc = gameState.outcomes[number]
+    
       Text(boxCon(number,settings: settings))
         .font(.system(size:settings.fontsize))
         .lineLimit(5)
@@ -31,9 +33,13 @@ struct MatrixItem: View {
        .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
         .padding(.all, settings.padding)
         .onTapGesture {
+          print("tapping and selecting number \(number)")
+          selected = number // pass it thru
           gameState.selected = number // gameState is class
+          gameState.showing = .qanda
           onTap?(number) // Execute the closure if it exists
         }
+      //  .opacity(oc == .playedCorrectly ? 0.8 : (oc == .playedIncorrectly ? 0.5:0.0))
     }
 
 }
@@ -46,6 +52,8 @@ struct OneRowView: View {
   @Binding var selected:Int
   @Binding var background:Color
   @Binding var isPresented:Bool
+  
+
   var body: some View {
     let lower = firstnum
     let upper = firstnum +  Int(settings.columns)
@@ -54,25 +62,32 @@ struct OneRowView: View {
       ForEach(lower..<upper, id: \.self) { number in
         //if challenges arent ready then give it black
         let bc =   settings.topicColors && challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
-        MatrixItem(number: number, backgroundColor: bc,settings:settings) { renumber in
+        
+        MatrixItem(number: number, backgroundColor: bc,settings:settings,selected:$selected) { renumber in
           // This block will be called when the item is tapped
           assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
+          
           selected = renumber
+       //   print("+++++>>> just selected \(selected) in onerowview")
           background  = pastelColors[renumber % pastelColors.count]
-          isPresented = true
+        
         }
+      }.onChange(of:selected){
+       // print("Selected changed in OneRowView")
+        isPresented = true// might be delaying it a bit
       }
-    }
+  }
+    
   }
 }
 
 struct QuestionsGridScreen: View {
   let settings:AppSettings
   @State private var isSheetPresented = false
-  @State private var selected: Int = -1
+  @State  var selektd: Int = -1
   @State private var selectedItemBackgroundColor: Color = .clear
   
-  let origined = 1 // start with 1
+  let origined = 0// start with 0, *** might fail otherwise
   var body: some View {
 
     
@@ -80,22 +95,24 @@ struct QuestionsGridScreen: View {
       VStack {
         ForEach(0..<Int(settings.rows), id: \.self) { row in
           OneRowView(firstnum:row*Int(settings.columns)+origined,
-                     settings:settings,selected:$selected,
+                     settings:settings,selected:$selektd,
                      background:$selectedItemBackgroundColor,
                      isPresented: $isSheetPresented)
         }
       }
     }
+    .onChange(of:selektd){
+     // print("selektd changed in QuestionsGridScreen")
+  
+    }
     .sheet(isPresented: $isSheetPresented) {
-      if selected > 0 {
+      if selektd >= 0 {
    
-        // build gameState here for the momemt
-        
- 
-        DetailScreen(selected:selected,
+        DetailScreen(selected:selektd,
                      backgroundColor: selectedItemBackgroundColor,
                     settings:settings)
       } else {
+        let _ = print("+++++>>> failed present red circle selected \(selektd)")
         ZStack {
           DismissButtonView() 
           Circle().foregroundColor(.red)
@@ -133,7 +150,7 @@ struct MainScreen: View {
         let playdata = try await restorePlayDataURL(url)
         if let playdata = playdata {
           gamedatum = playdata.gameDatum
-          //let topics = playdata.topicData.topics
+          
           var r:[Challenge] = []
           var totq: Int = 0
           //keep filling till all we can ever need
@@ -145,10 +162,13 @@ struct MainScreen: View {
               }
             }
           }
+          print("about to replace gamestate, challenges are \(r.count)")
+  
+          
+          gameState = GameState( selected: 0, showing: .qanda,  outcomes:Array(repeating:.unplayed,count:Int(MAX_ROWS*MAX_COLS)))
           
           challenges = r
-          gameState = GameState( selected: 0, showing: .qanda,  outcomes:Array(repeating:.unplayed,count:r.count))
-
+          
           isLoaded = true
           print(playdata.playDataId," now available")
         }

@@ -9,7 +9,7 @@ import SwiftUI
 
 
 @Observable class AppSettings  {
-  init(elementWidth: CGFloat = 100, elementHeight: CGFloat = 100, shaky: Bool = false, topicColors: Bool = false, displayOption: AppSettings.options = options.numeric, rows: Double = 4, columns: Double = 3, fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
+  init(elementWidth: CGFloat = 100, elementHeight: CGFloat = 100, shaky: Bool = false, topicColors: Bool = false, displayOption: AppSettings.options = options.questions, rows: Double = 4, columns: Double = 3, fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
     self.elementWidth = elementWidth
     self.elementHeight = elementHeight
     self.shaky = shaky
@@ -22,16 +22,17 @@ import SwiftUI
     self.border = border
   }
   
-  enum options {
+  enum options :Int {
+    
+    case questions
     case numeric
     case worded
-    case questions
   }
   var elementWidth: CGFloat = 100
   var elementHeight: CGFloat = 100
   var shaky: Bool = false
   var topicColors: Bool = false
-  var displayOption = options.numeric
+  var displayOption = options.questions
   var rows: Double = 4
   var columns: Double = 3
   var fontsize: Double = 24
@@ -51,10 +52,10 @@ struct SettingsFormScreen: View {
         Form {
           Section(header: Text("Settings")) {
             VStack {
-              Picker("Select Celltype", selection: $selectedLevel) {
-                Text("numeric").tag(1)
-                Text("number words").tag(2)
-                Text("questions").tag(3)
+              Picker("Select Celltype", selection: $settings.displayOption) {
+                Text("questions").tag(AppSettings.options.questions)
+                Text("numeric").tag(AppSettings.options.numeric)
+                Text("number words").tag(AppSettings.options.worded)
               }.font(.headline)
             }.padding()
             VStack(alignment: .leading) {
@@ -88,19 +89,19 @@ struct SettingsFormScreen: View {
             
             // .pickerStyle(InlinePickerStyle())// You can adjust the picker style
             
-            
-            .onChange(of: selectedLevel,initial:true) {
-              switch selectedLevel {
-              case 1:
-                settings.displayOption = .numeric
-              case 2:
-                settings.displayOption = .worded
-              case 3:
-                settings.displayOption = .questions
-              default:
-                settings.displayOption = .numeric
-              }
-            }
+//            
+//            .onChange(of: selectedLevel,initial:true) {
+//              switch selectedLevel {
+//              case 1:
+//                settings.displayOption = .numeric
+//              case 2:
+//                settings.displayOption = .worded
+//              case 3:
+//                settings.displayOption = .questions
+//              default:
+//                settings.displayOption = .questions
+//              }
+//            }
           }
           Section(header: Text("Features")) {
             Toggle(isOn: $settings.shaky) {

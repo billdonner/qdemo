@@ -39,7 +39,8 @@ extension GameState {
     outcomes.reduce(0) { $0 + ($1 == .unplayed ? 1 : 0 )}
   }
   var thisChallenge:Challenge {
-    challenges[selected]
+   // print("thischallenge selected \(selected) of \(challenges.count)")
+    return challenges[selected]
   }
   var thisOutcome:ChallengeOutcomes {
     outcomes[selected]
@@ -47,11 +48,11 @@ extension GameState {
 }
 
 extension GameState {
-  static   let thisChallenge = Challenge(question: "When will they ever learn?", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
+  static   let onechallenge = Challenge(question: "When will they ever learn?", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
   static var  mock = GameState(selected: 0, showing:.qanda,outcomes:[.unplayed])
   static func makeMock() -> GameState {
     //blast over these globals when mocking
-    challenges = [thisChallenge]
+    challenges = [onechallenge]
     return GameState.mock
   }
 
