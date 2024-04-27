@@ -39,27 +39,14 @@ struct ChallengesFeature {
 }
 */
 struct ChallengesScreen: View {
- // let selected:Int
- // let backgroundColor: Color
- // let settings:AppSettings
-  let gameState:GameState
-  
- // @EnvironmentObject var logManager: LogEntryManager
-//
-//  @Binding var gd: [GameData]
-//  let backgroundPic:String
-//  let loginID : String
-  
+  let selected:Int
   var body: some View {
-   // NavigationStack{
-     // MenuView(gameState: gameState, gd: $gd)
-      // keep Question outside vstack to give it a chance to remain fullsize
       ZStack {
 
         Image(systemName:"pencil").font(.system(size:250)).foregroundColor(.gray.opacity(0.08))
         VStack {
           Text (gameState.thisChallenge.topic).font(.largeTitle).padding()
-          EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
+          EssentialChallengeView(
                                  gameState: gameState)//, topicIndex: topicIndex)
  //         StatsTextView(gameState: gameState)  // show dynamic stats
   //        ChallengesToolbarView(gameState: gameState).navigationTitle(fixTopicName(gameState.thisChallenge.topic))
@@ -85,5 +72,5 @@ struct ChallengesScreen: View {
   }
 }
 #Preview {
-  ChallengesScreen(gameState: GameState.mock)
+  ChallengesScreen(selected:0)
 }

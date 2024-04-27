@@ -18,7 +18,9 @@ let correctColor:Color = .green.opacity(0.1)
 let incorrectColor:Color = .red.opacity(0.1)
 let unplayedColor:Color = .blue.opacity(0.1)
 
-
+var isIpad: Bool {
+  UIDevice.current.systemName == "iPadOS"
+}
 
 let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
 
@@ -26,15 +28,15 @@ let MAX_ROWS = 50.0
 let MAX_COLS = 200.0
 
 var challenges:[Challenge] = []
-var outcomes:[ChallengeOutcomes] = []
+var gameState = GameState.makeMock() // will replace 
 
 let pastelColors: [Color] = [ 
   Color(red: 0.98, green: 0.89, blue: 0.85),
   Color(red: 0.85, green: 0.95, blue: 0.98),
   Color(red: 0.98, green: 0.87, blue: 0.90),
-  Color(red: 0.98, green: 0.85, blue: 0.87),
   Color(red: 0.84, green: 0.98, blue: 0.85),
   Color(red: 0.86, green: 0.91, blue: 0.98),
+  Color(red: 0.98, green: 0.85, blue: 0.87),
   Color(red: 0.96, green: 0.85, blue: 0.98),
   Color(red: 0.98, green: 0.93, blue: 0.90),
   Color(red: 0.90, green: 0.87, blue: 0.98),
@@ -58,8 +60,6 @@ let pastelColors: [Color] = [
 
 
 let formatter = NumberFormatter()
-
-
 
 
 func colorFor(topic:String) -> Color {
@@ -125,15 +125,38 @@ func boxCon (_ number:Int,settings:AppSettings) -> String {
 @main
 struct qdemoApp: App {
  let  settings = AppSettings()
+  
+  
+  @State private var showSettings = false
   @State var col: NavigationSplitViewColumn =  .detail
     var body: some Scene {
-        WindowGroup {
+      WindowGroup {
+        if isIpad {
           //open with detail view on top
           NavigationSplitView(preferredCompactColumn: $col) {
             SettingsFormScreen(settings: settings)
           } detail: {
+            
             MainScreen(settings: settings)
+              .navigationTitle("Q20K Lab ")
+            
           }
         }
+        else {
+          NavigationStack {
+            MainScreen(settings: settings)
+              .navigationTitle("Q20K Laboratory")
+              .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button("settings") {
+                                  showSettings.toggle()
+                                }
+                            }
+                        }
+          }.sheet(isPresented: $showSettings, content: {
+            SettingsFormScreen(settings: settings)
+          })
+        }
+      }
     }
 }

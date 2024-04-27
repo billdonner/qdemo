@@ -42,11 +42,10 @@ import SwiftUI
 
 struct SettingsFormScreen: View {
   @Bindable var  settings: AppSettings
-  @State private var isPresentingMainView = false
   @State var selectedLevel:Int = 1
   var body: some View {
     ZStack {
-      DismissButtonView()
+      DismissButtonView().opacity(isIpad ? 0.0:1.0)
       VStack {
         Text("Q20K Controls")
         Form {
@@ -113,7 +112,7 @@ struct SettingsFormScreen: View {
           }
         }
         Spacer()
-        Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
+       // Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
       }
     }
   }

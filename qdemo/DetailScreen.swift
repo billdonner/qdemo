@@ -10,21 +10,12 @@ import SwiftUI
 struct DetailScreen: View {
   let selected:Int
   let backgroundColor: Color
-  let settings:AppSettings 
-  let gameState: GameState
-  var body: some View {
-
-      ZStack{
+  let settings:AppSettings
+  var body: some View {      ZStack{
         DismissButtonView()
-        
         //backgroundColor.edgesIgnoringSafeArea(.all)
- 
-          
           if settings.displayOption == .questions {
-      
-              ChallengesScreen(gameState:gameState)
-              
-             
+            ChallengesScreen( selected:selected)
           }
           else
           {
@@ -39,19 +30,16 @@ struct DetailScreen: View {
 #Preview("worded") {
   DetailScreen(selected:0,
                backgroundColor:.yellow,
-               settings:AppSettings(displayOption:.worded),
-               gameState: GameState.makeMock())
+               settings:AppSettings(displayOption:.worded))
 }
    
 #Preview("questions") {
   DetailScreen(selected:0,
                backgroundColor:.yellow,
-               settings:AppSettings(displayOption:.questions),
-               gameState: GameState.makeMock())
+               settings:AppSettings(displayOption:.questions))
 }
 
 struct DismissButtonView: View {
-  
   @Environment(\.dismiss) var dismiss
   var body: some View {
     VStack {
@@ -61,9 +49,8 @@ struct DismissButtonView: View {
         Button {
           dismiss()
         } label: {
-          Image(systemName: "x.circle").padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 20))
+          Image(systemName: "x.circle").padding(EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
         }
-        
       }
       Spacer()
     }
