@@ -39,36 +39,41 @@ struct ChallengesFeature {
 }
 */
 struct ChallengesScreen: View {
+ // let selected:Int
+ // let backgroundColor: Color
+ // let settings:AppSettings
+  let gameState:GameState
+  
  // @EnvironmentObject var logManager: LogEntryManager
-  let appState: AppState
-  @Binding var gd: [GameData]
-  let backgroundPic:String
-  let loginID : String
+//
+//  @Binding var gd: [GameData]
+//  let backgroundPic:String
+//  let loginID : String
   
   var body: some View {
     NavigationStack{
-     // MenuView(appState: appState, gd: $gd)
+     // MenuView(gameState: gameState, gd: $gd)
       // keep Question outside vstack to give it a chance to remain fullsize
       ZStack {
-        Image(systemName:backgroundPic).font(.system(size:250)).foregroundColor(.gray.opacity(0.08))
+        Image(systemName:"pencil").font(.system(size:250)).foregroundColor(.gray.opacity(0.08))
         VStack {
           EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
-                                 appState: appState)//, topicIndex: topicIndex)
- //         StatsTextView(appState: appState)  // show dynamic stats
-  //        ChallengesToolbarView(appState: appState).navigationTitle(fixTopicName(appState.thisChallenge.topic))
+                                 gameState: gameState)//, topicIndex: topicIndex)
+ //         StatsTextView(gameState: gameState)  // show dynamic stats
+  //        ChallengesToolbarView(gameState: gameState).navigationTitle(fixTopicName(gameState.thisChallenge.topic))
         }
-      }.navigationTitle(appState.thisChallenge.topic)
+      }.navigationTitle(gameState.thisChallenge.topic)
 //        .task {
-//          // assert (topicIndex==appState.currentTopicIndex)
-//          // appState.isTimerRunning = appState.showing == ShowingState.qanda // still fresh
-//          // try? await updateTimer(appState: appState)
+//          // assert (topicIndex==gameState.currentTopicIndex)
+//          // gameState.isTimerRunning = gameState.showing == ShowingState.qanda // still fresh
+//          // try? await updateTimer(gameState: gameState)
 //        }
         .foregroundColor( .primary)
         //.borderedStyleStrong(Color.blue).padding(.horizontal)
         .onDisappear() {
-          //          appState.isTimerRunning = false
+          //          gameState.isTimerRunning = false
           
-          //   appState.addTime(appState.currentTopic, timeInSecs: Double(appState.timerCount)/10.0)// get the time
+          //   gameState.addTime(gameState.currentTopic, timeInSecs: Double(gameState.timerCount)/10.0)// get the time
 //          
 //          Task {
 //            sendLogout(LogoutRec(datetime: Date(), initialUUID: loginID),lem: logManager)
@@ -80,13 +85,13 @@ struct ChallengesScreen: View {
 //struct ChallengesScreen_Previews: PreviewProvider {
 //  static var previews: some View {
 //    Group {
-//      ChallengesScreen(appState: SampleData.mock,
+//      ChallengesScreen(gameState: SampleData.mock,
 //                  gd: .constant(SampleData.gd),
 //                       backgroundPic:"pencil",
 //                        loginID: "XXX-NOT_UUID")
 //      .environmentObject(  LogEntryManager.mock)
 //   
-//      ChallengesScreen(appState: SampleData.mock,
+//      ChallengesScreen(gameState: SampleData.mock,
 //                       gd: .constant(SampleData.gd),
 //                        backgroundPic:"pencil",
 //                        loginID: "XXX-NOT_UUID")

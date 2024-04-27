@@ -36,8 +36,13 @@ enum ChallengeActions: Equatable {
   case virtualTimerButtonTapped
   case onceOnlyVirtualyTapped(Int)
 }
-struct AppState {
-  //dummy
+struct GameState {
+  internal init(thisChallenge: Challenge, thisOutcome: ChallengeOutcomes, showing: ShowingState) {
+    self.thisChallenge = thisChallenge
+    self.thisOutcome = thisOutcome
+    self.showing = showing
+  }
+  
   var thisChallenge:Challenge
   var thisOutcome:ChallengeOutcomes
   var showing:ShowingState
@@ -64,24 +69,24 @@ struct HintBottomSheetView : View {
 
 struct EssentialChallengeView: View {
  // @Bindable var store: StoreOf<ChallengesFeature>
-  let appState: AppState
+  let gameState: GameState
   @State private var hintpressed = false
   var body: some View {
-  //  assert (topicIndex==appState.currentTopicIndex)
-    let tc = appState.thisChallenge
+  //  assert (topicIndex==gameState.currentTopicIndex)
+    let tc = gameState.thisChallenge
     return ScrollView  {
       withAnimation {
-        renderQuestion(appState: appState).font(.title).padding(.horizontal)
+        renderQuestion(gameState: gameState).font(.title).padding(.horizontal)
       }
       VStack { // a place to hang the nav title
-        renderAnswers(appState: appState)
+        renderAnswers(gameState: gameState)
           .task{
-           // appState.sendChallengeAction(.onceOnlyVirtualyTapped(appState.currentTopicIndex))
+           // gameState.sendChallengeAction(.onceOnlyVirtualyTapped(gameState.currentTopicIndex))
           }// task
         Spacer()
         //SHOW Hint and Mark the Answers
         VStack {
-          switch appState.showing {
+          switch gameState.showing {
           case .qanda:
             Button("hint") {
               hintpressed.toggle()
@@ -116,9 +121,9 @@ struct EssentialChallengeView: View {
   }
 }
 
-  func renderQuestion(appState:AppState) -> some View {
-    let tc = appState.thisChallenge
-      switch( appState.thisOutcome ){
+  func renderQuestion(gameState:GameState) -> some View {
+    let tc = gameState.thisChallenge
+      switch( gameState.thisOutcome ){
       case .unplayed:
         return RoundedTextViewGradient(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.blue  )
       case .playedCorrectly:
@@ -128,11 +133,11 @@ struct EssentialChallengeView: View {
       }
   }
 
-  func renderAnswers(appState:AppState )-> some View {
-    let tc = appState.thisChallenge
+  func renderAnswers(gameState:GameState )-> some View {
+    let tc = gameState.thisChallenge
     func  renderAnswerButton(index:Int,action:ChallengeActions) -> some View {
-        let beenPlayed = appState.thisOutcome != .unplayed
-      return Button(action:{ //appState.sendChallengeAction(action)
+        let beenPlayed = gameState.thisOutcome != .unplayed
+      return Button(action:{ //gameState.sendChallengeAction(action)
       }){
           withAnimation {
             RoundedTextViewNoGradient(text: tc.answers[index],
@@ -164,15 +169,15 @@ struct EssentialChallengeView: View {
 
 
 
-#Preview {  
-  EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
-                                   appState: SampleData.mock)
-//.environmentObject(  LogEntryManager.mock)
-}
-#Preview {
-  EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
-                                      appState: SampleData.mock)
+//#Preview {  
+//  EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
+//                                   gameState: SampleData.mock)
+////.environmentObject(  LogEntryManager.mock)
+//}
+//#Preview {
+//  EssentialChallengeView(//store: Store(initialState:ChallengesFeature.State()){ChallengesFeature()},
+//                                      gameState: SampleData.mock)
   //  .environmentObject(  LogEntryManager.mock)
  //.preferredColorScheme(.dark)
-}
+//}
 

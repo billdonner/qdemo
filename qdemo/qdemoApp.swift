@@ -26,6 +26,7 @@ let MAX_ROWS = 50.0
 let MAX_COLS = 200.0
 
 var challenges:[Challenge] = []
+var outcomes:[ChallengeOutcomes] = []
 
 let pastelColors: [Color] = [
   Color(red: 0.98, green: 0.85, blue: 0.87),

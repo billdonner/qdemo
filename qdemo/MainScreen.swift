@@ -89,9 +89,13 @@ struct QuestionsGridScreen: View {
     }
     .sheet(isPresented: $isSheetPresented) {
       if selected > 0 {
-        DetailScreen(selected:selected, 
+   
+        // build gameState here for the momemt
+        
+        let gs = GameState(thisChallenge: challenges[selected], thisOutcome: outcomes[selected], showing: .qanda)
+        DetailScreen(selected:selected,
                      backgroundColor: selectedItemBackgroundColor,
-                     settings:settings)
+                     settings:settings, gameState:gs)
       } else {
   
         Circle().foregroundColor(.red)
@@ -142,6 +146,7 @@ struct MainScreen: View {
           }
           
           challenges = r
+          outcomes = Array(repeating:.unplayed,count:r.count)
           isLoaded = true
           print(playdata.playDataId," now available")
         }

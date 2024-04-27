@@ -11,19 +11,22 @@ struct DetailScreen: View {
   let selected:Int
   let backgroundColor: Color
   let settings:AppSettings 
+  let gameState: GameState
   var body: some View {
-    NavigationView {
+   // NavigationView {
       ZStack {
         backgroundColor.edgesIgnoringSafeArea(.all)
-        Text(boxCon(selected,settings:settings))
-          .font(.largeTitle)
-          .foregroundColor(.black) // Assuming the background is dark enough; adjust accordingly.
-          .padding()
-      }.navigationTitle("Details for question \(selected)")
+//        Text(boxCon(selected,settings:settings))
+//          .font(.largeTitle)
+//          .foregroundColor(.black) // Assuming the background is dark enough; adjust accordingly.
+//          .padding()
+        
+        ChallengesScreen(gameState:gameState)
+      //}//.navigationTitle("Details for question \(selected)")
     }
   }
 }
-#Preview("DetailScreen") {
-  DetailScreen(selected:1999,
-             backgroundColor:.yellow,settings:AppSettings())
-}
+//#Preview("DetailScreen") {
+//  DetailScreen(selected:1999,
+//             backgroundColor:.yellow,settings:AppSettings())
+//}
