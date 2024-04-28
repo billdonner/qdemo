@@ -33,6 +33,7 @@ import SwiftUI
   var shaky: Bool = false
   var topicColors: Bool = false
   var shuffleUp: Bool = false
+  var lazyVGrid: Bool = false
   var displayOption = options.questions
   var rows: Double = 4
   var columns: Double = 3
@@ -115,6 +116,9 @@ struct SettingsFormScreen: View {
               Text("Shuffle on Restart")
             }.onChange(of:settings.shuffleUp) {
               rebuildWorld(settings:settings)
+            }
+            Toggle(isOn: $settings.lazyVGrid) {
+              Text("LazyVGrid")
             }
           }
         }

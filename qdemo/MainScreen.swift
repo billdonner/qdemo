@@ -92,19 +92,12 @@ struct OneRowView: View {
         let bc =   settings.topicColors && challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
         
         MatrixItem(number: number, backgroundColor: bc,settings:settings,selected:$selected) { renumber in
-          // This block will be called when the item is tapped
           assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
-          
           selected = renumber
           //   print("+++++>>> just selected \(selected) in onerowview")
           background  = pastelColors[renumber % pastelColors.count]
-          
           isPresented = true// might be delaying it a bit
-          
         }
-//        .onChange(of:selected){
-//          print("Selected changed in OneRowView")
-//        }
       }
     }
   }
@@ -125,19 +118,44 @@ struct QuestionsGridScreen: View {
         Spacer()
         Text("remaining:\(ll)")
       }.font(.headline).padding()
-      ScrollView([.horizontal, .vertical], showsIndicators: true) {
-        VStack {
-          ForEach(0..<Int(settings.rows), id: \.self) { row in
-            OneRowView(firstnum:row*Int(settings.columns)+origined,
-                       settings:settings,selected:$selektd,
-                       background:$selectedItemBackgroundColor,
-                       isPresented: $isSheetPresented)
-          }
+      if settings.lazyVGrid {
+        ScrollView([.vertical, .horizontal], showsIndicators: true) {
+          let columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: Int(settings.columns))
+            
+          LazyVGrid(columns: columns, spacing:settings.border) {
+              ForEach(0..<Int(settings.rows) * Int(settings.columns), id: \.self) { number in
+//                    colors[number]
+//                    .frame(width: 50, height: 50)
+//                    .border(Color.white, width: 1)
+                
+                let bc =   settings.topicColors && challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
+                
+                MatrixItem(number: number, backgroundColor: bc,settings:settings,selected:$selektd) { renumber in
+                 // assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
+                  selektd = renumber
+                  //   print("+++++>>> just selected \(selected) in onerowview")
+                  selectedItemBackgroundColor  = pastelColors[renumber % pastelColors.count]
+                  isSheetPresented = true// might be delaying it a bit
+                }
+                }
+            }
         }
-      }}
-    .onChange(of:selektd){
-      print("selektd changed in QuestionsGridScreen")
+    } else {
+        ScrollView([.horizontal, .vertical], showsIndicators: true) {
+          VStack {
+            ForEach(0..<Int(settings.rows), id: \.self) { row in
+              OneRowView(firstnum:row*Int(settings.columns)+origined,
+                         settings:settings,selected:$selektd,
+                         background:$selectedItemBackgroundColor,
+                         isPresented: $isSheetPresented)
+            }
+          }
+        }}
     }
+      
+//    .onChange(of:selektd){
+//      print("selektd changed in QuestionsGridScreen")
+//    }
     .sheet(isPresented: $isSheetPresented) {
       if selektd >= 0 {
         DetailScreen(selected:selektd,
