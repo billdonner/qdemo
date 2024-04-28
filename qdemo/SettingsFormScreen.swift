@@ -9,11 +9,13 @@ import SwiftUI
 
 
 @Observable class AppSettings  {
-  init(elementWidth: CGFloat = 100, elementHeight: CGFloat = 100, shaky: Bool = false, topicColors: Bool = false, displayOption: AppSettings.options = options.questions, rows: Double = 4, columns: Double = 3, fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
+  internal init(elementWidth: CGFloat = 100, elementHeight: CGFloat = 100, shaky: Bool = false, topicColors: Bool = false, shuffleUp: Bool = false, lazyVGrid: Bool = true, displayOption: AppSettings.options = options.questions, rows: Double = 4, columns: Double = 3, fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
     self.elementWidth = elementWidth
     self.elementHeight = elementHeight
     self.shaky = shaky
     self.topicColors = topicColors
+    self.shuffleUp = shuffleUp
+    self.lazyVGrid = lazyVGrid
     self.displayOption = displayOption
     self.rows = rows
     self.columns = columns
@@ -21,6 +23,8 @@ import SwiftUI
     self.padding = padding
     self.border = border
   }
+  
+ 
   
   enum options :Int {
     
@@ -33,7 +37,7 @@ import SwiftUI
   var shaky: Bool = false
   var topicColors: Bool = false
   var shuffleUp: Bool = false
-  var lazyVGrid: Bool = false
+  var lazyVGrid: Bool = true
   var displayOption = options.questions
   var rows: Double = 4
   var columns: Double = 3

@@ -57,8 +57,7 @@ struct HintBottomSheetView : View {
 
 
 struct EssentialChallengeView: View {
-  // @Bindable var store: StoreOf<ChallengesFeature>
-  let gameState: GameState
+  let gameState:GameState
   @State private var hintpressed = false
   var body: some View {
     //  assert (topicIndex==gameState.currentTopicIndex)
@@ -83,20 +82,10 @@ struct EssentialChallengeView: View {
           case .hint:
             EmptyView()
           case .answerWasCorrect:
-            //            if let explanation = tc.explanation {
-            //              RoundedTextViewNoGradient(text:explanation,backgroundColor: .white.opacity(0.15))
-            //                .borderedStyleStrong( .green)
-            //                .padding(.horizontal)
-            //            } else {
-            Text("Correct") //}
+              HStack {  Text("Correct").bold() ; Text (gameState.thisChallenge.explanation  ?? "")} .padding(.horizontal) .padding(.horizontal)
             
           case .answerWasIncorrect:
-            //            if let explanation = tc.explanation {
-            //              RoundedTextViewNoGradient(text:explanation,backgroundColor: .white.opacity(0.15))
-            //                .borderedStyleStrong( .red)
-            //                .padding(.horizontal)
-            //            } else {
-            Text("Incorrect")
+            HStack {  Text("Incorrect ").bold() ; Text (gameState.thisChallenge.explanation  ?? "")} .padding(.horizontal)
             //}
           }
         }.frame(minHeight:200)

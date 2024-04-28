@@ -139,7 +139,7 @@ extension GameState {
     // self.isTimerRunning = false
    // self.save() // save all changes
     
-    print("updated \(self.selected) with outcome \(oc)")
+    //print("updated \(self.selected) with outcome \(oc)")
   }
   
 }

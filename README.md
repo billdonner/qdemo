@@ -1,5 +1,7 @@
 #  QDEMO
 
+version 0.1.5 - bug fixes
+
 version 0.1.4 - keeps simple score; shuffle option 
 
 version 0.1.3 - renders real questions 

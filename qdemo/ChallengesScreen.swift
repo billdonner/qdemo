@@ -46,19 +46,10 @@ struct ChallengesScreen: View {
         Image(systemName:"pencil").font(.system(size:250)).foregroundColor(.gray.opacity(0.08))
         VStack {
           Text (gameState.thisChallenge.topic).font(.largeTitle).padding()
-          EssentialChallengeView(
-                                 gameState: gameState)//, topicIndex: topicIndex)
- //         StatsTextView(gameState: gameState)  // show dynamic stats
-  //        ChallengesToolbarView(gameState: gameState).navigationTitle(fixTopicName(gameState.thisChallenge.topic))
+          EssentialChallengeView(  gameState: gameState)
         }
-      }//.navigationTitle(gameState.thisChallenge.topic)
-//        .task {
-//          // assert (topicIndex==gameState.currentTopicIndex)
-//          // gameState.isTimerRunning = gameState.showing == ShowingState.qanda // still fresh
-//          // try? await updateTimer(gameState: gameState)
-//        }
+      }
         .foregroundColor( .primary)
-        //.borderedStyleStrong(Color.blue).padding(.horizontal)
         .onDisappear() {
           //          gameState.isTimerRunning = false
           

@@ -28,43 +28,43 @@ struct MatrixItem: View {
     //let _ = print("MatrixItem \(number)")
     Text(boxCon(number,settings: settings))
       .font(.system(size:settings.fontsize))
-      .lineLimit(5)
+      .lineLimit(7)
       .minimumScaleFactor(0.1)
       .frame(width:settings.elementWidth,
              height: settings.elementHeight,
              alignment: .center)
       .background(backgroundColor)
-      //.foregroundColor(Color.black)
+    //.foregroundColor(Color.black)
     //.rotationEffect(.degrees(30))
       .padding(.all, settings.padding)
       .onTapGesture {
-        print("tapping and selecting number \(number)")
+        //print("tapping and selecting number \(number)")
         selected = number // pass it thru
         gameState.selected = number // gameState is class
         gameState.showing = .qanda
         onTap?(number) // Execute the closure if it exists
       }
-//      .foregroundStyle(
-//        number<0||number>gameState.outcomes.count-1 ? Color.red :
-//          (gameState.outcomes[number] == .unplayed ? Color.blue:
-//            (gameState.outcomes[number] == .playedCorrectly ? Color.green:.red
-//          )))
+    //      .foregroundStyle(
+    //        number<0||number>gameState.outcomes.count-1 ? Color.red :
+    //          (gameState.outcomes[number] == .unplayed ? Color.blue:
+    //            (gameState.outcomes[number] == .playedCorrectly ? Color.green:.red
+    //          )))
       .opacity(
         number<0||number>gameState.outcomes.count-1 ? 0.0:
           (gameState.outcomes[number] == .unplayed ? 1.0:
             (gameState.outcomes[number] == .playedCorrectly ? 0.8:0.8
-          )))
+            )))
       .border(    number<0||number>gameState.outcomes.count-1 ? .gray:
                     (gameState.outcomes[number] == .unplayed ? .gray:
                       (gameState.outcomes[number] == .playedCorrectly ? .green:.red
-                    ))
-               
-                      ,
-               width:
-                number<0||number>gameState.outcomes.count-1 ? 0.0:
-                  (gameState.outcomes[number] == .unplayed ? 1.0:
-                    (gameState.outcomes[number] == .playedCorrectly ? 5:5
-                  )))
+                      ))
+                  
+                  ,
+                  width:
+                    number<0||number>gameState.outcomes.count-1 ? 0.0:
+                    (gameState.outcomes[number] == .unplayed ? 1.0:
+                      (gameState.outcomes[number] == .playedCorrectly ? 5:5
+                      )))
     
     
       .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
@@ -119,28 +119,28 @@ struct QuestionsGridScreen: View {
         Text("remaining:\(ll)")
       }.font(.headline).padding()
       if settings.lazyVGrid {
+        //let _ = print("lazyVGrid")
         ScrollView([.vertical, .horizontal], showsIndicators: true) {
-          let columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: Int(settings.columns))
-            
+          let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.columns))
+          
           LazyVGrid(columns: columns, spacing:settings.border) {
-              ForEach(0..<Int(settings.rows) * Int(settings.columns), id: \.self) { number in
-//                    colors[number]
-//                    .frame(width: 50, height: 50)
-//                    .border(Color.white, width: 1)
-                
-                let bc =   settings.topicColors && challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
-                
-                MatrixItem(number: number, backgroundColor: bc,settings:settings,selected:$selektd) { renumber in
-                 // assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
-                  selektd = renumber
-                  //   print("+++++>>> just selected \(selected) in onerowview")
-                  selectedItemBackgroundColor  = pastelColors[renumber % pastelColors.count]
-                  isSheetPresented = true// might be delaying it a bit
-                }
-                }
+            ForEach(0..<Int(settings.rows) * Int(settings.columns), id: \.self) { number in
+   
+              let bc =   settings.topicColors && challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
+              
+              MatrixItem(number: number, backgroundColor: bc,settings:settings,selected:$selektd) { renumber in
+                // assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
+                selektd = renumber
+                //   print("+++++>>> just selected \(selected) in onerowview")
+                selectedItemBackgroundColor  = pastelColors[renumber % pastelColors.count]
+                isSheetPresented = true// might be delaying it a bit
+              }
             }
+          }
         }
-    } else {
+      } else {
+        
+          let _ = print("manual grid")
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
           VStack {
             ForEach(0..<Int(settings.rows), id: \.self) { row in
@@ -152,10 +152,10 @@ struct QuestionsGridScreen: View {
           }
         }}
     }
-      
-//    .onChange(of:selektd){
-//      print("selektd changed in QuestionsGridScreen")
-//    }
+    
+    //    .onChange(of:selektd){
+    //      print("selektd changed in QuestionsGridScreen")
+    //    }
     .sheet(isPresented: $isSheetPresented) {
       if selektd >= 0 {
         DetailScreen(selected:selektd,
@@ -185,7 +185,7 @@ struct MainScreen: View {
     
   }
   @State private var isLoaded = false
-
+  
   
   var body: some View {
     //  NavigationView {
