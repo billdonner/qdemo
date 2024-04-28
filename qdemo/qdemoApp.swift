@@ -75,9 +75,8 @@ func convertNumberToWords(_ number: Int) -> String? {
 }
 // Convert number to question from q20k
 func convertNumberToQuestion(_ number: Int) -> String? {
-  guard number > 0 && number <= challenges.count else {return nil}
-  
-  return challenges [number-1].question
+  guard number >= 0 && number <= challenges.count-1 else {return nil}
+  return challenges [number].question
 }
 
 func downloadFile(from url: URL ) async throws -> Data {
@@ -129,8 +128,6 @@ func boxCon (_ number:Int,settings:AppSettings) -> String {
 @main
 struct qdemoApp: App {
  let  settings = AppSettings()
-  
-  
   @State private var showSettings = false
   @State var col: NavigationSplitViewColumn =  .detail
     var body: some Scene {
@@ -149,12 +146,14 @@ struct qdemoApp: App {
         else {
           NavigationStack {
             MainScreen(settings: settings)
-              .navigationTitle("Q20K Laboratory")
+              .navigationTitle("Q20K Lab")
               .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button("settings") {
-                                  showSettings.toggle()
-                                }
+                            ToolbarItem(placement: .navigationBarTrailing) { 
+                              Button {
+                                showSettings.toggle()
+                              } label: {
+                                Image(systemName: "gear")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
+                              }
                             }
                         }
           }.sheet(isPresented: $showSettings, content: {

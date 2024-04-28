@@ -48,7 +48,7 @@ extension GameState {
 }
 
 extension GameState {
-  static   let onechallenge = Challenge(question: "When will they ever learn?", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
+  static   let onechallenge = Challenge(question: "For Madmen Only", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
   static var  mock = GameState(selected: 0, showing:.qanda,outcomes:[.unplayed])
   static func makeMock() -> GameState {
     //blast over these globals when mocking
@@ -138,6 +138,8 @@ extension GameState {
     self.showing = t ? .answerWasCorrect : .answerWasIncorrect
     // self.isTimerRunning = false
    // self.save() // save all changes
+    
+    print("updated \(self.selected) with outcome \(oc)")
   }
   
 }
