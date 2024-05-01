@@ -8,9 +8,7 @@
 import SwiftUI
 import q20kshare
 func rebuildWorld(  settings:AppSettings) {
-  gameState = GameState( selected: 0, showing: .qanda,  outcomes:Array(repeating:.unplayed,count:Int(MAX_ROWS*MAX_COLS)))
-  
-  
+       gameState = GameState( selected: 0, showing: .qanda,  outcomes:Array(repeating:.unplayed,count:Int(MAX_ROWS*MAX_COLS)))
   if !settings.shuffleUp {
     challenges.shuffle()
   }
@@ -140,7 +138,7 @@ struct QuestionsGridScreen: View {
         }
       } else {
         
-          let _ = print("manual grid")
+        let _ = print("manual grid")
         ScrollView([.horizontal, .vertical], showsIndicators: true) {
           VStack {
             ForEach(0..<Int(settings.rows), id: \.self) { row in
@@ -150,7 +148,8 @@ struct QuestionsGridScreen: View {
                          isPresented: $isSheetPresented)
             }
           }
-        }}
+        }
+      }
     }
     
     //    .onChange(of:selektd){
@@ -202,6 +201,7 @@ struct MainScreen: View {
         let playdata = try await restorePlayDataURL(url)
         if let playdata = playdata {
           gamedatum = playdata.gameDatum
+        
           
           var r:[Challenge] = []
           var totq: Int = 0
@@ -214,14 +214,13 @@ struct MainScreen: View {
               }
             }
           }
-          print("about to replace gamestate, challenges are \(r.count)")
           
           challenges = r
-          
+          topics = playdata.topicData.topics.map {$0.name}
           rebuildWorld(settings:settings)
           
           isLoaded = true
-          print(playdata.playDataId," now available")
+          print(playdata.playDataId," available; challenges are \(r.count); \(topics.count) topics")
         }
       }
       catch {

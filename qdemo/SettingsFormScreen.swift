@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+let set1=["Movies", "Sports","Art","Baseball","Presidents","Grifters"].sorted()
+let set2=["Food","Drink","Basketball"].sorted()
 
+let header1="Playing"
+let header2="Not Playing"
 
 @Observable class AppSettings  {
-  internal init(elementWidth: CGFloat = 100, elementHeight: CGFloat = 100, shaky: Bool = false, topicColors: Bool = false, shuffleUp: Bool = false, lazyVGrid: Bool = true, displayOption: AppSettings.options = options.questions, rows: Double = 4, columns: Double = 3, fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
+  internal init(elementWidth: CGFloat = 100, elementHeight: CGFloat = 100, shaky: Bool = false, topicColors: Bool = false, shuffleUp: Bool = false, lazyVGrid: Bool = true, displayOption: AppSettings.options = options.questions, rows: Double = 1, columns: Double = 1, fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
     self.elementWidth = elementWidth
     self.elementHeight = elementHeight
     self.shaky = shaky
@@ -24,10 +28,7 @@ import SwiftUI
     self.border = border
   }
   
- 
-  
   enum options :Int {
-    
     case questions
     case numeric
     case worded
@@ -39,8 +40,8 @@ import SwiftUI
   var shuffleUp: Bool = false
   var lazyVGrid: Bool = true
   var displayOption = options.questions
-  var rows: Double = 4
-  var columns: Double = 3
+  var rows: Double = 1
+  var columns: Double = 1
   var fontsize: Double = 24
   var padding: Double = 5
   var border: Double = 2
@@ -50,11 +51,16 @@ import SwiftUI
 struct SettingsFormScreen: View {
   @Bindable var  settings: AppSettings
   @State var selectedLevel:Int = 1
+  @State var showTopics = false
+  @State var wsm = WordSelectionManager(selectedWords: Set(topics), unselectedWords: Set([]))
   var body: some View {
     ZStack {
       DismissButtonView().opacity(isIpad ? 0.0:1.0)
       VStack {
         Text("Q20K Controls")
+        Button ("Choose Topics"){
+          showTopics = true
+        }
         Form {
           Section(header: Text("Settings")) {
             VStack {
@@ -129,6 +135,8 @@ struct SettingsFormScreen: View {
         Spacer()
        // Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
       }
+    }.sheet(isPresented: $showTopics){
+      WordListViewTap(manager: wsm)
     }
   }
 }
@@ -136,3 +144,4 @@ struct SettingsFormScreen: View {
 #Preview ("Settings"){
   SettingsFormScreen(settings: AppSettings())
 }
+

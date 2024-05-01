@@ -12,7 +12,9 @@
 		8812BD4F2BC5652B001E8D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
-		887E753A2BDED36A00AC7851 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 887E75392BDED36A00AC7851 /* q20kshare */; };
+		887E753C2BE189A900AC7851 /* WordSelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753B2BE189A900AC7851 /* WordSelectionManager.swift */; };
+		887E753E2BE189EB00AC7851 /* WordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* WordListView.swift */; };
+		887E75402BE1C09900AC7851 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 887E753F2BE1C09900AC7851 /* q20kshare */; };
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
 		88F66CF12BD95D890099A4D4 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF02BD95D890099A4D4 /* DetailScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
@@ -27,6 +29,8 @@
 		8812BD4E2BC5652B001E8D42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		887E75332BDD8E2A00AC7851 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		887E753B2BE189A900AC7851 /* WordSelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSelectionManager.swift; sourceTree = "<group>"; };
+		887E753D2BE189EB00AC7851 /* WordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListView.swift; sourceTree = "<group>"; };
 		88F66CED2BCF3DF10099A4D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormScreen.swift; sourceTree = "<group>"; };
 		88F66CF02BD95D890099A4D4 /* DetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
@@ -40,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				887E753A2BDED36A00AC7851 /* q20kshare in Frameworks */,
+				887E75402BE1C09900AC7851 /* q20kshare in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +79,8 @@
 				88F66CF02BD95D890099A4D4 /* DetailScreen.swift */,
 				88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */,
 				88F66CF62BD967790099A4D4 /* ThumbsView.swift */,
+				887E753D2BE189EB00AC7851 /* WordListView.swift */,
+				887E753B2BE189A900AC7851 /* WordSelectionManager.swift */,
 				8812BD4E2BC5652B001E8D42 /* Assets.xcassets */,
 				8812BD502BC5652B001E8D42 /* Preview Content */,
 			);
@@ -106,7 +112,7 @@
 			);
 			name = qdemo;
 			packageProductDependencies = (
-				887E75392BDED36A00AC7851 /* q20kshare */,
+				887E753F2BE1C09900AC7851 /* q20kshare */,
 			);
 			productName = qdemo;
 			productReference = 8812BD472BC56529001E8D42 /* qdemo.app */;
@@ -167,9 +173,11 @@
 			files = (
 				88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */,
 				88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */,
+				887E753C2BE189A900AC7851 /* WordSelectionManager.swift in Sources */,
 				88F66CF52BD965A40099A4D4 /* EssentialChallengeView.swift in Sources */,
 				88F66CF12BD95D890099A4D4 /* DetailScreen.swift in Sources */,
 				88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */,
+				887E753E2BE189EB00AC7851 /* WordListView.swift in Sources */,
 				887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */,
 				8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */,
 				8812BD4B2BC56529001E8D42 /* qdemoApp.swift in Sources */,
@@ -393,7 +401,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		887E75392BDED36A00AC7851 /* q20kshare */ = {
+		887E753F2BE1C09900AC7851 /* q20kshare */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */;
 			productName = q20kshare;

@@ -28,7 +28,8 @@ let MAX_ROWS = 100.0
 let MAX_COLS = 100.0
 
 var challenges:[Challenge] = []
-var gameState = GameState.makeMock() // will replace 
+var topics : [String] = []
+var gameState = GameState.makeMock() // will replace
 
 let pastelColors: [Color] = [ 
   Color(red: 0.98, green: 0.89, blue: 0.85),
@@ -129,6 +130,7 @@ func boxCon (_ number:Int,settings:AppSettings) -> String {
 struct qdemoApp: App {
  let  settings = AppSettings()
   @State private var showSettings = false
+  @State private var showTopics = false
   @State var col: NavigationSplitViewColumn =  .detail
     var body: some Scene {
       WindowGroup {
@@ -156,8 +158,20 @@ struct qdemoApp: App {
                               }
                             }
                         }
+              .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                              Button {
+                                showTopics.toggle()
+                              } label: {
+                                Image(systemName: "list.bullet")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
+                              }
+                            }
+                        }
           }.sheet(isPresented: $showSettings, content: {
             SettingsFormScreen(settings: settings)
+          })
+          .sheet(isPresented: $showTopics, content: {
+            WordListViewTap(manager: WordSelectionManager(selectedWords:Set(topics),unselectedWords: Set([])))
           })
         }
       }
