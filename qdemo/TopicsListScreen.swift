@@ -6,66 +6,171 @@
 //
 
 import SwiftUI
-
-
-struct WordListViewTap: View {
-   var manager: WordSelectionManager
-  var body: some View {
-    VStack{
-      
-      Text("Choose Your Topics").font(.title)
-      HStack {
-        VStack {
-          Text(header1)
-            .font(.headline)
-            .padding()
-          
-          List {
-            ForEach(Array(manager.selectedWords.sorted()), id: \.self) { word in
-              ZStack{
-              colorFor(topic:word)
-                Text(word)
-                  .onTapGesture {
-                    manager.toggleWordSelection(word)
-                  }
-              }
-            }
-            .onDelete(perform: manager.removeWordFromSelected)
-          }
-        }
-        
-        Divider()
-        
-        VStack {
-          Text(header2)
-            .font(.headline)
-            .padding()
-          
-          List {
-            ForEach(Array(manager.unselectedWords.sorted()), id: \.self) { word in
-              ZStack {
-                colorFor(topic:word)
-                Text(word)
-                  .onTapGesture {
-                    manager.toggleWordSelection(word)
-                  }
-              }
-            }
-            .onDelete(perform: manager.removeWordFromUnselected)
-          }
-        }
-      }
-      Spacer()
-      Divider()
-    }
-  }
+struct Topic: Identifiable {
+    let id = UUID()
+    let name: String
+    var isSelected: Bool
 }
 
-struct WordListViewTap_Previews: PreviewProvider {
-    static var previews: some View {
-        WordListViewTap(manager: WordSelectionManager(selectedWords: Set(set1), unselectedWords: Set(set2)))
+struct TopicsSelectionView: View {
+    @Binding var topics: [Topic]
+
+    var body: some View {
+        HStack(spacing: 20) {
+
+            VStack {
+                Text("Selected Topics")
+                    .font(.headline)
+                List {
+                    ForEach(topics) { topic in
+                        if topic.isSelected {
+                            Text(topic.name)
+                                .onTapGesture {
+                                    if let index = self.topics.firstIndex(where: { $0.id == topic.id }) {
+                                        self.topics[index].isSelected.toggle()
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+            
+            VStack {
+                Text("Unselected Topics")
+                    .font(.headline)
+                List {
+                    ForEach(topics) { topic in
+                        if !topic.isSelected {
+                            Text(topic.name)
+                                .onTapGesture {
+                                    if let index = self.topics.firstIndex(where: { $0.id == topic.id }) {
+                                        self.topics[index].isSelected.toggle()
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+        }
+        .padding()
     }
 }
+
+struct MainView: View {
+    @State private var internalTopics: [Topic]
+    @Binding var isSelectedArray: [Bool]
+    
+    init(topics: [String], isSelectedArray: Binding<[Bool]>) {
+        self._internalTopics = State(initialValue: topics.map{ Topic(name: $0, isSelected: false) })
+        self._isSelectedArray = isSelectedArray
+    }
+    
+    var body: some View {
+        TopicsSelectionView(topics: $internalTopics)
+        .onDisappear {
+            isSelectedArray = internalTopics.map{$0.isSelected}
+        }
+    }
+}
+#Preview ("MainView"){
+  MainView (topics: ["Swift", "Kotlin", "Python"], isSelectedArray: .constant([false,false,false]))
+}
+
+
+struct TestTopicsView: View {
+    @State private var isSelectedArray = [Bool](repeating: false, count: 3)
+    
+    var body: some View {
+        Button(action: {
+            isSelectedArray = [Bool](repeating: false, count: 3)
+        }){
+           Text("Reset Selections")
+        }
+        NavigationLink(
+            destination: MainView(topics: ["Swift", "Kotlin", "Python"], isSelectedArray: $isSelectedArray)) {
+            Text("Choose Topics")
+        }
+        .onAppear {
+            print(isSelectedArray)
+        }
+    }
+}
+#Preview {
+      TestTopicsView()
+    }
+
+
+
+
+//struct TopicsListScreen: View {
+//
+//  var selectedwords = (topics.compactMap {$0.isLive ? $0:nil}).map {$0.topic}
+//  var unselectedwords = (topics.compactMap {!$0.isLive ? $0:nil}).map {$0.topic}
+//
+//  var body: some View {
+//   let   topicSelector = TopicSelector(selectedWords: Set(selectedwords),
+//                                      unselectedWords: Set(unselectedwords))
+//    return VStack{
+//
+//      Text("Choose Your Topics").font(.title)
+//      HStack {
+//        VStack {
+//          Text(header1)
+//            .font(.headline)
+//            .padding()
+//          
+//          List {
+//            ForEach(Array(topicSelector.selectedWords.sorted()), id: \.self) { word in
+//              ZStack{
+//              colorFor(topic:word)
+//                Text(word)
+//                  .onTapGesture {
+//                    topicSelector.toggleWordSelection(word)
+//                  }
+//              }
+//            }
+//            .onDelete(perform: topicSelector.removeWordFromSelected)
+//          }
+//        }
+//        
+//        Divider()
+//        
+//        VStack {
+//          Text(header2)
+//            .font(.headline)
+//            .padding()
+//          
+//          List {
+//            ForEach(Array(topicSelector.unselectedWords.sorted()), id: \.self) { word in
+//              ZStack {
+//                colorFor(topic:word)
+//                Text(word)
+//                  .onTapGesture {
+//                    topicSelector.toggleWordSelection(word)
+//                  }
+//              }
+//            }
+//            .onDelete(perform: topicSelector.removeWordFromUnselected)
+//          }
+//        }
+//      }
+//      Spacer()
+//      Divider()
+//    }.onDisappear {
+//      //this is bad because it is n**2
+//      for j in 0..<topics.count {
+//        topics[j].isLive = topicSelector.selectedWords.contains(topics[j].topic)
+//        }
+//      }
+//    }
+//  }
+
+//#Preview {
+//      let set1=["Movies", "Sports","Art","Baseball","Presidents","Grifters"].sorted()
+//      let set2=["Food","Drink","Basketball"].sorted()
+//      return  TopicsListScreen()
+//    }
+// 
 /*
 struct WordListViewTap2: View {
     var manager: WordSelectionManager

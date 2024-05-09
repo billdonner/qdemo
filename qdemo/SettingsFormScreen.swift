@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-let set1=["Movies", "Sports","Art","Baseball","Presidents","Grifters"].sorted()
-let set2=["Food","Drink","Basketball"].sorted()
+
 
 let header1="Playing"
 let header2="Not Playing"
@@ -52,7 +51,6 @@ struct SettingsFormScreen: View {
   @Bindable var  settings: AppSettings
   @State var selectedLevel:Int = 1
   @State var showTopics = false
-  @State var wsm = WordSelectionManager(selectedWords: Set(topics), unselectedWords: Set([]))
   var body: some View {
     ZStack {
       DismissButtonView().opacity(isIpad ? 0.0:1.0)
@@ -136,7 +134,7 @@ struct SettingsFormScreen: View {
        // Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
       }
     }.sheet(isPresented: $showTopics){
-      WordListViewTap(manager: wsm)
+      //TopicsListScreen()
     }
   }
 }

@@ -216,7 +216,7 @@ struct MainScreen: View {
           }
           
           challenges = r
-          topics = playdata.topicData.topics.map {$0.name}
+          topics = (playdata.topicData.topics.map {$0.name}).map { LiveTopic(topic:$0,isLive:false)}
           rebuildWorld(settings:settings)
           
           isLoaded = true

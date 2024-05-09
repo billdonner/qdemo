@@ -26,9 +26,13 @@ let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
 
 let MAX_ROWS = 100.0
 let MAX_COLS = 100.0
+struct LiveTopic {
+  var topic: String
+  var isLive:Bool
+}
 
 var challenges:[Challenge] = []
-var topics : [String] = []
+var topics : [LiveTopic] = []
 var gameState = GameState.makeMock() // will replace
 
 let pastelColors: [Color] = [ 
@@ -171,7 +175,7 @@ struct qdemoApp: App {
             SettingsFormScreen(settings: settings)
           })
           .sheet(isPresented: $showTopics, content: {
-            WordListViewTap(manager: WordSelectionManager(selectedWords:Set(topics),unselectedWords: Set([])))
+           // TopicsListScreen()
           })
         }
       }

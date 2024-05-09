@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@Observable class WordSelectionManager {
+ class TopicSelector {
      var selectedWords: Set<String>
      var unselectedWords: Set<String>
     
