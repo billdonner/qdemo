@@ -27,16 +27,16 @@ struct DetailScreen: View {
         }
       }
     }
-#Preview("worded") {
-  DetailScreen(selected:0,
-               backgroundColor:.yellow,
-               settings:AppSettings(displayOption:.worded))
-}
+//#Preview("worded") {
+//  DetailScreen(selected:0,
+//               backgroundColor:.yellow,
+//               settings:AppSettings(displayOption:AppSettings.worded))
+//}
    
 #Preview("questions") {
   DetailScreen(selected:0,
                backgroundColor:.yellow,
-               settings:AppSettings(displayOption:.questions))
+               settings:AppSettings())
 }
 
 struct DismissButtonView: View {

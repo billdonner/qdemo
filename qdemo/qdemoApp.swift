@@ -24,15 +24,14 @@ var isIpad: Bool {
 
 let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
 
-let MAX_ROWS = 100.0
-let MAX_COLS = 100.0
-struct LiveTopic {
-  var topic: String
-  var isLive:Bool
-}
+let MAX_ROWS = 8.0
+let MAX_COLS = 8.0
+let MIN_ROWS = 4.0
+let MIN_COLS = 4.0
+
 
 var challenges:[Challenge] = []
-var topics : [LiveTopic] = []
+var liveTopics : [LiveTopic] = []
 var gameState = GameState.makeMock() // will replace
 
 let pastelColors: [Color] = [ 
@@ -141,7 +140,7 @@ struct qdemoApp: App {
         if isIpad {
           //open with detail view on top
           NavigationSplitView(preferredCompactColumn: $col) {
-            SettingsFormScreen(settings: settings)
+            SettingsFormScreen(settings: settings,topics:liveTopics.map{$0.topic} )
           } detail: {
             
             MainScreen(settings: settings)
@@ -172,7 +171,7 @@ struct qdemoApp: App {
                             }
                         }
           }.sheet(isPresented: $showSettings, content: {
-            SettingsFormScreen(settings: settings)
+            SettingsFormScreen(settings: settings,topics:liveTopics.map{$0.topic})
           })
           .sheet(isPresented: $showTopics, content: {
            // TopicsListScreen()

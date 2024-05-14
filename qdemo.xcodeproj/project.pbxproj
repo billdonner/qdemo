@@ -12,7 +12,6 @@
 		8812BD4F2BC5652B001E8D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
-		887E753C2BE189A900AC7851 /* TopicSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753B2BE189A900AC7851 /* TopicSelector.swift */; };
 		887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */; };
 		887E755A2BEC632000AC7851 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 887E75592BEC632000AC7851 /* q20kshare */; };
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
@@ -29,7 +28,6 @@
 		8812BD4E2BC5652B001E8D42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		887E75332BDD8E2A00AC7851 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
-		887E753B2BE189A900AC7851 /* TopicSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicSelector.swift; sourceTree = "<group>"; };
 		887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsListScreen.swift; sourceTree = "<group>"; };
 		887E75542BE80FEF00AC7851 /* GameBoardFlow.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GameBoardFlow.md; sourceTree = "<group>"; };
 		88F66CED2BCF3DF10099A4D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -74,15 +72,14 @@
 			isa = PBXGroup;
 			children = (
 				8812BD4A2BC56529001E8D42 /* qdemoApp.swift */,
-				887E75332BDD8E2A00AC7851 /* GameState.swift */,
 				88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */,
-				88F66CF42BD965A40099A4D4 /* EssentialChallengeView.swift */,
-				8812BD4C2BC56529001E8D42 /* MainScreen.swift */,
 				88F66CF02BD95D890099A4D4 /* DetailScreen.swift */,
+				88F66CF42BD965A40099A4D4 /* EssentialChallengeView.swift */,
+				887E75332BDD8E2A00AC7851 /* GameState.swift */,
+				8812BD4C2BC56529001E8D42 /* MainScreen.swift */,
 				88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */,
 				88F66CF62BD967790099A4D4 /* ThumbsView.swift */,
 				887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */,
-				887E753B2BE189A900AC7851 /* TopicSelector.swift */,
 				8812BD4E2BC5652B001E8D42 /* Assets.xcassets */,
 				8812BD502BC5652B001E8D42 /* Preview Content */,
 			);
@@ -175,7 +172,6 @@
 			files = (
 				88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */,
 				88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */,
-				887E753C2BE189A900AC7851 /* TopicSelector.swift in Sources */,
 				88F66CF52BD965A40099A4D4 /* EssentialChallengeView.swift in Sources */,
 				88F66CF12BD95D890099A4D4 /* DetailScreen.swift in Sources */,
 				88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */,
