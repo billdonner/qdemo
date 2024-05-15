@@ -11,6 +11,11 @@ import SwiftUI
 let header1="Playing"
 let header2="Not Playing"
 
+enum Options :Int,Codable {
+  case questions
+  case numeric
+  case worded
+}
 @Observable class AppSettings :Codable {
 //  static func == (lhs: AppSettings, rhs: AppSettings) -> Bool {
 //    lhs.rows == rhs.rows && lhs.elementHeight == rhs.elementHeight
@@ -18,11 +23,11 @@ let header2="Not Playing"
   
   internal init(elementWidth: CGFloat = 100, //elementHeight: CGFloat = 100,
                 shaky: Bool = false,
-                //topicColors: Bool = false, shuffleUp: Bool = false, 
-                //lazyVGrid: Bool = true,
-                //displayOption: AppSettings.options = options.questions,
+              ltopicColors: Bool = false, shuffleUp: Bool = false,
+             lazyVGrid: Bool = true,
+            displayOption: Options =  .questions,
                 rows: Double = 1,
-               // columns: Double = 1,
+               columns: Double = 1,
                 fontsize: Double = 24, padding: Double = 5, border: Double = 2) {
     self.elementWidth = elementWidth
     self.elementHeight = elementWidth //  - make these square elementHeight
@@ -37,19 +42,14 @@ let header2="Not Playing"
     self.padding = padding
     self.border = border
   }
-  
-  enum options :Int,Codable,Equatable{
-    case questions
-    case numeric
-    case worded
-  }
+
   var elementWidth: CGFloat = 100
   var elementHeight: CGFloat = 100
   var shaky: Bool = false
   var topicColors: Bool = true
   var shuffleUp: Bool = false
   var lazyVGrid: Bool = true
-  var displayOption = options.questions
+  var displayOption = Options.questions
   var rows: Double = 1
   var columns: Double = 1
   var fontsize: Double = 24

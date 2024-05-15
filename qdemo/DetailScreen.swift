@@ -11,7 +11,8 @@ struct DetailScreen: View {
   let selected:Int
   let backgroundColor: Color
   let settings:AppSettings
-  var body: some View {      ZStack{
+  var body: some View {     
+    ZStack{
         DismissButtonView()
         //backgroundColor.edgesIgnoringSafeArea(.all)
           if settings.displayOption == .questions {

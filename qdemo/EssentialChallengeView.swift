@@ -37,23 +37,7 @@ enum ChallengeActions: Equatable {
   case onceOnlyVirtualyTapped//(Int)
 }
 
-struct HintBottomSheetView : View {
-  let hint:String
-  var body: some View {
-    VStack {
-      Image(systemName:"line.3.horizontal.decrease")
-      Spacer()
-      HStack{
-        Text(hint).font(.headline)
-      }
-      Spacer()
-    }
-    .frame(maxWidth:.infinity)
-    .background(.blue)//.opacity(0.4)
-    .foregroundColor(.white)
-    // .ignoresSafeArea()
-  }
-}
+
 
 
 struct EssentialChallengeView: View {
@@ -104,11 +88,11 @@ func renderQuestion(gameState:GameState) -> some View {
   let tc = gameState.thisChallenge
   switch( gameState.thisOutcome ){
   case .unplayed:
-    return RoundedTextViewGradient(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.blue  )
+    return QuestionSoloView(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.blue  )
   case .playedCorrectly:
-    return  RoundedTextViewGradient(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.green  )
+    return  QuestionSoloView(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.green  )
   case .playedIncorrectly:
-    return  RoundedTextViewGradient(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.red  )
+    return  QuestionSoloView(text: tc.question, backgroundColor: Color.blue.opacity(0.1),gradientColor:.red  )
   }
 }
 
@@ -120,7 +104,7 @@ func renderAnswers(gameState:GameState )-> some View {
     return Button(action:{gameState.sendChallengeAction(action)
     }){
       withAnimation {
-        RoundedTextViewNoGradient(text: tc.answers[index],
+                AnswerSoloView(text: tc.answers[index],
                                   backgroundColor: ((beenPlayed && tc.answers[index] == tc.correct) ?
                                                     correctColor : ((beenPlayed) ? incorrectColor : unplayedColor)))
       }
@@ -151,10 +135,75 @@ func renderAnswers(gameState:GameState )-> some View {
 
 
 #Preview ("light"){
-  EssentialChallengeView(  gameState: GameState.mock)
+  EssentialChallengeView(  gameState: GameState.makeMock())
 }
 #Preview ("dark"){
-  EssentialChallengeView(  gameState: GameState.mock)
+  EssentialChallengeView(  gameState: GameState.makeMock())
     .preferredColorScheme(.dark)
 }
 
+
+fileprivate struct QuestionSoloView: View {
+  let text: String
+  let backgroundColor: Color
+  let gradientColor: Color
+  var body: some View {
+    VStack {
+      Text(text)
+        .padding()
+        .multilineTextAlignment(.center)
+        .foregroundColor(.primary)
+        .background(
+          RoundedRectangle(cornerRadius: 10)
+            .fill(
+              LinearGradient(
+                gradient: Gradient(colors: [gradientColor.opacity(0.1), backgroundColor]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+            .shadow(radius: 5))}}
+}
+
+fileprivate struct AnswerSoloView: View {
+  let text: String
+  let backgroundColor: Color
+  var body: some View {
+    VStack {
+      Text(text)
+        .multilineTextAlignment(.center)
+        .font(.title)
+        .padding()
+        .foregroundColor(.primary)
+        .background(
+          RoundedRectangle(cornerRadius: 10)
+            .fill(backgroundColor)
+            .shadow(radius: 10)  )  } }
+}
+struct   QuestionView_Previews: PreviewProvider {
+  static var previews: some View {
+    VStack{
+      QuestionSoloView(text: "Hello, this 999999999 9999999 99999999 \nis a multi-line 88888888888888888888888888888888888888888888888\ntext", backgroundColor: .white.opacity(0.15), gradientColor: .red)
+      Spacer()
+              AnswerSoloView(text: "Hello, this 999999999 9999999 99999999 \nis a multi-line 88888888888888888888888888888888888888888888888\ntext", backgroundColor:   .white.opacity(0.15) )
+    }
+    .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+  }
+}
+fileprivate struct HintBottomSheetView : View {
+  let hint:String
+  var body: some View {
+    VStack {
+      Image(systemName:"line.3.horizontal.decrease")
+      Spacer()
+      HStack{
+        Text(hint).font(.headline)
+      }
+      Spacer()
+    }
+    .frame(maxWidth:.infinity)
+    .background(.blue)//.opacity(0.4)
+    .foregroundColor(.white)
+    // .ignoresSafeArea()
+  }
+}

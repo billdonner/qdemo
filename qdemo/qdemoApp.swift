@@ -140,7 +140,7 @@ struct qdemoApp: App {
         if isIpad {
           //open with detail view on top
           NavigationSplitView(preferredCompactColumn: $col) {
-            SettingsFormScreen(settings: settings,topics:liveTopics.map{$0.topic} )
+            SettingsFormScreen(settings: settings )
           } detail: {
             
             MainScreen(settings: settings)
@@ -171,7 +171,7 @@ struct qdemoApp: App {
                             }
                         }
           }.sheet(isPresented: $showSettings, content: {
-            SettingsFormScreen(settings: settings,topics:liveTopics.map{$0.topic})
+            SettingsFormScreen(settings: settings)
           })
           .sheet(isPresented: $showTopics, content: {
            // TopicsListScreen()
