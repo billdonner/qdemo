@@ -161,3 +161,85 @@ struct InfoImageView: View {
       .clipped()
   }
 }
+struct DismissButtonView: View {
+  @Environment(\.dismiss) var dismiss
+  var body: some View {
+    VStack {
+      // add a dismissal button
+      HStack {
+        Spacer()
+        Button {
+          dismiss()
+        } label: {
+          Image(systemName: "x.circle").padding(EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
+        }
+      }
+      Spacer()
+    }
+  }
+}
+
+  struct QuestionSoloView: View {
+  let text: String
+  let backgroundColor: Color
+  let gradientColor: Color
+  var body: some View {
+    VStack {
+      Text(text)
+        .padding()
+        .multilineTextAlignment(.center)
+        .foregroundColor(.primary)
+        .background(
+          RoundedRectangle(cornerRadius: 10)
+            .fill(
+              LinearGradient(
+                gradient: Gradient(colors: [gradientColor.opacity(0.1), backgroundColor]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+            .shadow(radius: 5))}}
+}
+
+  struct AnswerSoloView: View {
+  let text: String
+  let backgroundColor: Color
+  var body: some View {
+    VStack {
+      Text(text)
+        .multilineTextAlignment(.center)
+        .font(.title)
+        .padding()
+        .foregroundColor(.primary)
+        .background(
+          RoundedRectangle(cornerRadius: 10)
+            .fill(backgroundColor)
+            .shadow(radius: 10)  )  } }
+}
+struct    QuestionView_Previews: PreviewProvider {
+  static var previews: some View {
+    VStack{
+      QuestionSoloView(text: "Hello, this 999999999 9999999 99999999 \nis a multi-line 88888888888888888888888888888888888888888888888\ntext", backgroundColor: .white.opacity(0.15), gradientColor: .red)
+      Spacer()
+              AnswerSoloView(text: "Hello, this 999999999 9999999 99999999 \nis a multi-line 88888888888888888888888888888888888888888888888\ntext", backgroundColor:   .white.opacity(0.15) )
+    }
+    .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+  }
+}
+ struct HintBottomSheetView : View {
+  let hint:String
+  var body: some View {
+    VStack {
+      Image(systemName:"line.3.horizontal.decrease")
+      Spacer()
+      HStack{
+        Text(hint).font(.headline)
+      }
+      Spacer()
+    }
+    .frame(maxWidth:.infinity)
+    .background(.blue)//.opacity(0.4)
+    .foregroundColor(.white)
+    // .ignoresSafeArea()
+  }
+}

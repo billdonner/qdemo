@@ -65,6 +65,36 @@ let pastelColors: [Color] = [
 
 let formatter = NumberFormatter()
 
+//import ComposableArchitecture
+enum ChallengeOutcomes : Codable,Equatable{
+  case unplayed
+  case playedCorrectly
+  case playedIncorrectly
+}
+enum ShowingState : Codable,Equatable {
+  case qanda
+  case hint
+  case answerWasCorrect
+  case answerWasIncorrect
+}
+enum ChallengeActions: Equatable {
+  case cancelButtonTapped
+  case nextButtonTapped
+  case previousButtonTapped
+  case answer1ButtonTapped
+  case answer2ButtonTapped
+  case answer3ButtonTapped
+  case answer4ButtonTapped
+  case answer5ButtonTapped
+  case hintButtonTapped
+  case infoButtonTapped
+  case thumbsUpButtonTapped
+  case thumbsDownButtonTapped
+  case timeTick
+  case virtualTimerButtonTapped
+  case onceOnlyVirtualyTapped//(Int)
+}
+
 
 func colorFor(topic:String) -> Color {
   let p = abs(topic.hashValue % pastelColors.count)
@@ -114,18 +144,7 @@ func restorePlayDataURL(_ url:URL) async  throws -> PlayData? {
 }
 
 func boxCon (_ number:Int,settings:AppSettings) -> String {
-  switch settings.displayOption {
-  case .numeric: break
-  case .questions:
-    let a = convertNumberToQuestion(number)
-    if a != nil { return a! }
-    
-    
-    
-  case .worded:
-    let b = convertNumberToWords(number)
-    if b != nil {return b! }
-  }
+   if let a = convertNumberToQuestion(number) { return a }
   return "\(number)"
 }
 
@@ -134,6 +153,8 @@ struct qdemoApp: App {
  let  settings = AppSettings()
   @State private var showSettings = false
   @State private var showTopics = false
+  @State private var isSelectedArray = [Bool](repeating: false, count: 26)
+  
   @State var col: NavigationSplitViewColumn =  .detail
     var body: some Scene {
       WindowGroup {
@@ -142,16 +163,14 @@ struct qdemoApp: App {
           NavigationSplitView(preferredCompactColumn: $col) {
             SettingsFormScreen(settings: settings )
           } detail: {
-            
             MainScreen(settings: settings)
-              .navigationTitle("Q20K Lab ")
-            
+              .navigationTitle("Q20K for iPad")
           }
         }
         else {
           NavigationStack {
             MainScreen(settings: settings)
-              .navigationTitle("Q20K Lab")
+              .navigationTitle("Q20K for iPhone")
               .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) { 
                               Button {
@@ -174,7 +193,11 @@ struct qdemoApp: App {
             SettingsFormScreen(settings: settings)
           })
           .sheet(isPresented: $showTopics, content: {
-           // TopicsListScreen()
+            TopicSelectorScreen(topics:liveTopics.map{$0.topic} , isSelectedArray: $isSelectedArray ){ // on the way back
+              for (n,t) in liveTopics.enumerated() {
+                liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n])
+              }
+            }
           })
         }
       }
