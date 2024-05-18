@@ -9,7 +9,7 @@ import SwiftUI
 import q20kshare
 func rebuildWorld(  settings:AppSettings) {
        gameState = GameState( selected: 0, showing: .qanda,  outcomes:Array(repeating:.unplayed,count:Int(MAX_ROWS*MAX_COLS)))
-  if !settings.shuffleUp {
+  if settings.shuffleUp {
     challenges.shuffle()
   }
 }
@@ -74,7 +74,7 @@ func startup() async throws {
 struct MatrixItem: View {
   let number: Int
   let settings:AppSettings
-  @Binding var selected:Int
+ // @Binding var selected:Int
   var onTap: ((Int) -> Void)? // Closure to be executed on tap
   
   var body: some View {
@@ -85,7 +85,7 @@ struct MatrixItem: View {
       .lineLimit(7)
       .minimumScaleFactor(0.1)
       .frame(width:settings.elementWidth,
-             height: settings.elementHeight,
+             height: settings.elementWidth, //square for now
              alignment: .center)
       .background(backgroundColor)
     //.foregroundColor(Color.black)
@@ -93,7 +93,7 @@ struct MatrixItem: View {
       .padding(.all, settings.padding)
       .onTapGesture {
         //print("tapping and selecting number \(number)")
-        selected = number // pass it thru
+        //selected = number // pass it thru
         gameState.selected = number // gameState is class
         gameState.showing = .qanda
         onTap?(number) // Execute the closure if it exists

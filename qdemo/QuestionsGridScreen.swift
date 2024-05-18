@@ -13,7 +13,7 @@ struct TopView: View {
       HStack {
         Text("score:\(gameState.grandScore)")
         Spacer()
-        Text("remaining:\(Int(settings.rows*settings.columns) - gameState.grandScore - gameState.grandLosers)")
+        Text("remaining:\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)")
       }.font(.headline).padding()
     }
   }
@@ -21,31 +21,35 @@ struct TopView: View {
 func bc(_ number:Int, settings:AppSettings)->Color {
  return challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
 }
+
 struct BottomView:View {
   let settings:AppSettings
-  @State  var selektd: Int = -1
-  @State var isSheetPresented = false 
+  // could not use isPresented version of sheet
+  struct Selek: Identifiable {
+   let id = UUID()
+   let val: Int
+ }
+  
+  @State  var selektd:Selek? = nil
   var body: some View {
     ScrollView([.vertical, .horizontal], showsIndicators: true) {
-      let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.columns))
+      let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
       LazyVGrid(columns: columns, spacing:settings.border) {
-        ForEach(0..<Int(settings.rows) * Int(settings.columns), id: \.self) { number in
+        ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
       
-          MatrixItem(number: number,settings:settings,selected:$selektd) { renumber in
-            // assert((renumber>=lower && renumber<=upper),"number out of range in onerowview")
-            selektd = renumber
-            //   print("+++++>>> just selected \(selected) in onerowview")
-           // selectedItemBackgroundColor  = pastelColors[renumber % pastelColors.count]
-          isSheetPresented = true// might be delaying it a bit
+          MatrixItem(number: number,settings:settings) { renumber in
+            selektd = Selek(val:renumber)
+      
           }
         }
       }
-    }
-    .sheet(isPresented: $isSheetPresented) {
-    if selektd >= 0 {
-      ChallengesScreen(selected:selektd)
+    }//scrollview
+ 
+    .sheet(item:$selektd) { selek in
+      if selek.val  >= 0 {
+        ChallengesScreen(selected:selek.val)
     } else {
-      let _ = print("+++++>>> failed present red circle selected \(selektd)")
+      let _ = print("+++++>>> failed present red circle selected val \(selek.val)")
       ZStack {
         DismissButtonView()
         Circle().foregroundColor(.red)

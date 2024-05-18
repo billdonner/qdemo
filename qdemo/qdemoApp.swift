@@ -97,7 +97,9 @@ enum ChallengeActions: Equatable {
  
 @main
 struct qdemoApp: App {
-  let  settings = AppSettings(elementWidth: 100.0, shaky: false, shuffleUp: true, rows: 4, fontsize: 24, padding: 2, border: 2)
+  //TBD: rows must be one because full topics not set yet until after download
+  
+  let  settings = AppSettings(elementWidth: 100.0, shaky: false, shuffleUp: true, rows: 1, fontsize: 24, padding: 2, border: 2)
   @State private var showSettings = false
   @State private var showTopics = false
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)

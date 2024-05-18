@@ -16,11 +16,14 @@ struct SettingsFormScreen: View {
   var body: some View {
     ZStack {
       DismissButtonView().opacity(isIpad ? 0.0:1.0)
+   
       VStack {
-        Text("Controls")
-        Button ("Choose Topics"){
-          showTopics = true
+        if isIpad {
+          Button ("Choose Topics"){
+            showTopics = true
+          }
         }
+        Text("Controls")
         Form {
           Section(header: Text("Settings")) {
             VStack(alignment: .leading) {
@@ -28,8 +31,8 @@ struct SettingsFormScreen: View {
               Slider(value: $settings.rows, in: MIN_ROWS...MAX_ROWS, step: 1.0)
             }
             VStack(alignment: .leading) {
-              Text("HEIGHT Current: \(settings.elementHeight, specifier: "%.0f")")
-              Slider(value: $settings.elementHeight, in: 60...300, step: 1.0)
+              Text("HEIGHT Current: \(settings.elementWidth, specifier: "%.0f")")
+              Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
             }
             VStack(alignment: .leading) {
               Text("FONTSIZE Current: \(settings.fontsize, specifier: "%.0f")")

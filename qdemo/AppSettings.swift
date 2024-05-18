@@ -7,27 +7,7 @@
 
 import SwiftUI
 
-/*
- init(elementWidth: CGFloat = 100,
-                shaky: Bool = false,
-                shuffleUp: Bool = false,
-                lazyVGrid: Bool = true,
-                rows: Double = 1,
-                fontsize: Double = 24,
-                padding: Double = 5,
-                border: Double = 2) {
-    self.elementWidth = elementWidth
-    self.elementHeight = elementWidth //  - make these square elementHeight
-    self.shaky = shaky
-    self.shuffleUp = shuffleUp
-    self.lazyVGrid = lazyVGrid
-    self.rows = rows
-    self.columns = rows  // columns - make it square
-    self.fontsize = fontsize
-    self.padding = padding
-    self.border = border
-  }
- */
+
 @Observable class AppSettings : Codable {
   internal init(elementWidth: CGFloat, shaky: Bool, shuffleUp: Bool, rows: Double, fontsize: Double, padding: Double, border: Double) {
     self.elementWidth = elementWidth 
