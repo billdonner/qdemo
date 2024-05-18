@@ -278,7 +278,7 @@ func restorePlayDataURL(_ url:URL) async  throws -> PlayData? {
       print("Downloaded \(pd.playDataId) in \(elapsed) secs from \(url)")
       let challengeCount = pd.gameDatum.reduce(0,{$0 + $1.challenges.count})
       print("Loaded"," \(pd.gameDatum.count) topics, \(challengeCount) challenges in \(elapsed) secs")
-      print("************")
+    
       return pd
     }
     catch {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import q20kshare
+import TipKit
 
 let PRIMARY_REMOTE = "https://billdonner.com/fs/gd/readyforios01.json"
 let SECONDARY_REMOTE = "https://billdonner.com/fs/gd/readyforios02.json"
@@ -26,12 +27,12 @@ let url = URL(string:"https://billdonner.com/fs/gd/readyforios02.json")!
 
 let MAX_ROWS = 8.0
 let MAX_COLS = 8.0
-let MIN_ROWS = 4.0
-let MIN_COLS = 4.0
+let MIN_ROWS = 3.0
+let MIN_COLS = 3.0
 
 
 var challenges:[Challenge] = []
-var liveTopics : [LiveTopic] = []
+//var liveTopics : [LiveTopic] = LiveTopic.default_topics() // will replace
 var gameState = GameState.makeMock() // will replace
 
 let pastelColors: [Color] = [ 
@@ -94,7 +95,7 @@ enum ChallengeActions: Equatable {
   case virtualTimerButtonTapped
   case onceOnlyVirtualyTapped//(Int)
 }
- 
+
 @main
 struct qdemoApp: App {
   //TBD: rows must be one because full topics not set yet until after download
@@ -105,6 +106,7 @@ struct qdemoApp: App {
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
   
   @State var col: NavigationSplitViewColumn =  .detail
+
     var body: some Scene {
       WindowGroup {
         if isIpad {
@@ -126,7 +128,9 @@ struct qdemoApp: App {
                                 showSettings.toggle()
                               } label: {
                                 Image(systemName: "gear")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
+                         
                               }
+                
                             }
                         }
               .toolbar {
@@ -144,9 +148,9 @@ struct qdemoApp: App {
           .sheet(isPresented: $showTopics, content: {
             TopicSelectorScreen( isSelectedArray: $isSelectedArray ){ // on the way back
               //TODO: is this needed 
-              for (n,t) in liveTopics.enumerated() {
-                liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
-              }
+//              for (n,t) in liveTopics.enumerated() {
+//                liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
+//              }
             }
           })
         }

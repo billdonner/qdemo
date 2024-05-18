@@ -12,6 +12,14 @@ struct LiveTopic:Identifiable {
   var topic: String
   var isLive:Bool
   var color:Color
+  
+  static let default_topics = {
+   [
+    LiveTopic(topic: "topic 1", isLive: true, color: .red),
+    LiveTopic(topic: "topic 2", isLive: true, color: .yellow),
+    LiveTopic(topic: "topic 3", isLive: true, color: .blue)
+    ]
+  }
 }
 
 struct TextWithBackgroundStyle: View {
@@ -110,7 +118,7 @@ struct TopicSelectorScreen: View {
   let f:()->()
     
     init( isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
-      self._internalTopics = State(initialValue: liveTopics)
+      self._internalTopics = State(initialValue: gameState.topics)
         self._isSelectedArray = isSelectedArray
       self.f = f
       self._internalColors = State(initialValue: pastelColors.map{$0} )

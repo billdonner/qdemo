@@ -6,21 +6,37 @@
 //
 
 import SwiftUI
+import TipKit
+struct PopoverTip: Tip {
+    var title: Text {
+        Text("Adjust Settings")
+    }
+    var message: Text? {
+        Text("Many Adjustments will force a new game")
+    }
+    var image: Image? {
+        Image(systemName: "star")
+    }
+}
 struct TopView: View {
   let settings:AppSettings
+  let tip = PopoverTip()
   var body:some View {
     return  VStack{
       HStack {
         Text("score:\(gameState.grandScore)")
         Spacer()
         Text("remaining:\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)")
+          .popoverTip(tip)
+          .onTapGesture {
+                    // Invalidate the tip when someone uses the feature.
+                    tip.invalidate(reason: .actionPerformed)
+                }
       }.font(.headline).padding()
     }
   }
 }
-func bc(_ number:Int, settings:AppSettings)->Color {
- return challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
-}
+
 
 struct BottomView:View {
   let settings:AppSettings

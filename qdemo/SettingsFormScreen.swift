@@ -65,9 +65,9 @@ struct SettingsFormScreen: View {
       }
     }.sheet(isPresented: $showTopics){
       TopicSelectorScreen(isSelectedArray: $isSelectedArray ){ // on the way back
-        for (n,t) in liveTopics.enumerated() {
-          liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n], color: pastelColors[n])
-        }
+//        for (n,t) in liveTopics.enumerated() {
+//          liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n], color: pastelColors[n])
+//        }
       }
     }
   }
