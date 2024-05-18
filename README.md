@@ -1,5 +1,7 @@
 #  QDEMO
 
+version 0.1.7 - topics colors
+
 version 0.1.6 - topics chooser
 
 version 0.1.5 - bug fixes

@@ -6,46 +6,7 @@
 //
 
 import SwiftUI
-
-
-let header1="Playing"
-let header2="Not Playing"
-
-
-@Observable class AppSettings :Codable {
-
-  internal init(elementWidth: CGFloat = 100,
-                shaky: Bool = false,
-                shuffleUp: Bool = false,
-             lazyVGrid: Bool = true,
-                rows: Double = 1,
-                fontsize: Double = 24, 
-                padding: Double = 5,
-                border: Double = 2) {
-    self.elementWidth = elementWidth
-    self.elementHeight = elementWidth //  - make these square elementHeight
-    self.shaky = shaky
-    self.shuffleUp = shuffleUp
-    self.lazyVGrid = lazyVGrid
-    self.rows = rows
-    self.columns = rows  // columns - make it square
-    self.fontsize = fontsize
-    self.padding = padding
-    self.border = border
-  }
-
-  var elementWidth: CGFloat = 100
-  var elementHeight: CGFloat = 100
-  var shaky: Bool = false
-  var shuffleUp: Bool = false
-  var lazyVGrid: Bool = true
-  var rows: Double = 1
-  var columns: Double = 1
-  var fontsize: Double = 24
-  var padding: Double = 5
-  var border: Double = 2
-}
-
+ 
 
 struct SettingsFormScreen: View {
   @Bindable var  settings: AppSettings
@@ -56,7 +17,7 @@ struct SettingsFormScreen: View {
     ZStack {
       DismissButtonView().opacity(isIpad ? 0.0:1.0)
       VStack {
-        Text("Q20K Controls")
+        Text("Controls")
         Button ("Choose Topics"){
           showTopics = true
         }
@@ -83,12 +44,7 @@ struct SettingsFormScreen: View {
               Slider(value: $settings.border, in: 0...20, step: 1.0)
             }
           }
-            .onChange(of: settings.elementHeight) {
-              settings.elementWidth = settings.elementHeight
-            }
-            .onChange(of: settings.rows ){
-              settings.columns = settings.rows
-            } 
+  
           Section(header: Text("Features")) {
             Toggle(isOn: $settings.shaky) {
               Text("Shaky")
@@ -105,9 +61,9 @@ struct SettingsFormScreen: View {
        // Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
       }
     }.sheet(isPresented: $showTopics){
-      TopicSelectorScreen(topics:liveTopics.map{$0.topic} , isSelectedArray: $isSelectedArray ){ // on the way back
+      TopicSelectorScreen(isSelectedArray: $isSelectedArray ){ // on the way back
         for (n,t) in liveTopics.enumerated() {
-          liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n])
+          liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n], color: pastelColors[n])
         }
       }
     }
@@ -115,6 +71,6 @@ struct SettingsFormScreen: View {
 }
 
 #Preview ("Settings"){
-  SettingsFormScreen(settings: AppSettings())
+  SettingsFormScreen(settings: AppSettings.mock)
 }
 

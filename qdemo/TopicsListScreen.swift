@@ -7,84 +7,90 @@
 
 import SwiftUI
 
-struct LiveTopic {
+struct LiveTopic:Identifiable {
+  let id = UUID()
   var topic: String
   var isLive:Bool
+  var color:Color
 }
 
-struct Topic: Identifiable {
-    let id = UUID()
-    let name: String
-    var isSelected: Bool
+struct TextWithBackgroundStyle: View {
+  let livetopic:LiveTopic
+  var body: some View {
+    VStack {
+      Text(livetopic.topic)
+    }
+   .background(livetopic.color)
+  }
 }
-
+#Preview("TextWithBackgroundStyle") {
+  TextWithBackgroundStyle(livetopic: LiveTopic(topic:("Topic Goes Here"),isLive:false,color:.blue))
+}
 struct TopicsSelectionView: View {
-    @Binding var topics: [Topic]
-
-    var body: some View {
-        HStack(spacing: 20) {
-
-            VStack {
-                Text("Selected Topics")
-                    .font(.headline)
-                List {
-                    ForEach(topics) { topic in
-                        if topic.isSelected {
-                            Text(topic.name)
-                                .onTapGesture {
-                                    if let index = self.topics.firstIndex(where: { $0.id == topic.id }) {
-                                        self.topics[index].isSelected.toggle()
-                                    }
-                                }
-                        }
-                    }
-                }
+  @Binding var topics: [LiveTopic]
+//  @Binding var colors: [Color]
+  
+  fileprivate func showTopicWithTap(_ livetopic: LiveTopic) -> some View {
+    return TextWithBackgroundStyle(livetopic: livetopic)
+      .onTapGesture {
+        if let index = self.topics.firstIndex(where: { $0.id == livetopic.id }) {
+          self.topics[index].isLive.toggle()
+        }
+      }
+  }
+  
+  var body: some View {
+    HStack(spacing: 20) {
+      VStack {
+        Text("Selected Topics")
+          .font(.headline)
+        List {
+          ForEach(topics) { livetopic in
+            if livetopic.isLive {
+              showTopicWithTap(livetopic)
             }
-            
-            VStack {
-                Text("Unselected Topics")
-                    .font(.headline)
-                List {
-                    ForEach(topics) { topic in
-                        if !topic.isSelected {
-                            Text(topic.name)
-                                .onTapGesture {
-                                    if let index = self.topics.firstIndex(where: { $0.id == topic.id }) {
-                                        self.topics[index].isSelected.toggle()
-                                    }
-                                }
-                        }
-                    }
-                }
+          }
+        }
+      }
+      
+      VStack {
+        Text("Unselected Topics")
+          .font(.headline)
+        List {
+          ForEach(topics) { livetopic in
+            if !livetopic.isLive {
+                showTopicWithTap(livetopic)
             }
+          }
         }
         .padding()
+      }
     }
+  }
 }
 
 struct TopicSelectorScreen: View {
-    @State private var internalTopics: [Topic]
+    @State private var internalColors: [Color]
+    @State private var internalTopics: [LiveTopic]
     @Binding var isSelectedArray: [Bool]
     @Environment(\.presentationMode) var presentationMode
   let f:()->()
     
-    init(topics: [String], isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
-      self._internalTopics = State(initialValue: liveTopics.map {Topic(name:$0.topic,isSelected: $0.isLive)})
+    init( isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
+      self._internalTopics = State(initialValue: liveTopics)
         self._isSelectedArray = isSelectedArray
       self.f = f
+      self._internalColors = State(initialValue: pastelColors.map{$0} )
     }
     
   var body: some View {
     NavigationView {
       TopicsSelectionView(topics: $internalTopics)
         .onDisappear {
-//          isSelectedArray = internalTopics.map{$0.isSelected}
-//          f()
         }
         .navigationBarTitle("Choose Topics", displayMode: .inline)
         .navigationBarItems(trailing: Button(action : {
-          isSelectedArray = internalTopics.map{$0.isSelected}
-          print("isSelected:",isSelectedArray)
+          isSelectedArray = internalTopics.map{$0.isLive}
           f()
           presentationMode.wrappedValue.dismiss()
         }) {
@@ -98,40 +104,16 @@ struct TopicSelectorScreen: View {
     }
   }
 }
-#Preview ("TopicSelectorScreen"){
-  TopicSelectorScreen (topics: ["Swift", "Kotlin", "Python"],
-                       isSelectedArray: .constant([false,false,false])) {
-    print("final callback")
-  }
-}
-
-
-//struct TopicsChooserButtonView: View {
-//  let topics :[String]
-//  let f : ()->()
-//    @State private var isSelectedArray = [Bool](repeating: false, count: 3)
-//
-//    var body: some View {
-//      NavigationView {
-//   //         VStack {
-////                Button(action: {
-////                    isSelectedArray = [Bool](repeating: false, count: 3)
-////                }){
-////                   Text("Reset Selections")
-////                }
-//                NavigationLink(
-//                  destination: TopicSelectorScreen(topics:topics, isSelectedArray: $isSelectedArray,f:f)) {
-//                    Text("Choose Topics")
-//                }
-//                .onAppear {
-//                    print(isSelectedArray)
-//                }
-//            }
-//        //}
-//    }
-//}
-//#Preview ("TopicsChooserButtonView"){
-//  TopicsChooserButtonView(topics:["Swift", "Kotlin", "Python"]){
-//    print("calledback")
-//  }
-//    }
+/*
+ #Preview ("TopicSelectorScreen"){
+ liveTopics = [
+ LiveTopic(topic: "topic 1", isLive: true, color: .red),
+ LiveTopic(topic: "topic 2", isLive: true, color: .yellow),
+ LiveTopic(topic: "topic 3", isLive: true, color: .blue)
+ ]
+ let _ =  TopicSelectorScreen (
+ isSelectedArray: .constant([false,false,false])) {
+ print("final callback")
+ }
+ }
+ */

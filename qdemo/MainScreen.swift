@@ -57,14 +57,17 @@ func startup() async throws {
         }
       }
     }
+    for (n,t) in playdata.topicData.topics.enumerated() {
+      let jj = n % playdata.topicData.topics.count
+      liveTopics.append(LiveTopic (topic:t.name,isLive: true,color:pastelColors[jj]))
+    }
     challenges = r
-    liveTopics = (playdata.topicData.topics.map {$0.name}).map { LiveTopic(topic:$0,isLive:false)}
     print(playdata.playDataId," available; challenges are \(r.count); \(liveTopics.count) topics")
   }
 }
 
 #Preview ("Outer"){
-  MainScreen(settings:AppSettings())
+  MainScreen(settings:AppSettings.mock)
 }
 
 

@@ -69,5 +69,5 @@ struct QuestionsGridScreen: View {
   }
 }
 #Preview ("Game"){
-  QuestionsGridScreen(settings: AppSettings())
+  QuestionsGridScreen(settings: AppSettings.mock)
 }

@@ -94,63 +94,10 @@ enum ChallengeActions: Equatable {
   case virtualTimerButtonTapped
   case onceOnlyVirtualyTapped//(Int)
 }
-
-
-func colorFor(topic:String) -> Color {
-  let p = abs(topic.hashValue % pastelColors.count)
- // print("shoowing for \(p)")
-  return  pastelColors[p]
-}
-
-// Convert number to words
-func convertNumberToWords(_ number: Int) -> String? {
-  let r =  formatter.string(from: NSNumber(value: number)) ?? ""
-  return  (r as NSString).replacingOccurrences(of: "-", with: " ")
-}
-// Convert number to question from q20k
-func convertNumberToQuestion(_ number: Int) -> String? {
-  guard number >= 0 && number <= challenges.count-1 else {return nil}
-  return challenges [number].question
-}
-
-func downloadFile(from url: URL ) async throws -> Data {
-  let (data, _) = try await URLSession.shared.data(from: url)
-  return data
-}
-
-func restorePlayDataURL(_ url:URL) async  throws -> PlayData? {
-  do {
-    let start_time = Date()
-    let tada = try await  downloadFile(from:url)
-    let str = String(data:tada,encoding:.utf8) ?? ""
-    do {
-      let pd = try JSONDecoder().decode(PlayData.self,from:tada)
-      let elapsed = Date().timeIntervalSince(start_time)
-      print("************")
-      print("Downloaded \(pd.playDataId) in \(elapsed) secs from \(url)")
-      let challengeCount = pd.gameDatum.reduce(0,{$0 + $1.challenges.count})
-      print("Loaded"," \(pd.gameDatum.count) topics, \(challengeCount) challenges in \(elapsed) secs")
-      print("************")
-      return pd
-    }
-    catch {
-      print(">>> could not decode playdata from \(url) \n>>> original str:\n\(str)")
-    }
-  }
-  catch {
-    throw error
-  }
-  return nil
-}
-
-func boxCon (_ number:Int,settings:AppSettings) -> String {
-   if let a = convertNumberToQuestion(number) { return a }
-  return "\(number)"
-}
-
+ 
 @main
 struct qdemoApp: App {
- let  settings = AppSettings()
+  let  settings = AppSettings(elementWidth: 100.0, shaky: false, shuffleUp: true, rows: 4, fontsize: 24, padding: 2, border: 2)
   @State private var showSettings = false
   @State private var showTopics = false
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
@@ -193,9 +140,10 @@ struct qdemoApp: App {
             SettingsFormScreen(settings: settings)
           })
           .sheet(isPresented: $showTopics, content: {
-            TopicSelectorScreen(topics:liveTopics.map{$0.topic} , isSelectedArray: $isSelectedArray ){ // on the way back
+            TopicSelectorScreen( isSelectedArray: $isSelectedArray ){ // on the way back
+              //TODO: is this needed 
               for (n,t) in liveTopics.enumerated() {
-                liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n])
+                liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
               }
             }
           })
