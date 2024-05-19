@@ -27,10 +27,6 @@ struct SettingsFormScreen: View {
         Form {
           Section(header: Text("Settings")) {
             VStack(alignment: .leading) {
-              Text("ROWS Current: \(settings.rows, specifier: "%.0f")")
-              Slider(value: $settings.rows, in: MIN_ROWS...MAX_ROWS, step: 1.0)
-            }
-            VStack(alignment: .leading) {
               Text("HEIGHT Current: \(settings.elementWidth, specifier: "%.0f")")
               Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
             }
@@ -55,7 +51,7 @@ struct SettingsFormScreen: View {
             Toggle(isOn: $settings.shuffleUp) {
               Text("Shuffle on Restart")
             }.onChange(of:settings.shuffleUp) {
-              rebuildWorld(settings:settings)
+               shuffleChallenges(settings:settings)
             }
           }
         }

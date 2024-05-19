@@ -98,7 +98,7 @@ struct LiveTopic:Identifiable,Codable  {
     self.topics = topics
   }
   
-static var mock = AppSettings(elementWidth: 100, shaky: false, shuffleUp: false, rows: 1, fontsize: 24, padding: 2, border: 2)
+static var mock = AppSettings(elementWidth: 100, shaky: false, shuffleUp: false, rows: 1, fontsize: 24, padding: 5, border: 2)
 
  var elementWidth: CGFloat
   var shaky: Bool

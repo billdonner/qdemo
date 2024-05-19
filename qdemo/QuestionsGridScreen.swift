@@ -26,6 +26,8 @@ struct TopView: View {
       HStack {
         Text("score:\(gameState.grandScore)")
         Spacer()
+        Text("gimmees:\(gameState.gimmees)")
+        Spacer()
         Text("remaining:\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)")
           .popoverTip(tip)
           .onTapGesture {
@@ -42,9 +44,9 @@ struct BottomView:View {
   let settings:AppSettings
   // could not use isPresented version of sheet
   struct Selek: Identifiable {
-   let id = UUID()
-   let val: Int
- }
+    let id = UUID()
+    let val: Int
+  }
   
   @State  var selektd:Selek? = nil
   var body: some View {
@@ -52,27 +54,28 @@ struct BottomView:View {
       let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
       LazyVGrid(columns: columns, spacing:settings.border) {
         ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
-      
-          MatrixItem(number: number,settings:settings) { renumber in
+          
+          MatrixItem(number: number,settings:settings,onTap:{ renumber in
             selektd = Selek(val:renumber)
+          },onLongPress: { n in
+            print("long press \(n)")
+          })
+        }
+      }//scrollview
       
+      .sheet(item:$selektd) { selek in
+        if selek.val  >= 0 {
+          ChallengesScreen(selected:selek.val)
+        } else {
+          let _ = print("+++++>>> failed present red circle selected val \(selek.val)")
+          ZStack {
+            DismissButtonView()
+            Circle().foregroundColor(.red)
           }
         }
       }
-    }//scrollview
- 
-    .sheet(item:$selektd) { selek in
-      if selek.val  >= 0 {
-        ChallengesScreen(selected:selek.val)
-    } else {
-      let _ = print("+++++>>> failed present red circle selected val \(selek.val)")
-      ZStack {
-        DismissButtonView()
-        Circle().foregroundColor(.red)
-      }
     }
   }
-}
 }
 struct QuestionsGridScreen: View {
   let settings:AppSettings

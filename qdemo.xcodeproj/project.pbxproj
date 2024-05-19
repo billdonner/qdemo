@@ -13,8 +13,8 @@
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
 		887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */; };
 		88A105312BF64DDA00FF8C08 /* QuestionsGridScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */; };
-		88A105332BF8EE2600FF8C08 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 88A105322BF8EE2600FF8C08 /* q20kshare */; };
 		88A105352BF8FB0100FF8C08 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105342BF8FB0100FF8C08 /* AppSettings.swift */; };
+		88A1053D2BFA659300FF8C08 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 88A1053C2BFA659300FF8C08 /* q20kshare */; };
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
 		88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF62BD967790099A4D4 /* ThumbsView.swift */; };
@@ -43,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88A105332BF8EE2600FF8C08 /* q20kshare in Frameworks */,
+				88A1053D2BFA659300FF8C08 /* q20kshare in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +112,7 @@
 			);
 			name = qdemo;
 			packageProductDependencies = (
-				88A105322BF8EE2600FF8C08 /* q20kshare */,
+				88A1053C2BFA659300FF8C08 /* q20kshare */,
 			);
 			productName = qdemo;
 			productReference = 8812BD472BC56529001E8D42 /* qdemo.app */;
@@ -403,7 +403,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		88A105322BF8EE2600FF8C08 /* q20kshare */ = {
+		88A1053C2BFA659300FF8C08 /* q20kshare */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */;
 			productName = q20kshare;

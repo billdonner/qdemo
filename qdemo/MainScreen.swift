@@ -12,7 +12,7 @@ struct MatrixItem: View {
   let number: Int
   let settings:AppSettings
   var onTap: ((Int) -> Void)? // Closure to be executed on tap
-
+  var onLongPress: ((Int) -> Void)?
   var body: some View {
     //let _ = print("MatrixItem \(number)")
     Text(boxCon(number,settings: settings))
@@ -23,11 +23,16 @@ struct MatrixItem: View {
              height: settings.elementWidth, //square for now
              alignment: .center)
       .background(cellColorFromTopic(number))
+      .foregroundColor(.black)
       .padding(.all, settings.padding)
       .onTapGesture {
         gameState.selected = number // gameState is class
         gameState.showing = .qanda
         onTap?(number) // Execute the closure if it exists
+      }
+      .onLongPressGesture {
+        onLongPress?(number)
+        
       }
       .opacity(cellOpacity(number))
       .border(cellBorderColor(number), width:cellBorderWidth(number) )
@@ -77,21 +82,21 @@ struct MainScreen: View {
 func prepareNewGame(_ playdata: PlayData, settings:AppSettings) async throws  -> Int{
   let filter = buildTopicsFilter()
   var total = 0
-  try await newGame(playdata, settings: settings){
+  try await newGame(playdata, settings: settings, reloadTopics: true){
     challenge in
     // here is where we can decide  whether to include this question , primarily based on topic
     total += 1
     return filter[challenge.topic] ?? false
   }
-  rebuildWorld(settings:settings)
+   shuffleChallenges(settings:settings)
   let n = gameState.topics.reduce(0) {$0 + ($1.isLive ? 1:0)}
   print("New \(Int(settings.rows))x\(Int(settings.rows)) Game Starting -- \(n) selected topics with \(total) challenges")
   return total
 }
-fileprivate func newGame(_ playdata:PlayData, settings:AppSettings,isAcceptable:((Challenge)->Bool)) async throws {
+fileprivate func newGame(_ playdata:PlayData, settings:AppSettings,reloadTopics:Bool , isAcceptable:((Challenge)->Bool)) async throws {
   // restore challenges from fresh? playdata
     challenges  = freshChallenges(settings:settings, from:playdata,isAcceptable: isAcceptable)
-    freshGameState(settings:settings, from:playdata)
+    freshGameState(settings:settings, from:playdata,reloadTopics: reloadTopics)
     print("************")
 }
 fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable:((Challenge)->Bool)) -> [Challenge]{
@@ -114,25 +119,29 @@ fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable
   }
   return r
 }
-fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData) {
+fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,reloadTopics:Bool = false ) {
   // fresh gamestate
   gameState.showing = .qanda
-  gameState.outcomes = Array(repeating:.unplayed,count:Int(challenges.count))
-  var tt : [LiveTopic ] = []
-  // add in all the topics we got from the playing data
-  for (n,t) in playdata.topicData.topics.enumerated() {
-    let jj = n % playdata.topicData.topics.count
-    tt.append(LiveTopic (id: UUID(), topic:t.name,isLive: true,color:pastelColors[jj]))
+  gameState.selected = 0
+  gameState.gimmees = Int(settings.rows)
+  gameState.outcomes = Array(repeating:.unplayed,count:Int(settings.rows*settings.rows))
+  if reloadTopics || gameState.topics.count < 2 {
+    var tt : [LiveTopic ] = []
+    // add in all the topics we got from the playing data
+    for (n,t) in playdata.topicData.topics.enumerated() {
+      let jj = n % playdata.topicData.topics.count
+      tt.append(LiveTopic (id: UUID(), topic:t.name,isLive: true,color:pastelColors[jj]))
+    }
+    gameState.topics = tt
   }
-  gameState.topics = tt
 }
 
-func rebuildWorld(  settings:AppSettings) {
-  gameState = GameState( selected: 0, showing: .qanda,
-                         outcomes:Array(repeating:.unplayed,
-                                        count:Int(settings.rows*settings.rows)),
-                         //TBD: not quite right ?
-                         topics: gameState.topics)
+func  shuffleChallenges(  settings:AppSettings) {
+//  gameState = GameState( selected: 0, showing: .qanda,
+//                         outcomes:Array(repeating:.unplayed,
+//                                        count:Int(settings.rows*settings.rows)),
+//                         //TBD: not quite right ?
+//                         topics: gameState.topics, gimmees: Int(settings.rows))
   if settings.shuffleUp {
     challenges.shuffle()
   }
@@ -149,6 +158,10 @@ fileprivate func buildTopicsFilter() -> [String:Bool] {
 
 #Preview ("Outer"){
   MainScreen(settings:AppSettings.mock)
+}
+#Preview ("OuterBlack"){
+  MainScreen(settings:AppSettings.mock)
+    .preferredColorScheme(.dark)
 }
 func cellOpacity(_ number:Int) -> Double {
   number<0||number>gameState.outcomes.count-1 ? 0.0:

@@ -14,11 +14,12 @@ enum Effect:Equatable {
 }
 
 @Observable class  GameState {
-  internal init(selected:Int, showing: ShowingState,outcomes:[ChallengeOutcomes],topics:[LiveTopic]) {
+  internal init(selected:Int, showing: ShowingState,outcomes:[ChallengeOutcomes],topics:[LiveTopic],gimmees:Int) {
     self.showing = showing
     self.outcomes = outcomes
     self.topics = topics 
     self.selected = selected
+    self.gimmees = gimmees
   }
   
 
@@ -26,6 +27,7 @@ enum Effect:Equatable {
   var outcomes:[ChallengeOutcomes] // parallels big challenges array
   var topics:[LiveTopic]
   var selected:Int // index into outcomes and challenges
+  var gimmees:Int // bonus points
 
 }
 
@@ -51,7 +53,7 @@ extension GameState {
 extension GameState {
   static   let onechallenge = Challenge(question: "For Madmen Only", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
   static var  mock = GameState(selected: 0, showing:.qanda,outcomes:[.unplayed],
-                               topics:[LiveTopic(id: UUID(), topic:"Flowers", isLive: false ,color:.blue)])
+                               topics:[LiveTopic(id: UUID(), topic:"Flowers", isLive: false ,color:.blue)], gimmees: 1)
   static func makeMock() -> GameState {
     //blast over these globals when mocking
     challenges = [onechallenge]
