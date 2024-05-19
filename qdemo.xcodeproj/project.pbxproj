@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8812BD4B2BC56529001E8D42 /* qdemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4A2BC56529001E8D42 /* qdemoApp.swift */; };
 		8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4C2BC56529001E8D42 /* MainScreen.swift */; };
-		8812BD4F2BC5652B001E8D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
 		887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */; };
@@ -32,6 +31,7 @@
 		887E75542BE80FEF00AC7851 /* GameBoardFlow.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GameBoardFlow.md; sourceTree = "<group>"; };
 		88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsGridScreen.swift; sourceTree = "<group>"; };
 		88A105342BF8FB0100FF8C08 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		88A105362BF958F200FF8C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88F66CED2BCF3DF10099A4D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormScreen.swift; sourceTree = "<group>"; };
 		88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengesScreen.swift; sourceTree = "<group>"; };
@@ -53,6 +53,7 @@
 		8812BD3E2BC56529001E8D42 = {
 			isa = PBXGroup;
 			children = (
+				88A105362BF958F200FF8C08 /* Info.plist */,
 				88F66CED2BCF3DF10099A4D4 /* README.md */,
 				887E75542BE80FEF00AC7851 /* GameBoardFlow.md */,
 				8812BD492BC56529001E8D42 /* qdemo */,
@@ -159,7 +160,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */,
-				8812BD4F2BC5652B001E8D42 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +309,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
@@ -340,6 +341,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";

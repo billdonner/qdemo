@@ -32,8 +32,8 @@ let MIN_COLS = 3.0
 
 
 var challenges:[Challenge] = []
-//var liveTopics : [LiveTopic] = LiveTopic.default_topics() // will replace
 var gameState = GameState.makeMock() // will replace
+var aiPlayData:PlayData? = nil // loaded from readyforios, topics moved to gamestate, challenges filtered into challenges
 
 let pastelColors: [Color] = [ 
   Color(red: 0.98, green: 0.89, blue: 0.85),
@@ -130,7 +130,6 @@ struct qdemoApp: App {
                                 Image(systemName: "gear")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
                          
                               }
-                
                             }
                         }
               .toolbar {
@@ -147,10 +146,10 @@ struct qdemoApp: App {
           })
           .sheet(isPresented: $showTopics, content: {
             TopicSelectorScreen( isSelectedArray: $isSelectedArray ){ // on the way back
-              //TODO: is this needed 
-//              for (n,t) in liveTopics.enumerated() {
-//                liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
-//              }
+              // necessary to recreate
+              for (n,t) in gameState.topics.enumerated() {
+                gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
+             }
             }
           })
         }

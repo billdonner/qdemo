@@ -7,34 +7,26 @@
 
 import SwiftUI
 
-struct LiveTopic:Identifiable {
-  let id = UUID()
-  var topic: String
-  var isLive:Bool
-  var color:Color
-  
-  static let default_topics = {
-   [
-    LiveTopic(topic: "topic 1", isLive: true, color: .red),
-    LiveTopic(topic: "topic 2", isLive: true, color: .yellow),
-    LiveTopic(topic: "topic 3", isLive: true, color: .blue)
-    ]
-  }
-}
+
 
 struct TextWithBackgroundStyle: View {
   let livetopic:LiveTopic
   var body: some View {
     VStack {
-      Text(livetopic.topic)
+      Text(livetopic.topic).foregroundStyle(Color.black)
     }
-  // .background(livetopic.color)
+    
+ .background(livetopic.color)
   }
 }
 #Preview("TextWithBackgroundStyle") {
-  TextWithBackgroundStyle(livetopic: LiveTopic(topic:("Topic Goes Here"),isLive:false,color:.blue))
+  TextWithBackgroundStyle(livetopic: LiveTopic(id: UUID(), topic:("Topic Goes Here"),isLive:false,color:.blue))
+  
 }
-
+#Preview("TextWithBackgroundStyleDark") {
+  TextWithBackgroundStyle(livetopic: LiveTopic(id: UUID(), topic:("Topic Goes Here"),isLive:false,color:.blue))
+    .preferredColorScheme(.dark)
+}
 let MIN_UNSELECTED_TOPICS = 0
 
 let MIN_SELECTED_TOPICS = 2
@@ -110,12 +102,13 @@ struct TopicsSelectionView: View {
   }
 }
 
-struct TopicSelectorScreen: View {
+struct TopicSelectorScreen: View { 
+  @Binding var isSelectedArray: [Bool]
+let f:()->()
+  
     @State private var internalColors: [Color]
     @State private var internalTopics: [LiveTopic]
-    @Binding var isSelectedArray: [Bool]
     @Environment(\.presentationMode) var presentationMode
-  let f:()->()
     
     init( isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
       self._internalTopics = State(initialValue: gameState.topics)

@@ -58,16 +58,16 @@ struct SettingsFormScreen: View {
               rebuildWorld(settings:settings)
             }
           }
-          
         }
         Spacer()
        // Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
       }
     }.sheet(isPresented: $showTopics){
       TopicSelectorScreen(isSelectedArray: $isSelectedArray ){ // on the way back
-//        for (n,t) in liveTopics.enumerated() {
-//          liveTopics[n] = LiveTopic(topic:t.topic,isLive:isSelectedArray[n], color: pastelColors[n])
-//        }
+        // necessary to recreate
+        for (n,t) in gameState.topics.enumerated() {
+          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
+       }
       }
     }
   }
