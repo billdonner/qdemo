@@ -80,13 +80,15 @@ struct MainScreen: View {
 ///
 
 func prepareNewGame(_ playdata: PlayData, settings:AppSettings) async throws  -> Int{
-  let filter = buildTopicsFilter()
+  let _ = buildTopicsFilter()
   var total = 0
-  try await newGame(playdata, settings: settings, reloadTopics: true){
+  try await newGame(playdata, settings: settings, reloadTopics: false){
     challenge in
     // here is where we can decide  whether to include this question , primarily based on topic
     total += 1
-    return filter[challenge.topic] ?? false
+//    let t = filter[challenge.topic] ?? false
+//    return t
+    return true
   }
    shuffleChallenges(settings:settings)
   let n = gameState.topics.reduce(0) {$0 + ($1.isLive ? 1:0)}
@@ -148,6 +150,7 @@ func  shuffleChallenges(  settings:AppSettings) {
 }
 fileprivate func buildTopicsFilter() -> [String:Bool] {
   var ret:[String:Bool] = [:]
+  print("Building topics filter from  \(gameState.topics)")
   for t in gameState.topics {
     if t.isLive {
       ret[t.topic] = true

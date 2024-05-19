@@ -1,5 +1,7 @@
 #  QDEMO
 
+version 0.1.8 - cleaned up a lot, added functions to determine whether we can win or not
+
 version 0.1.7 - eliminated initial starting bug problem and added topics colors
 
 version 0.1.6 - topics chooser

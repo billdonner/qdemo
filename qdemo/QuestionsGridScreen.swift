@@ -24,6 +24,8 @@ struct TopView: View {
   var body:some View {
     return  VStack{
       HStack {
+        Text(isPossiblePath(gameState.outcomes) ? "✅ ": "❌ ")
+        Text(doesPathExistNow(gameState.outcomes) ? "✅ ": "  ")
         Text("score:\(gameState.grandScore)")
         Spacer()
         Text("gimmees:\(gameState.gimmees)")
@@ -35,6 +37,10 @@ struct TopView: View {
                     tip.invalidate(reason: .actionPerformed)
                 }
       }.font(.headline).padding()
+    }.onChange(of:gameState.outcomes) {
+      if !isPossiblePath(gameState.outcomes) {
+        print("you cant win")
+      }
     }
   }
 }

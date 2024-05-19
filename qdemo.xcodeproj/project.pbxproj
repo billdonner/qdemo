@@ -15,6 +15,7 @@
 		88A105312BF64DDA00FF8C08 /* QuestionsGridScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */; };
 		88A105352BF8FB0100FF8C08 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105342BF8FB0100FF8C08 /* AppSettings.swift */; };
 		88A1053D2BFA659300FF8C08 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 88A1053C2BFA659300FF8C08 /* q20kshare */; };
+		88A1053F2BFA958C00FF8C08 /* File in Resources */ = {isa = PBXBuildFile; fileRef = 88A1053E2BFA958C00FF8C08 /* File */; };
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
 		88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF62BD967790099A4D4 /* ThumbsView.swift */; };
@@ -32,6 +33,7 @@
 		88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsGridScreen.swift; sourceTree = "<group>"; };
 		88A105342BF8FB0100FF8C08 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		88A105362BF958F200FF8C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88A1053E2BFA958C00FF8C08 /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
 		88F66CED2BCF3DF10099A4D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormScreen.swift; sourceTree = "<group>"; };
 		88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengesScreen.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				88A105342BF8FB0100FF8C08 /* AppSettings.swift */,
 				88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */,
 				887E75332BDD8E2A00AC7851 /* GameState.swift */,
+				88A1053E2BFA958C00FF8C08 /* File */,
 				8812BD4C2BC56529001E8D42 /* MainScreen.swift */,
 				88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */,
 				88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */,
@@ -159,6 +162,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88A1053F2BFA958C00FF8C08 /* File in Resources */,
 				8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,7 +315,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -343,7 +347,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
