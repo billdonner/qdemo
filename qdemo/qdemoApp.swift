@@ -67,11 +67,7 @@ let pastelColors: [Color] = [
 let formatter = NumberFormatter()
 
 //import ComposableArchitecture
-enum ChallengeOutcomes : Codable,Equatable{
-  case unplayed
-  case playedCorrectly
-  case playedIncorrectly
-}
+
 enum ShowingState : Codable,Equatable {
   case qanda
   case hint
