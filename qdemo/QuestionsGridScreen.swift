@@ -18,28 +18,66 @@ struct PopoverTip: Tip {
         Image(systemName: "star")
     }
 }
+
+enum MatrixError: Error {
+    case notSquareArray
+}
+
+
+func convertToSquareMatrix(_ array: [ChallengeOutcomes]) throws -> [[ChallengeOutcomes]] {
+    // Calculate the square root of the array length
+    let length = array.count
+    let side = Int(sqrt(Double(length)))
+    
+    // Check if length is a perfect square
+    if side * side != length {
+        throw MatrixError.notSquareArray // Not a perfect square, cannot form a square matrix
+    }
+    
+    // Initialize the square matrix
+  var squareMatrix = Array(repeating: Array(repeating: ChallengeOutcomes.unplayed, count: side), count: side)
+    
+    // Fill the square matrix with the elements from the linear array
+    for (index, element) in array.enumerated() {
+        let row = index / side
+        let col = index % side
+        squareMatrix[row][col] = element
+    }
+    
+    return squareMatrix
+}
+
 struct TopView: View {
   let settings:AppSettings
   let tip = PopoverTip()
   var body:some View {
     return  VStack{
       HStack {
-        Text(isPossiblePath(gameState.outcomes) ? "✅ ": "❌ ")
-        Text(doesPathExistNow(gameState.outcomes) ? "✅ ": "  ")
-        Text("score:\(gameState.grandScore)")
-        Spacer()
-        Text("gimmees:\(gameState.gimmees)")
-        Spacer()
-        Text("remaining:\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)")
-          .popoverTip(tip)
-          .onTapGesture {
-                    // Invalidate the tip when someone uses the feature.
-                    tip.invalidate(reason: .actionPerformed)
-                }
+        if let sq = try? convertToSquareMatrix(gameState.outcomes) {
+          Text(isWinningPath(in:sq) ? "😎": "  ")
+          Text(isPossibleWinningPath(in:sq) ? "☡ ": "  ")
+          
+          Text("score:\(gameState.grandScore)")
+          Spacer()
+          Text("gimmees:\(gameState.gimmees)")
+          Spacer()
+          Text("remaining:\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)")
+            .popoverTip(tip)
+            .onTapGesture {
+              // Invalidate the tip when someone uses the feature.
+              tip.invalidate(reason: .actionPerformed)
+            }
+        }
       }.font(.headline).padding()
     }.onChange(of:gameState.outcomes) {
-      if !isPossiblePath(gameState.outcomes) {
-        print("you cant win")
+      if let sq = try? convertToSquareMatrix(gameState.outcomes) {
+        if isWinningPath(in:sq) {
+          print("you have already won but can play on")
+        } else {
+          if !isPossibleWinningPath(in:sq) {
+            print("you cant possibly win")
+          }
+        }
       }
     }
   }

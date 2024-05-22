@@ -17,11 +17,22 @@
 		88A1053D2BFA659300FF8C08 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 88A1053C2BFA659300FF8C08 /* q20kshare */; };
 		88A1053F2BFA958C00FF8C08 /* File in Resources */ = {isa = PBXBuildFile; fileRef = 88A1053E2BFA958C00FF8C08 /* File */; };
 		88A105412BFBA72700FF8C08 /* WinLose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105402BFBA72700FF8C08 /* WinLose.swift */; };
-		88A6EA882BFD4E2A00B89838 /* playg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA872BFD4E2A00B89838 /* playg.swift */; };
+		88A6EA902BFD96C000B89838 /* qdemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA8F2BFD96C000B89838 /* qdemoTests.swift */; };
+		88A6EA962BFD986A00B89838 /* playg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA872BFD4E2A00B89838 /* playg.swift */; };
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
 		88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF62BD967790099A4D4 /* ThumbsView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		88A6EA912BFD96C000B89838 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8812BD3F2BC56529001E8D42 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8812BD462BC56529001E8D42;
+			remoteInfo = qdemo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8812BD472BC56529001E8D42 /* qdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +49,8 @@
 		88A1053E2BFA958C00FF8C08 /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
 		88A105402BFBA72700FF8C08 /* WinLose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLose.swift; sourceTree = "<group>"; };
 		88A6EA872BFD4E2A00B89838 /* playg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playg.swift; sourceTree = "<group>"; };
+		88A6EA8D2BFD96C000B89838 /* qdemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qdemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		88A6EA8F2BFD96C000B89838 /* qdemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qdemoTests.swift; sourceTree = "<group>"; };
 		88F66CED2BCF3DF10099A4D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormScreen.swift; sourceTree = "<group>"; };
 		88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengesScreen.swift; sourceTree = "<group>"; };
@@ -53,6 +66,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		88A6EA8A2BFD96C000B89838 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,6 +83,7 @@
 				88F66CED2BCF3DF10099A4D4 /* README.md */,
 				887E75542BE80FEF00AC7851 /* GameBoardFlow.md */,
 				8812BD492BC56529001E8D42 /* qdemo */,
+				88A6EA8E2BFD96C000B89838 /* qdemoTests */,
 				8812BD482BC56529001E8D42 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				8812BD472BC56529001E8D42 /* qdemo.app */,
+				88A6EA8D2BFD96C000B89838 /* qdemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,6 +126,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		88A6EA8E2BFD96C000B89838 /* qdemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				88A6EA8F2BFD96C000B89838 /* qdemoTests.swift */,
+			);
+			path = qdemoTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -127,6 +157,24 @@
 			productReference = 8812BD472BC56529001E8D42 /* qdemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		88A6EA8C2BFD96C000B89838 /* qdemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88A6EA932BFD96C000B89838 /* Build configuration list for PBXNativeTarget "qdemoTests" */;
+			buildPhases = (
+				88A6EA892BFD96C000B89838 /* Sources */,
+				88A6EA8A2BFD96C000B89838 /* Frameworks */,
+				88A6EA8B2BFD96C000B89838 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				88A6EA922BFD96C000B89838 /* PBXTargetDependency */,
+			);
+			name = qdemoTests;
+			productName = qdemoTests;
+			productReference = 88A6EA8D2BFD96C000B89838 /* qdemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -134,11 +182,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					8812BD462BC56529001E8D42 = {
 						CreatedOnToolsVersion = 15.3;
+					};
+					88A6EA8C2BFD96C000B89838 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 8812BD462BC56529001E8D42;
 					};
 				};
 			};
@@ -159,6 +211,7 @@
 			projectRoot = "";
 			targets = (
 				8812BD462BC56529001E8D42 /* qdemo */,
+				88A6EA8C2BFD96C000B89838 /* qdemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -170,6 +223,13 @@
 			files = (
 				88A1053F2BFA958C00FF8C08 /* File in Resources */,
 				8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88A6EA8B2BFD96C000B89838 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,14 +247,30 @@
 				887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */,
 				88A105412BFBA72700FF8C08 /* WinLose.swift in Sources */,
 				88A105352BF8FB0100FF8C08 /* AppSettings.swift in Sources */,
-				88A6EA882BFD4E2A00B89838 /* playg.swift in Sources */,
 				88A105312BF64DDA00FF8C08 /* QuestionsGridScreen.swift in Sources */,
 				8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */,
 				8812BD4B2BC56529001E8D42 /* qdemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		88A6EA892BFD96C000B89838 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88A6EA902BFD96C000B89838 /* qdemoTests.swift in Sources */,
+				88A6EA962BFD986A00B89838 /* playg.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		88A6EA922BFD96C000B89838 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8812BD462BC56529001E8D42 /* qdemo */;
+			targetProxy = 88A6EA912BFD96C000B89838 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8812BD532BC5652B001E8D42 /* Debug */ = {
@@ -380,6 +456,44 @@
 			};
 			name = Release;
 		};
+		88A6EA942BFD96C000B89838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NEAY582ME4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.qdemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/qdemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/qdemo";
+			};
+			name = Debug;
+		};
+		88A6EA952BFD96C000B89838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NEAY582ME4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.qdemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/qdemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/qdemo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -397,6 +511,15 @@
 			buildConfigurations = (
 				8812BD562BC5652B001E8D42 /* Debug */,
 				8812BD572BC5652B001E8D42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		88A6EA932BFD96C000B89838 /* Build configuration list for PBXNativeTarget "qdemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				88A6EA942BFD96C000B89838 /* Debug */,
+				88A6EA952BFD96C000B89838 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

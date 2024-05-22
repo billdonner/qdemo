@@ -1,5 +1,8 @@
 #  QDEMO
 
+
+version 0.1.9 - added better funcs for determining win/lose used chatgpt to gen test cases
+
 version 0.1.8 - cleaned up a lot, added functions to determine whether we can win or not
 
 version 0.1.7 - eliminated initial starting bug problem and added topics colors
