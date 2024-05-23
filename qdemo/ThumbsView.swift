@@ -245,9 +245,9 @@ struct    QuestionView_Previews: PreviewProvider {
 }
 
 func colorFor(topic:String) -> Color {
-  let p = abs(topic.hashValue % pastelColors.count)
+  let p = abs(topic.hashValue % distinctiveColors.count)
  // print("shoowing for \(p)")
-  return  pastelColors[p]
+  return  distinctiveColors[p]
 }
 
 // Convert number to words

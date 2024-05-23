@@ -103,18 +103,20 @@ struct TopicsSelectionView: View {
 }
 
 struct TopicSelectorScreen: View { 
+  let settings:AppSettings
   @Binding var isSelectedArray: [Bool]
-let f:()->()
+  let f:()->()
   
     @State private var internalColors: [Color]
     @State private var internalTopics: [LiveTopic]
     @Environment(\.presentationMode) var presentationMode
     
-    init( isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
+  init(settings:AppSettings,  isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
       self._internalTopics = State(initialValue: gameState.topics)
-        self._isSelectedArray = isSelectedArray
+      self._isSelectedArray = isSelectedArray
       self.f = f
-      self._internalColors = State(initialValue: pastelColors.map{$0} )
+    self._internalColors = State(initialValue:distinctiveColors.map{$0} )
+    self.settings = settings
     }
     
   var body: some View {
@@ -126,6 +128,10 @@ let f:()->()
         .navigationBarItems(trailing: Button(action : {
           isSelectedArray = internalTopics.map{$0.isLive}
           f()
+         
+      let _ =  try? prepareNewGame(aiPlayData!,  settings: settings,
+                                   first: false )
+       
           presentationMode.wrappedValue.dismiss()
         }) {
           Text("Save")

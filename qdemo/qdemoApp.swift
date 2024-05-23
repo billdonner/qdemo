@@ -35,33 +35,6 @@ var challenges:[Challenge] = []
 var gameState = GameState.makeMock() // will replace
 var aiPlayData:PlayData? = nil // loaded from readyforios, topics moved to gamestate, challenges filtered into challenges
 
-let pastelColors: [Color] = [
-  Color(red: 0.98, green: 0.89, blue: 0.85),
-  Color(red: 0.85, green: 0.95, blue: 0.98),
-  Color(red: 0.98, green: 0.87, blue: 0.90),
-  Color(red: 0.84, green: 0.98, blue: 0.85),
-  Color(red: 0.86, green: 0.91, blue: 0.98),
-  Color(red: 0.98, green: 0.85, blue: 0.87),
-  Color(red: 0.96, green: 0.85, blue: 0.98),
-  Color(red: 0.98, green: 0.93, blue: 0.90),
-  Color(red: 0.90, green: 0.87, blue: 0.98),
-  Color(red: 0.98, green: 0.92, blue: 0.85),
-  Color(red: 0.88, green: 0.85, blue: 0.98),
-  Color(red: 0.98, green: 0.85, blue: 0.89),
-  Color(red: 0.85, green: 0.98, blue: 0.96),
-  Color(red: 0.93, green: 0.85, blue: 0.98),
-  Color(red: 0.90, green: 0.98, blue: 0.87),
-  Color(red: 0.87, green: 0.90, blue: 0.98),
-  Color(red: 0.98, green: 0.90, blue: 0.83),
-  Color(red: 0.83, green: 0.96, blue: 0.98),
-  Color(red: 0.92, green: 0.88, blue: 0.98),
-  Color(red: 0.98, green: 0.95, blue: 0.89),
-  Color(red: 0.89, green: 0.98, blue: 0.93),
-  Color(red: 0.85, green: 0.89, blue: 0.98),
-  Color(red: 0.98, green: 0.91, blue: 0.87),
-  Color(red: 0.91, green: 0.98, blue: 0.85),
-  Color(red: 0.85, green: 0.87, blue: 0.98),
-]
 
 
 let formatter = NumberFormatter()
@@ -105,16 +78,11 @@ struct ipadView:View {
     }
   }
 }
-struct Sni:Identifiable {
-  let id = UUID()
-  var val:Int
-}
+
 struct iphoneView : View {
   let settings:AppSettings
-  @State private var selectedNavItem: Sni? = nil
   @State private var showSettings = false
   @State private var showTopics = false
-  @State private var newGameKicker:NewGameKicker?=nil
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
     @State   var showAlert = false
   func exx(_ n:Int) {
@@ -123,7 +91,7 @@ struct iphoneView : View {
     }
      Task {
         self.settings.rows = Double(n + 3);
-        let reloaded = try await prepareNewGame(playData, settings: settings)
+       let reloaded = try  prepareNewGame(playData, settings: settings,first:false)
         print("Prepared New Game \(reloaded)")
         //self.selectedNavItem = Sni(val:n)
       }
@@ -134,7 +102,10 @@ struct iphoneView : View {
         .navigationBarTitle("Q20K for iPhone",displayMode: .inline)
         .navigationBarItems(trailing:
         Menu {
-          Button(action:{ exx(0) }) {
+          Button(action:{ exx(0)
+            
+            
+          }) {
             Text("New 3x3 Game")
           }
           Button(action:{ exx(1) }) {
@@ -171,27 +142,20 @@ struct iphoneView : View {
         }
     }
 
-    .sheet(item:$selectedNavItem) { item in
-      NewGameScreen(sni:item)
-    }
     .sheet(isPresented: $showSettings){
       SettingsFormScreen(settings: settings)
     }
     .sheet(isPresented: $showTopics){
-      TopicSelectorScreen( isSelectedArray: $isSelectedArray ){ // on the way back
+      TopicSelectorScreen( settings:settings, isSelectedArray: $isSelectedArray ){ // on the way back
         // necessary to recreate
         for (n,t) in gameState.topics.enumerated() {
-          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
+          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color: distinctiveColors[n])
         }
       }
     }
   }
 }
 
-struct NewGameKicker : Identifiable{
-  let id = UUID()
-  var val: Int
-}
 @main
 struct qdemoApp: App {
   //TBD: rows must be one because full topics not set yet until after download
@@ -200,57 +164,14 @@ struct qdemoApp: App {
 
   var body: some Scene {
     WindowGroup {
-      if isIpad {
-        ipadView(settings:settings)
-      }
-      else {
+//      if isIpad {
+//        ipadView(settings:settings)
+//      }
+//      else {
         iphoneView(settings:settings)
-      }
-    }
-  }
-}
-struct NewGameScreen: View {
-  let sni:Sni
-  var body: some View {
-    ZStack {
-      DismissButtonView()
-      Text("New Game size \(sni.val+3)x\(sni.val+3)")
+//      }
     }
   }
 }
 
 
-
-/**
- .sheet(item:$newGameKicker){item in
- NewGameScreen(val: item.val)
- }
- .sheet(isPresented: $showSettings){
- SettingsFormScreen(settings: settings)
- }
- .sheet(isPresented: $showTopics){
- TopicSelectorScreen( isSelectedArray: $isSelectedArray ){ // on the way back
- // necessary to recreate
- for (n,t) in gameState.topics.enumerated() {
- gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
- }
- }
- }
- 
- //                      ToolbarItem(placement: .navigationBarTrailing) {
- //                        Button {
- //                          showSettings.toggle()
- //                        } label: {
- //                          Image(systemName: "gear")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
- //
- //                        }
- //                      }
- //          ToolbarItem(placement: .navigationBarTrailing) {
- //            Button {
- //              newGameKicker = NewGameKicker(val: 3) // just testing
- //            } label: {
- //              Image(systemName: "pencil")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
- //
- //            }
- //        }
- */

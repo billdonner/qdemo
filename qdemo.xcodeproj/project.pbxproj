@@ -10,12 +10,12 @@
 		8812BD4B2BC56529001E8D42 /* qdemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4A2BC56529001E8D42 /* qdemoApp.swift */; };
 		8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4C2BC56529001E8D42 /* MainScreen.swift */; };
 		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
+		884DD10C2C000623005B3334 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD10B2C000623005B3334 /* Colors.swift */; };
+		884DD10F2C000C75005B3334 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 884DD10E2C000C75005B3334 /* q20kshare */; };
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
 		887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */; };
 		88A105312BF64DDA00FF8C08 /* QuestionsGridScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */; };
 		88A105352BF8FB0100FF8C08 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105342BF8FB0100FF8C08 /* AppSettings.swift */; };
-		88A1053D2BFA659300FF8C08 /* q20kshare in Frameworks */ = {isa = PBXBuildFile; productRef = 88A1053C2BFA659300FF8C08 /* q20kshare */; };
-		88A1053F2BFA958C00FF8C08 /* File in Resources */ = {isa = PBXBuildFile; fileRef = 88A1053E2BFA958C00FF8C08 /* File */; };
 		88A105412BFBA72700FF8C08 /* WinLose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105402BFBA72700FF8C08 /* WinLose.swift */; };
 		88A6EA902BFD96C000B89838 /* qdemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA8F2BFD96C000B89838 /* qdemoTests.swift */; };
 		88A6EA962BFD986A00B89838 /* playg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA872BFD4E2A00B89838 /* playg.swift */; };
@@ -40,13 +40,13 @@
 		8812BD4C2BC56529001E8D42 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		8812BD4E2BC5652B001E8D42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		884DD10B2C000623005B3334 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		887E75332BDD8E2A00AC7851 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsListScreen.swift; sourceTree = "<group>"; };
 		887E75542BE80FEF00AC7851 /* GameBoardFlow.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GameBoardFlow.md; sourceTree = "<group>"; };
 		88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsGridScreen.swift; sourceTree = "<group>"; };
 		88A105342BF8FB0100FF8C08 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		88A105362BF958F200FF8C08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		88A1053E2BFA958C00FF8C08 /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
 		88A105402BFBA72700FF8C08 /* WinLose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLose.swift; sourceTree = "<group>"; };
 		88A6EA872BFD4E2A00B89838 /* playg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playg.swift; sourceTree = "<group>"; };
 		88A6EA8D2BFD96C000B89838 /* qdemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qdemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88A1053D2BFA659300FF8C08 /* q20kshare in Frameworks */,
+				884DD10F2C000C75005B3334 /* q20kshare in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +85,7 @@
 				8812BD492BC56529001E8D42 /* qdemo */,
 				88A6EA8E2BFD96C000B89838 /* qdemoTests */,
 				8812BD482BC56529001E8D42 /* Products */,
+				884DD10D2C000C75005B3334 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,17 +102,17 @@
 			isa = PBXGroup;
 			children = (
 				8812BD4A2BC56529001E8D42 /* qdemoApp.swift */,
+				884DD10B2C000623005B3334 /* Colors.swift */,
 				88A105342BF8FB0100FF8C08 /* AppSettings.swift */,
-				887E75332BDD8E2A00AC7851 /* GameState.swift */,
 				88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */,
-				88A105402BFBA72700FF8C08 /* WinLose.swift */,
-				88A1053E2BFA958C00FF8C08 /* File */,
+				887E75332BDD8E2A00AC7851 /* GameState.swift */,
 				8812BD4C2BC56529001E8D42 /* MainScreen.swift */,
 				88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */,
 				88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */,
 				88F66CF62BD967790099A4D4 /* ThumbsView.swift */,
 				887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */,
 				8812BD4E2BC5652B001E8D42 /* Assets.xcassets */,
+				88A105402BFBA72700FF8C08 /* WinLose.swift */,
 				8812BD502BC5652B001E8D42 /* Preview Content */,
 				88A6EA872BFD4E2A00B89838 /* playg.swift */,
 			);
@@ -124,6 +125,13 @@
 				8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		884DD10D2C000C75005B3334 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		88A6EA8E2BFD96C000B89838 /* qdemoTests */ = {
@@ -151,7 +159,7 @@
 			);
 			name = qdemo;
 			packageProductDependencies = (
-				88A1053C2BFA659300FF8C08 /* q20kshare */,
+				884DD10E2C000C75005B3334 /* q20kshare */,
 			);
 			productName = qdemo;
 			productReference = 8812BD472BC56529001E8D42 /* qdemo.app */;
@@ -221,7 +229,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88A1053F2BFA958C00FF8C08 /* File in Resources */,
 				8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */,
+				884DD10C2C000623005B3334 /* Colors.swift in Sources */,
 				88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */,
 				88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */,
 				887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */,
@@ -399,7 +407,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -414,7 +422,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.qdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -431,7 +439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -446,7 +454,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.2;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.billdonner.qdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -538,7 +546,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		88A1053C2BFA659300FF8C08 /* q20kshare */ = {
+		884DD10E2C000C75005B3334 /* q20kshare */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8812BD582BCB02E3001E8D42 /* XCRemoteSwiftPackageReference "q20kshare" */;
 			productName = q20kshare;

@@ -1,5 +1,6 @@
 #  QDEMO
 
+version 0.2.1 - topics filtering has been added, some edge cases remakn 
 
 version 0.1.9 - added better funcs for determining win/lose used chatgpt to gen test cases
 

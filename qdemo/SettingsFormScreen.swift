@@ -59,10 +59,10 @@ struct SettingsFormScreen: View {
        // Text("It is sometimes helpful to rotate your device!!").font(.footnote).padding()
       }
     }.sheet(isPresented: $showTopics){
-      TopicSelectorScreen(isSelectedArray: $isSelectedArray ){ // on the way back
+      TopicSelectorScreen(settings:settings, isSelectedArray: $isSelectedArray){ // on the way back
         // necessary to recreate
         for (n,t) in gameState.topics.enumerated() {
-          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color:pastelColors[n])
+          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color: distinctiveColors[n])
        }
       }
     }

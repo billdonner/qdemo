@@ -47,7 +47,6 @@ struct MainScreen: View {
     self.settings = settings
   }
   @State private var isLoaded = false
-
   
   var body: some View {
     //  NavigationView {
@@ -62,7 +61,7 @@ struct MainScreen: View {
         if let playdata = playdata {
           // move into a global place where we can reuse this
           aiPlayData = playdata
-          let _ =   try await prepareNewGame(playdata,settings: settings)
+          let _ =   try  prepareNewGame(playdata,settings: settings, first: true  )
        
           isLoaded = true
         }
@@ -79,23 +78,24 @@ struct MainScreen: View {
 /////// ***********/////
 ///
 
-func prepareNewGame(_ playdata: PlayData, settings:AppSettings) async throws  -> Int{
-  let _ = buildTopicsFilter()
+func prepareNewGame(_ playdata: PlayData, settings:AppSettings,first:Bool) throws  -> Int{
+  let x =  gameState.topics.map{$0.topic}
+  let y = playdata.topicData.topics.map{$0.name}
+  let filter:[String:Bool] = buildTopicsFilter(topics: first ? y : x, first:first)
   var total = 0
-  try await newGame(playdata, settings: settings, reloadTopics: false){
+  try nuGame(playdata, settings: settings, reloadTopics: first ){///
     challenge in
     // here is where we can decide  whether to include this question , primarily based on topic
     total += 1
-//    let t = filter[challenge.topic] ?? false
-//    return t
-    return true
+  return filter[challenge.topic] ?? false
+    
   }
    shuffleChallenges(settings:settings)
   let n = gameState.topics.reduce(0) {$0 + ($1.isLive ? 1:0)}
   print("New \(Int(settings.rows))x\(Int(settings.rows)) Game Starting -- \(n) selected topics with \(total) challenges")
   return total
 }
-fileprivate func newGame(_ playdata:PlayData, settings:AppSettings,reloadTopics:Bool , isAcceptable:((Challenge)->Bool)) async throws {
+fileprivate func nuGame(_ playdata:PlayData, settings:AppSettings,reloadTopics:Bool , isAcceptable:((Challenge)->Bool)) throws {
   // restore challenges from fresh? playdata
     challenges  = freshChallenges(settings:settings, from:playdata,isAcceptable: isAcceptable)
     freshGameState(settings:settings, from:playdata,reloadTopics: reloadTopics)
@@ -132,7 +132,7 @@ fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,rel
     // add in all the topics we got from the playing data
     for (n,t) in playdata.topicData.topics.enumerated() {
       let jj = n % playdata.topicData.topics.count
-      tt.append(LiveTopic (id: UUID(), topic:t.name,isLive: true,color:pastelColors[jj]))
+      tt.append(LiveTopic (id: UUID(), topic:t.name,isLive: true,color:distinctiveColors[jj]))
     }
     gameState.topics = tt
   }
@@ -148,12 +148,20 @@ func  shuffleChallenges(  settings:AppSettings) {
     challenges.shuffle()
   }
 }
-fileprivate func buildTopicsFilter() -> [String:Bool] {
+fileprivate func buildTopicsFilter(topics:[String],first:Bool ) -> [String:Bool] {
   var ret:[String:Bool] = [:]
-  print("Building topics filter from  \(gameState.topics)")
-  for t in gameState.topics {
-    if t.isLive {
-      ret[t.topic] = true
+  print("Building topics filter from  \(topics)")
+  if first {
+    for t in topics {
+      ret [t] = true
+    }
+  } else {
+    for t in topics {
+      guard let tt = gameState.topics.first(where:{$0.topic==t})
+      else {break}
+      if tt.isLive {
+        ret[tt.topic] = true
+      }
     }
   }
   return ret
@@ -185,5 +193,5 @@ func cellBorderWidth(_ number:Int) -> Double {
     ))
 }
 func cellColorFromTopic(_ number:Int)->Color {
- challenges.count>0 ? colorFor(topic:challenges[number].topic) : pastelColors[number % pastelColors.count]
+ challenges.count>0 ? colorFor(topic:challenges[number].topic) : distinctiveColors[number %  distinctiveColors.count]
 }
