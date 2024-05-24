@@ -62,7 +62,7 @@ struct SettingsFormScreen: View {
       TopicSelectorScreen(settings:settings, isSelectedArray: $isSelectedArray){ // on the way back
         // necessary to recreate
         for (n,t) in gameState.topics.enumerated() {
-          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color: distinctiveColors[n])
+          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color: t.color)
        }
       }
     }

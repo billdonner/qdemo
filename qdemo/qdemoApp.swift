@@ -65,19 +65,19 @@ enum ChallengeActions: Equatable {
   case onceOnlyVirtualyTapped//(Int)
 }
 
-struct ipadView:View {
-  let settings:AppSettings
-  @State var col: NavigationSplitViewColumn =  .detail
-  var body: some View {
-    //open with detail view on top
-    NavigationSplitView(preferredCompactColumn: $col) {
-      SettingsFormScreen(settings: settings )
-    } detail: {
-      MainScreen(settings: settings)
-        .navigationTitle("Q20K for iPad")
-    }
-  }
-}
+//struct ipadView:View {
+//  let settings:AppSettings
+//  @State var col: NavigationSplitViewColumn =  .detail
+//  var body: some View {
+//    //open with detail view on top
+//    NavigationSplitView(preferredCompactColumn: $col) {
+//      SettingsFormScreen(settings: settings )
+//    } detail: {
+//      MainScreen(settings: settings)
+//        .navigationTitle("Q20K for iPad")
+//    }
+//  }
+//}
 
 struct iphoneView : View {
   let settings:AppSettings
@@ -99,7 +99,7 @@ struct iphoneView : View {
   var body: some View{
     NavigationStack {
       MainScreen(settings: settings)
-        .navigationBarTitle("Q20K for iPhone",displayMode: .inline)
+        .navigationBarTitle("Q20K ",displayMode: .inline)
         .navigationBarItems(trailing:
         Menu {
           Button(action:{ exx(0)

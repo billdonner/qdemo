@@ -83,16 +83,17 @@ struct TopView: View {
   }
 }
 
-
+struct IdentifiableInteger: Identifiable {
+  let id = UUID()
+  let val: Int
+}
 struct BottomView:View {
   let settings:AppSettings
   // could not use isPresented version of sheet
-  struct Selek: Identifiable {
-    let id = UUID()
-    let val: Int
-  }
+
   
-  @State  var selektd:Selek? = nil
+  @State  var selektd:IdentifiableInteger? = nil
+  @State  var fooly :IdentifiableInteger? = nil
   var body: some View {
     ScrollView([.vertical, .horizontal], showsIndicators: true) {
       let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
@@ -100,13 +101,15 @@ struct BottomView:View {
         ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
           
           MatrixItem(number: number,settings:settings,onTap:{ renumber in
-            selektd = Selek(val:renumber)
+            selektd = IdentifiableInteger(val:renumber)
           },onLongPress: { n in
-            print("long press \(n)")
+            fooly = IdentifiableInteger (val: n)
           })
         }
       }//scrollview
-      
+      .sheet(item:$fooly) { fooly in
+        LongPressView (theInt: fooly.val)
+      }
       .sheet(item:$selektd) { selek in
         if selek.val  >= 0 {
           ChallengesScreen(selected:selek.val)
@@ -120,6 +123,38 @@ struct BottomView:View {
       }
     }
   }
+}
+
+struct LongPressView: View {
+  let theInt:Int
+  var body: some View {
+    
+      DismissButtonView()
+    ZStack {
+      NavigationStack {
+        VStack {
+          if gameState.gimmees > 0 {
+            if theInt < challenges.count {
+              Text( challenges[theInt].question).font(.largeTitle)
+            }
+            Text ("Change Question \(theInt) - will cost one Gimmee")
+            Button(action:{}){
+              Text("Change within this topic")
+            }
+            Button(action:{}){
+              Text("Change to another topic")
+            }
+          }
+          else {
+            Text ("Sorry you have no gimmees left")
+          }
+        }
+      }.navigationTitle("Change This Question!!!")
+    }
+  }
+}
+#Preview () {
+  LongPressView(theInt: 123)
 }
 struct QuestionsGridScreen: View {
   let settings:AppSettings

@@ -144,16 +144,3 @@ struct TopicSelectorScreen: View {
     }
   }
 }
-/*
- #Preview ("TopicSelectorScreen"){
- liveTopics = [
- LiveTopic(topic: "topic 1", isLive: true, color: .red),
- LiveTopic(topic: "topic 2", isLive: true, color: .yellow),
- LiveTopic(topic: "topic 3", isLive: true, color: .blue)
- ]
- let _ =  TopicSelectorScreen (
- isSelectedArray: .constant([false,false,false])) {
- print("final callback")
- }
- }
- */

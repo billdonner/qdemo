@@ -240,14 +240,13 @@ struct    QuestionView_Previews: PreviewProvider {
     .frame(maxWidth:.infinity)
     .background(.blue)//.opacity(0.4)
     .foregroundColor(.white)
-    // .ignoresSafeArea()
+    // .ignoresSafeArea
   }
 }
 
 func colorFor(topic:String) -> Color {
-  let p = abs(topic.hashValue % distinctiveColors.count)
- // print("shoowing for \(p)")
-  return  distinctiveColors[p]
+  guard let lt = gameState.topics.first(where:{$0.topic == topic}) else {return Color.black}
+  return  lt.color
 }
 
 // Convert number to words

@@ -32,7 +32,6 @@ struct MatrixItem: View {
       }
       .onLongPressGesture {
         onLongPress?(number)
-        
       }
       .opacity(cellOpacity(number))
       .border(cellBorderColor(number), width:cellBorderWidth(number) )

@@ -1,4 +1,5 @@
-#  QDEMO
+# QDEMO
+version 0.2.2 - color matched the topics in the selector and on the game board, longpress to gimmees screen
 
 version 0.2.1 - topics filtering has been added, some edge cases remakn 
 
