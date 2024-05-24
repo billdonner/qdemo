@@ -41,6 +41,12 @@ let formatter = NumberFormatter()
 
 //import ComposableArchitecture
 
+
+struct IdentifiableInteger: Identifiable {
+  let id = UUID()
+  let val: Int
+}
+
 enum ShowingState : Codable,Equatable {
   case qanda
   case hint

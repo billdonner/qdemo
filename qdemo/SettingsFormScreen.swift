@@ -15,8 +15,7 @@ struct SettingsFormScreen: View {
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
   var body: some View {
     ZStack {
-      DismissButtonView().opacity(isIpad ? 0.0:1.0)
-   
+      DismissButtonView().opacity(isIpad ? 0.0:1.0)  
       VStack {
         if isIpad {
           Button ("Choose Topics"){
@@ -27,7 +26,7 @@ struct SettingsFormScreen: View {
         Form {
           Section(header: Text("Settings")) {
             VStack(alignment: .leading) {
-              Text("HEIGHT Current: \(settings.elementWidth, specifier: "%.0f")")
+              Text("SIZE Current: \(settings.elementWidth, specifier: "%.0f")")
               Slider(value: $settings.elementWidth, in: 60...300, step: 1.0)
             }
             VStack(alignment: .leading) {

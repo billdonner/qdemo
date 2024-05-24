@@ -87,7 +87,8 @@ struct LiveTopic:Identifiable,Codable  {
 }
 
 @Observable class AppSettings : Codable {
-  internal init(elementWidth: CGFloat, shaky: Bool, shuffleUp: Bool, rows: Double, fontsize: Double, padding: Double, border: Double,topics:[LiveTopic]=[]) {
+
+  internal init(elementWidth: CGFloat = 100, shaky: Bool = false, shuffleUp: Bool = true, rows: Double = 3, fontsize: Double = 24, padding: Double=5, border: Double=2,topics:[LiveTopic]=[]) {
     self.elementWidth = elementWidth
     self.shaky = shaky
     self.shuffleUp = shuffleUp
@@ -97,7 +98,6 @@ struct LiveTopic:Identifiable,Codable  {
     self.border = border
     self.topics = topics
   }
-  
   static var mock = AppSettings(elementWidth: 100, shaky: false, shuffleUp: false, rows: 1, fontsize: 24, padding: 5, border: 2)
   
   var elementWidth: CGFloat

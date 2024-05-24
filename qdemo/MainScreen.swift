@@ -8,37 +8,6 @@
 import SwiftUI
 import q20kshare
 
-struct MatrixItem: View {
-  let number: Int
-  let settings:AppSettings
-  var onTap: ((Int) -> Void)? // Closure to be executed on tap
-  var onLongPress: ((Int) -> Void)?
-  var body: some View {
-    //let _ = print("MatrixItem \(number)")
-    Text(boxCon(number,settings: settings))
-      .font(.system(size:settings.fontsize))
-      .lineLimit(7)
-      .minimumScaleFactor(0.1)
-      .frame(width:settings.elementWidth,
-             height: settings.elementWidth, //square for now
-             alignment: .center)
-      .background(cellColorFromTopic(number))
-      .foregroundColor(.black)
-      .padding(.all, settings.padding)
-      .onTapGesture {
-        gameState.selected = number // gameState is class
-        gameState.showing = .qanda
-        onTap?(number) // Execute the closure if it exists
-      }
-      .onLongPressGesture {
-        onLongPress?(number)
-      }
-      .opacity(cellOpacity(number))
-      .border(cellBorderColor(number), width:cellBorderWidth(number) )
-      .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
-  }
-}
-
 struct MainScreen: View {
   let settings:AppSettings
   init (settings:AppSettings) {
@@ -73,9 +42,32 @@ struct MainScreen: View {
 }
 
 
+fileprivate func restorePlayDataURL(_ url:URL) async  throws -> PlayData? {
+  do {
+    let start_time = Date()
+    let tada = try await  downloadFile(from:url)
+    let str = String(data:tada,encoding:.utf8) ?? ""
+    do {
+      let pd = try JSONDecoder().decode(PlayData.self,from:tada)
+      let elapsed = Date().timeIntervalSince(start_time)
+      print("************")
+      print("Downloaded \(pd.playDataId) in \(elapsed) secs from \(url)")
+      let challengeCount = pd.gameDatum.reduce(0,{$0 + $1.challenges.count})
+      print("Loaded"," \(pd.gameDatum.count) topics, \(challengeCount) challenges")
+    
+      return pd
+    }
+    catch {
+      print(">>> could not decode playdata from \(url) \n>>> original str:\n\(str)")
+    }
+  }
+  catch {
+    throw error
+  }
+  return nil
+}
 
-/////// ***********/////
-///
+
 
 func prepareNewGame(_ playdata: PlayData, settings:AppSettings,first:Bool) throws  -> Int{
   let x =  gameState.topics.map{$0.topic}
@@ -87,19 +79,20 @@ func prepareNewGame(_ playdata: PlayData, settings:AppSettings,first:Bool) throw
     // here is where we can decide  whether to include this question , primarily based on topic
     total += 1
   return filter[challenge.topic] ?? false
-    
   }
    shuffleChallenges(settings:settings)
   let n = gameState.topics.reduce(0) {$0 + ($1.isLive ? 1:0)}
   print("New \(Int(settings.rows))x\(Int(settings.rows)) Game Starting -- \(n) selected topics with \(total) challenges")
   return total
 }
+
 fileprivate func nuGame(_ playdata:PlayData, settings:AppSettings,reloadTopics:Bool , isAcceptable:((Challenge)->Bool)) throws {
   // restore challenges from fresh? playdata
     challenges  = freshChallenges(settings:settings, from:playdata,isAcceptable: isAcceptable)
     freshGameState(settings:settings, from:playdata,reloadTopics: reloadTopics)
     print("************")
 }
+
 fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable:((Challenge)->Bool)) -> [Challenge]{
   let needs = Int(settings.rows*settings.rows)
   var r:[Challenge] = []
@@ -120,6 +113,7 @@ fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable
   }
   return r
 }
+
 fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,reloadTopics:Bool = false ) {
   // fresh gamestate
   gameState.showing = .qanda
@@ -138,18 +132,12 @@ fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,rel
 }
 
 func  shuffleChallenges(  settings:AppSettings) {
-//  gameState = GameState( selected: 0, showing: .qanda,
-//                         outcomes:Array(repeating:.unplayed,
-//                                        count:Int(settings.rows*settings.rows)),
-//                         //TBD: not quite right ?
-//                         topics: gameState.topics, gimmees: Int(settings.rows))
   if settings.shuffleUp {
     challenges.shuffle()
   }
 }
 fileprivate func buildTopicsFilter(topics:[String],first:Bool ) -> [String:Bool] {
   var ret:[String:Bool] = [:]
-  print("Building topics filter from  \(topics)")
   if first {
     for t in topics {
       ret [t] = true
@@ -172,25 +160,4 @@ fileprivate func buildTopicsFilter(topics:[String],first:Bool ) -> [String:Bool]
 #Preview ("OuterBlack"){
   MainScreen(settings:AppSettings.mock)
     .preferredColorScheme(.dark)
-}
-func cellOpacity(_ number:Int) -> Double {
-  number<0||number>gameState.outcomes.count-1 ? 0.0:
-    (gameState.outcomes[number] == .unplayed ? 1.0:
-      (gameState.outcomes[number] == .playedCorrectly ? 0.8:0.8
-      ))
-}
-func cellBorderColor(_ number:Int) -> Color {
-  number<0||number>gameState.outcomes.count-1 ? .gray:
-                (gameState.outcomes[number] == .unplayed ? .gray:
-                  (gameState.outcomes[number] == .playedCorrectly ? .green:.red
-                  ))
-}
-func cellBorderWidth(_ number:Int) -> Double {
-  number<0||number>gameState.outcomes.count-1 ? 0.0:
-  (gameState.outcomes[number] == .unplayed ? 1.0:
-    (gameState.outcomes[number] == .playedCorrectly ? 5:5
-    ))
-}
-func cellColorFromTopic(_ number:Int)->Color {
- challenges.count>0 ? colorFor(topic:challenges[number].topic) : distinctiveColors[number %  distinctiveColors.count]
 }

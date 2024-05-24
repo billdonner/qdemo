@@ -19,79 +19,10 @@ struct PopoverTip: Tip {
     }
 }
 
-enum MatrixError: Error {
-    case notSquareArray
-}
 
-
-func convertToSquareMatrix(_ array: [ChallengeOutcomes]) throws -> [[ChallengeOutcomes]] {
-    // Calculate the square root of the array length
-    let length = array.count
-    let side = Int(sqrt(Double(length)))
-    
-    // Check if length is a perfect square
-    if side * side != length {
-        throw MatrixError.notSquareArray // Not a perfect square, cannot form a square matrix
-    }
-    
-    // Initialize the square matrix
-  var squareMatrix = Array(repeating: Array(repeating: ChallengeOutcomes.unplayed, count: side), count: side)
-    
-    // Fill the square matrix with the elements from the linear array
-    for (index, element) in array.enumerated() {
-        let row = index / side
-        let col = index % side
-        squareMatrix[row][col] = element
-    }
-    
-    return squareMatrix
-}
-
-struct TopView: View {
-  let settings:AppSettings
-  let tip = PopoverTip()
-  var body:some View {
-    return  VStack{
-      HStack {
-        if let sq = try? convertToSquareMatrix(gameState.outcomes) {
-          Text(isWinningPath(in:sq) ? "😎": "  ")
-          Text(isPossibleWinningPath(in:sq) ? "☡ ": "  ")
-          
-          Text("score:\(gameState.grandScore)")
-          Spacer()
-          Text("gimmees:\(gameState.gimmees)")
-          Spacer()
-          Text("remaining:\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)")
-            .popoverTip(tip)
-            .onTapGesture {
-              // Invalidate the tip when someone uses the feature.
-              tip.invalidate(reason: .actionPerformed)
-            }
-        }
-      }.font(.headline).padding()
-    }.onChange(of:gameState.outcomes) {
-      if let sq = try? convertToSquareMatrix(gameState.outcomes) {
-        if isWinningPath(in:sq) {
-          print("you have already won but can play on")
-        } else {
-          if !isPossibleWinningPath(in:sq) {
-            print("you cant possibly win")
-          }
-        }
-      }
-    }
-  }
-}
-
-struct IdentifiableInteger: Identifiable {
-  let id = UUID()
-  let val: Int
-}
-struct BottomView:View {
+fileprivate struct GridView:View {
   let settings:AppSettings
   // could not use isPresented version of sheet
-
-  
   @State  var selektd:IdentifiableInteger? = nil
   @State  var fooly :IdentifiableInteger? = nil
   var body: some View {
@@ -99,14 +30,15 @@ struct BottomView:View {
       let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
       LazyVGrid(columns: columns, spacing:settings.border) {
         ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
-          
-          MatrixItem(number: number,settings:settings,onTap:{ renumber in
+          MatrixItemView(number: number,settings:settings,onTap:{ renumber in
             selektd = IdentifiableInteger(val:renumber)
           },onLongPress: { n in
             fooly = IdentifiableInteger (val: n)
           })
         }
-      }//scrollview
+      }
+    }//scrollview
+  //}uncomment to end here for chatgpt
       .sheet(item:$fooly) { fooly in
         LongPressView (theInt: fooly.val)
       }
@@ -123,49 +55,14 @@ struct BottomView:View {
       }
     }
   }
-}
 
-struct LongPressView: View {
-  let theInt:Int
-  var body: some View {
-    
-      DismissButtonView()
-    ZStack {
-      NavigationStack {
-        VStack {
-          if gameState.gimmees > 0 {
-            if theInt < challenges.count {
-              Text( challenges[theInt].question).font(.largeTitle)
-            }
-            Text ("Change Question \(theInt) - will cost one Gimmee")
-            Button(action:{}){
-              Text("Change within this topic")
-            }
-            Button(action:{}){
-              Text("Change to another topic")
-            }
-          }
-          else {
-            Text ("Sorry you have no gimmees left")
-          }
-        }
-      }.navigationTitle("Change This Question!!!")
-    }
-  }
-}
-#Preview () {
-  LongPressView(theInt: 123)
-}
+
 struct QuestionsGridScreen: View {
   let settings:AppSettings
- // @State private var isSheetPresented = false
-
-  @State private var selectedItemBackgroundColor: Color = .clear
-  //let origined = 0// start with 0, *** might fail otherwise
   var body: some View {
     VStack {
-      TopView(settings: settings)
-      BottomView(settings:settings)
+      ScoreBarView(settings: settings)
+      GridView(settings:settings)
     }
 
   }
