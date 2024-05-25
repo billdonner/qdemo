@@ -1,18 +1,21 @@
-//
-//  standalone.swift
-//  qdemo
-//
-//  Created by bill donner on 5/24/24.
-//
 
+/**
+
+
+ 
+ */
 import SwiftUI
 
 /** globals */
-var challenges:[Challenge] = []
+var challenges:[Challenge] = [Challenge(question: "For Madmen Only", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")]
 var gameState = GameState.makeMock() // will replace
 var aiPlayData:PlayData? = nil
 
-
+enum ChallengeOutcomes : Codable,Equatable{
+  case unplayed
+  case playedCorrectly
+  case playedIncorrectly
+}
 
 struct IdentifiableInteger: Identifiable {
   let id = UUID()
@@ -64,6 +67,7 @@ public struct Challenge : Codable,Equatable,Hashable,Identifiable  {
   }
   
 }
+
 public struct Topic : Codable {
   public init(name: String, subject: String,  pic: String, notes: String, subtopics:[String]) {
     self.name = name
@@ -96,7 +100,6 @@ public struct TopicGroup : Codable {
   public var topics:[Topic]
 }
 public struct GameData : Codable, Hashable,Identifiable,Equatable {
-  // added topic image for display and parameter for shuffling
   public  init(topic: String, challenges: [Challenge],pic:String? = "leaf",shuffle:Bool = false,commentary:String? = nil ) {
     self.topic = topic
     self.challenges = shuffle ? challenges.shuffled() : challenges
@@ -133,7 +136,7 @@ public struct PlayData: Codable {
 }
 
 ///
-@Observable class  GameState {
+@Observable class GameState  : Codable  {
   internal init(selected:Int, showing: ShowingState,outcomes:[ChallengeOutcomes],topics:[LiveTopic],gimmees:Int) {
     self.showing = showing
     self.outcomes = outcomes
@@ -148,6 +151,17 @@ public struct PlayData: Codable {
   var topics:[LiveTopic]
   var selected:Int // index into outcomes and challenges
   var gimmees:Int // bonus points
+  
+  // these are needed when @Observable needs to be codable
+  enum CodingKeys: String, CodingKey {
+    case _showing = "showing"
+    case _outcomes = "outcoms"
+    case _topics = "topics"
+    case _selected = "selected"
+    case _gimmees = "gimmees"
+ 
+    
+  }
 
 }
 
@@ -167,8 +181,45 @@ extension GameState {
   var thisOutcome:ChallengeOutcomes {
     outcomes[selected]
   }
+  
+  func saveGameState(_ gameState: GameState, to fileName: String) {
+    let encoder = JSONEncoder()
+    do {
+      let data = try encoder.encode(gameState)
+      if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+        let fileURL = directory.appendingPathComponent(fileName)
+        try data.write(to: fileURL)
+        print("GameState saved to \(fileURL.path)")
+      }
+    } catch {
+      print("Failed to save game state: \(error.localizedDescription)")
+    }
+  }
+ static  func saveGameState(_ gameState: GameState, to fileName: String) {
+      let encoder = JSONEncoder()
+      do {
+          let data = try encoder.encode(gameState)
+          if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+              let fileURL = directory.appendingPathComponent(fileName)
+              try data.write(to: fileURL)
+              print("GameState saved to \(fileURL.path)")
+          }
+      } catch {
+          print("Failed to save game state: \(error.localizedDescription)")
+      }
+  }
+  
 }
-
+extension GameState {
+  static   let onechallenge = Challenge(question: "For Madmen Only", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
+  static var  mock = GameState(selected: 0, showing:.qanda,outcomes:[.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed],
+                               topics:[LiveTopic(id: UUID(), topic:"Flowers", isLive: true ,color:.blue)], gimmees: 1)
+  static func makeMock() -> GameState {
+    //blast over these globals when mocking
+    challenges = [onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge]
+    return GameState.mock
+  }
+}
 struct LiveTopic:Identifiable,Codable  {
   let id:UUID
   var topic: String
@@ -185,6 +236,35 @@ struct LiveTopic:Identifiable,Codable  {
 }
 
 @Observable class AppSettings : Codable {
+  
+ static func saveAppSettings(_ settings: AppSettings, to fileName: String) {
+      let encoder = JSONEncoder()
+      do {
+          let data = try encoder.encode(settings)
+          if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+              let fileURL = directory.appendingPathComponent(fileName)
+              try data.write(to: fileURL)
+              print("AppSettings saved to \(fileURL.path)")
+          }
+      } catch {
+          print("Failed to save app settings: \(error.localizedDescription)")
+      }
+  }
+  static func loadAppSettings(from fileName: String) -> AppSettings? {
+      if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+          let fileURL = directory.appendingPathComponent(fileName)
+          let decoder = JSONDecoder()
+          do {
+              let data = try Data(contentsOf: fileURL)
+              let settings = try decoder.decode(AppSettings.self, from: data)
+              print("AppSettings loaded from \(fileURL.path)")
+              return settings
+          } catch {
+              print("Failed to load app settings: \(error.localizedDescription)")
+          }
+      }
+      return nil
+  }
 
   internal init(elementWidth: CGFloat = 100, shaky: Bool = false, shuffleUp: Bool = true, rows: Double = 3, fontsize: Double = 24, padding: Double=5, border: Double=2,topics:[LiveTopic]=[]) {
     self.elementWidth = elementWidth
@@ -297,48 +377,111 @@ extension Color: Codable {
 
 ////// Views
 ///
+
 struct MatrixItemView: View {
-init(text:String ,number:Int, settings: AppSettings, onTap: ((Int) -> Void)? = nil, onLongPress: ((Int) -> Void)? = nil,shownum:Bool = false) {
-  self.text = text
-  self.settings = settings
-  self.onTap = onTap
-  self.onLongPress = onLongPress
-  self.shownum = shownum
-  self.number = number
+    init(text: String, number: Int, settings: AppSettings, isFlipped: Binding<Bool>, globalFlipState: Binding<Bool>, onTap: ((Int) -> Void)? = nil, onLongPress: ((Int) -> Void)? = nil, shownum: Bool = false) {
+        self.text = text
+        self.settings = settings
+        self._isFlipped = isFlipped
+        self._globalFlipState = globalFlipState
+        self.onTap = onTap
+        self.onLongPress = onLongPress
+        self.shownum = shownum
+        self.number = number
+    }
+    
+    let text: String
+    let number: Int
+    let settings: AppSettings
+    let shownum: Bool
+
+    @Binding var isFlipped: Bool // New binding to control the cell color
+    @Binding var globalFlipState: Bool // Binding to the global flip state
+    
+    var onTap: ((Int) -> Void)? // Closure to be executed on tap
+    var onLongPress: ((Int) -> Void)?
+    
+    var body: some View {
+        Text(text)
+            .font(.system(size: settings.fontsize))
+            .lineLimit(8)
+            .minimumScaleFactor(0.2)
+            .frame(width: settings.elementWidth,
+                   height: settings.elementWidth, // square for now
+                   alignment: .center)
+            .padding(.all, settings.padding)
+            .background((globalFlipState || isFlipped) ? Color.gray : cellColorFromTopic(number)) // Change color based on global state or individual state
+            .foregroundColor(.black)
+            .onTapGesture {
+                isFlipped.toggle() // Toggle flip state
+                gameState.selected = number // gameState is class
+                gameState.showing = .qanda
+                onTap?(number) // Execute the closure if it exists
+            }
+            .onLongPressGesture {
+                onLongPress?(number)
+            }
+            .opacity(cellOpacity(number))
+            .border(cellBorderColor(number), width: cellBorderWidth(number))
+            .rotationEffect(settings.shaky ? .degrees(Double(number % 23)) : .degrees(0))
+           // .animation(<#Animation?#>) // Add animation
+    }
 }
 
-let text: String
-let number:Int
-let settings:AppSettings
-let shownum:Bool
+struct GridView: View {
+    let settings: AppSettings
+    @Binding var tappedNum: IdentifiableInteger?
+    @Binding var longPressedNum: IdentifiableInteger?
+    
+    @Binding   var flipStates: [Bool] // State to manage individual cell flip states
+    @Binding var globalFlipState: Bool // Binding to the global flip state
+    
+    init(settings: AppSettings, tappedNum: Binding<IdentifiableInteger?>, longPressedNum: Binding<IdentifiableInteger?>, 
+         flipStates:Binding<[Bool]>,
+         globalFlipState: Binding<Bool>) {
+        self.settings = settings
+        self._tappedNum = tappedNum
+        self._longPressedNum = longPressedNum
+        self._flipStates = flipStates//State(initialValue: Array(repeating: false, count: Int(settings.rows) * Int(settings.rows)))
+        self._globalFlipState = globalFlipState
+    }
+    
+    var body: some View {
+        ScrollView([.vertical, .horizontal], showsIndicators: true) {
+            let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
+            LazyVGrid(columns: columns, spacing: settings.border) {
+                ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
+                    MatrixItemView(text: challenges[number].question,
+                                   number: number,
+                                   settings: settings,
+                                   isFlipped: $flipStates[number],
+                                   globalFlipState: $globalFlipState,
+                                   onTap: { renumber in
+                        tappedNum = IdentifiableInteger(val: renumber)
+                    },
+                                   onLongPress: { n in
+                        longPressedNum = IdentifiableInteger(val: n)
+                    })
+                }
+            }
+        } // scrollview
+    }
+}
 
-var onTap: ((Int) -> Void)? // Closure to be executed on tap
-var onLongPress: ((Int) -> Void)?
-var body: some View {
-  //letqu _ = print("MatrixItem \(number)")
-  Text(text) // replace with "\(number)" for gpt
-    .font(.system(size:settings.fontsize))
-    .lineLimit(8)
-    .minimumScaleFactor(0.2)
-    .frame(width:settings.elementWidth,
-           height: settings.elementWidth, //square for now
-           alignment: .center)
-    .padding(.all, settings.padding)
-    .background(cellColorFromTopic(number))
-    .foregroundColor(.black)
-    .onTapGesture {
-      gameState.selected = number // gameState is class
-      gameState.showing = .qanda
-      onTap?(number) // Execute the closure if it exists
+struct GridView_Previews: PreviewProvider {
+    static var previews: some View {
+        GridView(settings: AppSettings.mock, tappedNum: .constant(IdentifiableInteger(val: 1)), longPressedNum: .constant(IdentifiableInteger(val: 2)),
+                 flipStates:.constant([true,false]),
+                 globalFlipState: .constant(false))
     }
-    .onLongPressGesture {
-      onLongPress?(number)
-    }
-    .opacity(cellOpacity(number))
-    .border(cellBorderColor(number), width:cellBorderWidth(number) )
-    .rotationEffect(settings.shaky ? .degrees(Double( number % 23)) : .degrees(0))
 }
+
+func colorFor(topic:String) -> Color {
+  guard let lt = gameState.topics.first(where:{$0.topic == topic}) else {return Color.black}
+  return  lt.color
 }
+
+
 func cellOpacity(_ number:Int) -> Double {
   number<0||number>gameState.outcomes.count-1 ? 0.0:
     (gameState.outcomes[number] == .unplayed ? 1.0:
@@ -360,31 +503,67 @@ func cellBorderWidth(_ number:Int) -> Double {
 func cellColorFromTopic(_ number:Int)->Color {
  challenges.count>0 ? colorFor(topic:challenges[number].topic) : distinctiveColors[number %  distinctiveColors.count]
 }
-struct GridView:View {
-  let settings:AppSettings
-  @Binding  var tappedNum:IdentifiableInteger?
-  @Binding  var longPressedNum :IdentifiableInteger?
-  var body: some View {
-    ScrollView([.vertical, .horizontal], showsIndicators: true) {
-      let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
-      LazyVGrid(columns: columns, spacing:settings.border) {
-        ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
-          MatrixItemView(text:challenges[number].question,
-                         number: number,
-                         settings:settings,
-                         onTap:{ renumber in
-            tappedNum = IdentifiableInteger(val:renumber)
-          },
-                         onLongPress: { n in
-            longPressedNum = IdentifiableInteger (val: n)
-          })
+
+#if os(macOS)
+@main
+struct macdemoApp: App {
+    let settings = AppSettings(elementWidth: 100.0, shaky: false, shuffleUp: true, rows: 3, fontsize: 24, padding: 5, border: 2)
+    var body: some Scene {
+        WindowGroup {
+            OuterApp(settings: settings)
         }
-      }
-    }//scrollview
-  }
+    }
 }
-struct GridView_Previews: PreviewProvider {
-  static var previews: some View {
-    GridView(settings: AppSettings.mock,tappedNum:.constant(IdentifiableInteger(val: 1)),longPressedNum: .constant(IdentifiableInteger(val: 2)))
+
+
+
+struct OuterApp: View {
+  internal init(settings: AppSettings, tappedNum: IdentifiableInteger? = nil, longPressedNum: IdentifiableInteger? = nil, globalFlipState: Bool = false ) {
+    self.settings = settings
+    self.tappedNum = tappedNum
+    self.longPressedNum = longPressedNum
+    self.globalFlipState = globalFlipState
+    self.flipStates =  Array(repeating: false, count: Int(settings.rows) * Int(settings.rows))
   }
+  
+  
+    let settings: AppSettings
+    @State var tappedNum: IdentifiableInteger?
+    @State var longPressedNum: IdentifiableInteger?
+    @State var globalFlipState: Bool // New global flip state
+    @State var flipStates:[Bool]
+  
+
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    // Flip all cells to Color.gray
+                    withAnimation {
+                        globalFlipState = true
+                      for (n,fs) in flipStates.enumerated(){
+                        flipStates[n] = false
+                      }
+                      
+                    }
+                }) {
+                    Text("Flip All to Gray")
+                }
+                .padding()
+
+                Button(action: {
+                    // Flip all cells back
+                    withAnimation {
+                        globalFlipState = false
+                    }
+                }) {
+                    Text("Flip All Back")
+                }
+                .padding()
+            }
+
+          GridView(settings: settings, tappedNum: $tappedNum, longPressedNum: $longPressedNum, flipStates: $flipStates, globalFlipState: $globalFlipState)
+        }
+    }
 }
+#endif

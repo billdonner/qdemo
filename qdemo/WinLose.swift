@@ -6,11 +6,7 @@
 //
 
 import Foundation
-enum ChallengeOutcomes : Codable,Equatable{
-  case unplayed
-  case playedCorrectly
-  case playedIncorrectly
-}
+
 enum MatrixError: Error {
     case notSquareArray
 }

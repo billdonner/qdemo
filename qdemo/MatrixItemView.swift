@@ -50,10 +50,10 @@ import SwiftUI
 //  }
 //}
 #Preview {
-  MatrixItemView(text: "test one", number: 1, settings: AppSettings(),shownum:true)
+  MatrixItemView(text: "test one", number: 1, settings: AppSettings(),isFlipped:.constant(false),globalFlipState:.constant(true), shownum:true)
 }
 #Preview {
-  MatrixItemView(text: "test one",number: 1, settings: AppSettings(),shownum:true)
+  MatrixItemView(text: "test one", number: 1, settings: AppSettings(),isFlipped:.constant(false),globalFlipState:.constant(true), shownum:true)
     .preferredColorScheme(.dark)
 }
 //func cellOpacity(_ number:Int) -> Double {

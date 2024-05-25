@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-func colorFor(topic:String) -> Color {
-  guard let lt = gameState.topics.first(where:{$0.topic == topic}) else {return Color.black}
-  return  lt.color
-}
 
 // Convert number to words
 func convertNumberToWords(_ number: Int) -> String? {

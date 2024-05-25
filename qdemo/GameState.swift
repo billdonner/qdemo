@@ -45,15 +45,8 @@ import Foundation
 //  }
 //}
 
+
 extension GameState {
-  static   let onechallenge = Challenge(question: "For Madmen Only", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
-  static var  mock = GameState(selected: 0, showing:.qanda,outcomes:[.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed,.unplayed],
-                               topics:[LiveTopic(id: UUID(), topic:"Flowers", isLive: true ,color:.blue)], gimmees: 1)
-  static func makeMock() -> GameState {
-    //blast over these globals when mocking
-    challenges = [onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge]
-    return GameState.mock
-  }
   enum Effect:Equatable {
     case none
     case cancelTimer

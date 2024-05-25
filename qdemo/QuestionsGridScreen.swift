@@ -42,13 +42,27 @@ import SwiftUI
 
 
 struct QuestionsGridScreen: View {
+  internal init(settings: AppSettings, tappedNum: IdentifiableInteger? = nil, longPressedNum: IdentifiableInteger? = nil,   globalFlipState: Bool = false) {
+    self.settings = settings
+    self.tappedNum = tappedNum
+    self.longPressedNum = longPressedNum
+    self._flipStates =   State(initialValue: Array(repeating: false, count: Int(settings.rows) * Int(settings.rows)))
+    self.globalFlipState = globalFlipState
+  }
+  
   let settings:AppSettings
-  @State  var tappedNum:IdentifiableInteger? = nil
-  @State  var longPressedNum :IdentifiableInteger? = nil
+  @State  var tappedNum:IdentifiableInteger?
+  @State  var longPressedNum :IdentifiableInteger?
+  @State var flipStates: [Bool]
+  @State var globalFlipState: Bool
+                                  
+                                         
+                                         
+                                         
   var body: some View {
     VStack {
       ScoreBarView(settings: settings)
-      GridView(settings:settings,tappedNum:$tappedNum,longPressedNum: $longPressedNum)
+      GridView(settings:settings,tappedNum:$tappedNum,longPressedNum: $longPressedNum,flipStates: $flipStates,globalFlipState: $globalFlipState)
       .sheet(item:$longPressedNum) { fooly in
         LongPressView (theInt: fooly.val)
       }
@@ -62,5 +76,5 @@ struct QuestionsGridScreen: View {
   }
 }
 #Preview ("Screen"){
-  QuestionsGridScreen(settings: AppSettings.mock)
+  QuestionsGridScreen(settings: AppSettings.mock )
 }
