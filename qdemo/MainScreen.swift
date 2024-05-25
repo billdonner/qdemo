@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import q20kshare
+//import q20kshare
 
 struct MainScreen: View {
   let settings:AppSettings

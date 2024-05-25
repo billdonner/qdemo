@@ -6,49 +6,44 @@
 //
 
 import Foundation
-import q20kshare
-enum Effect:Equatable {
-  case none
-  case cancelTimer
-  case startTimer
-}
-
-@Observable class  GameState {
-  internal init(selected:Int, showing: ShowingState,outcomes:[ChallengeOutcomes],topics:[LiveTopic],gimmees:Int) {
-    self.showing = showing
-    self.outcomes = outcomes
-    self.topics = topics 
-    self.selected = selected
-    self.gimmees = gimmees
-  }
-  
-
-  var showing:ShowingState
-  var outcomes:[ChallengeOutcomes] // parallels big challenges array
-  var topics:[LiveTopic]
-  var selected:Int // index into outcomes and challenges
-  var gimmees:Int // bonus points
-
-}
-
-extension GameState {
-  var grandScore : Int {
-    outcomes.reduce(0) { $0 + ($1 == .playedCorrectly ? 1 : 0 )}
-  }
-  var grandLosers : Int {
-    outcomes.reduce(0) { $0 + ($1 == .playedIncorrectly ? 1 : 0 )}
-  }
-  var stillToPlay : Int {
-    outcomes.reduce(0) { $0 + ($1 == .unplayed ? 1 : 0 )}
-  }
-  var thisChallenge:Challenge {
-   // print("thischallenge selected \(selected) of \(challenges.count)")
-    return challenges[selected]
-  }
-  var thisOutcome:ChallengeOutcomes {
-    outcomes[selected]
-  }
-}
+////import q20kshare
+ 
+//
+//@Observable class  GameState {
+//  internal init(selected:Int, showing: ShowingState,outcomes:[ChallengeOutcomes],topics:[LiveTopic],gimmees:Int) {
+//    self.showing = showing
+//    self.outcomes = outcomes
+//    self.topics = topics 
+//    self.selected = selected
+//    self.gimmees = gimmees
+//  }
+//  
+//
+//  var showing:ShowingState
+//  var outcomes:[ChallengeOutcomes] // parallels big challenges array
+//  var topics:[LiveTopic]
+//  var selected:Int // index into outcomes and challenges
+//  var gimmees:Int // bonus points
+//
+//}
+//
+//extension GameState {
+//  var grandScore : Int {
+//    outcomes.reduce(0) { $0 + ($1 == .playedCorrectly ? 1 : 0 )}
+//  }
+//  var grandLosers : Int {
+//    outcomes.reduce(0) { $0 + ($1 == .playedIncorrectly ? 1 : 0 )}
+//  }
+//  var stillToPlay : Int {
+//    outcomes.reduce(0) { $0 + ($1 == .unplayed ? 1 : 0 )}
+//  }
+//  var thisChallenge:Challenge {
+//    return challenges[selected]
+//  }
+//  var thisOutcome:ChallengeOutcomes {
+//    outcomes[selected]
+//  }
+//}
 
 extension GameState {
   static   let onechallenge = Challenge(question: "For Madmen Only", topic: "Flowers", hint: "long time ago", answers: ["most","any","old","song"], correct: "old", id: "UUID320239", date: Date.now, aisource: "donner's brain")
@@ -58,6 +53,11 @@ extension GameState {
     //blast over these globals when mocking
     challenges = [onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge,onechallenge]
     return GameState.mock
+  }
+  enum Effect:Equatable {
+    case none
+    case cancelTimer
+    case startTimer
   }
 
   @discardableResult

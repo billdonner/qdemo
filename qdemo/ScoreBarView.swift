@@ -10,20 +10,26 @@ import SwiftUI
 
  struct ScoreBarView: View {
   let settings:AppSettings
-  let tip = PopoverTip()
   var body:some View {
     return  VStack{
       HStack {
         if let sq = try? convertToSquareMatrix(gameState.outcomes) {
-          Text(isWinningPath(in:sq) ? "😎": " ").font(.largeTitle)
-          Text(isPossibleWinningPath(in:sq) ? "☡ ": "❌ ").font(.largeTitle)
+          let showchar = if isWinningPath(in: sq) {"😎"}
+          else {
+            if isPossibleWinningPath(in:sq) {
+              "☡"
+            } else {
+              "❌"
+            }
+          }
+          Text(showchar).font(.largeTitle) 
           Text("score:");Text("\(gameState.grandScore)").font(.largeTitle)
           Text("gimmees:");Text("\(gameState.gimmees)").font(.largeTitle)
           Text("togo:");Text("\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)").font(.largeTitle)
-            .popoverTip(tip)
+           // .popoverTip(tip)
             .onTapGesture {
               // Invalidate the tip when someone uses the feature.
-              tip.invalidate(reason: .actionPerformed)
+              //tip.invalidate(reason: .actionPerformed)
             }
         }
       }.font(.headline).padding()

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import q20kshare
+///import q20kshare
 
 
 /*
@@ -41,12 +41,28 @@ struct ChallengesFeature {
 */
 struct ChallengesScreen: View {
   let selected:Int
+  @Environment(\.dismiss) var dismiss
   var body: some View {
       ZStack {
         DismissButtonView()
         Image(systemName:"pencil").font(.system(size:250)).foregroundColor(.gray.opacity(0.08))
         VStack {
-          Text (gameState.thisChallenge.topic).font(.largeTitle).padding()
+          // buttons are in here to simply mark the question and get out
+          HStack {
+            Button (action:{
+              gameState.outcomes [self.selected]  = .playedCorrectly
+              dismiss()
+            }) {
+              Text("✅")
+            }
+            Text (gameState.thisChallenge.topic).font(.largeTitle).padding()
+            Button (action:{
+              gameState.outcomes [self.selected]  = .playedIncorrectly
+              dismiss()
+            }) {
+             Text("❌")
+            }
+          }
           EssentialChallengeView(  gameState: gameState)
         }
       }
@@ -69,9 +85,7 @@ struct ChallengesScreen: View {
 struct EssentialChallengeView: View {
   let gameState:GameState
   @State private var hintpressed = false
-  var body: some View {
-    //  assert (topicIndex==gameState.currentTopicIndex)
- 
+  var body: some View { 
     return ScrollView  {
       withAnimation {
         renderQuestion(gameState: gameState).font(.title).padding(.horizontal)
@@ -93,17 +107,13 @@ struct EssentialChallengeView: View {
             EmptyView()
           case .answerWasCorrect:
               HStack {  Text("Correct").bold() ; Text (gameState.thisChallenge.explanation  ?? "")} .padding(.horizontal) .padding(.horizontal)
-            
           case .answerWasIncorrect:
             HStack {  Text("Incorrect ").bold() ; Text (gameState.thisChallenge.explanation  ?? "")} .padding(.horizontal)
-            //}
           }
         }.frame(minHeight:200)
       } // place to hang
       .sheet(isPresented:$hintpressed) {
-      let tc = challenges[gameState.selected]
-        HintBottomSheetView(hint: tc.hint)
-        //.padding()
+        HintBottomSheetView(hint: challenges[gameState.selected].hint)
           .presentationDetents([.fraction(0.33)])
       }
     }//end of scrollview
@@ -158,8 +168,6 @@ func renderAnswers(gameState:GameState )-> some View {
   }
 }
 
-
-
 #Preview ("light"){
   EssentialChallengeView(  gameState: GameState.makeMock())
 }
@@ -167,4 +175,3 @@ func renderAnswers(gameState:GameState )-> some View {
   EssentialChallengeView(  gameState: GameState.makeMock())
     .preferredColorScheme(.dark)
 }
-

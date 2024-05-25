@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let colors1: [Color] = [
+let distinctiveColors: [Color] = [
   Color(red: 0.98, green: 0.89, blue: 0.85),
   Color(red: 0.85, green: 0.95, blue: 0.98),
   Color(red: 0.98, green: 0.87, blue: 0.90),
@@ -62,7 +62,7 @@ let colors2: [Color] = [
     Color(red: 0.70, green: 0.70, blue: 0.98),
 ]
 
-let distinctiveColors: [Color] = [
+let colors1: [Color] = [
     Color(red: 1.00, green: 0.80, blue: 0.80),  // Light Pink
     Color(red: 0.53, green: 0.81, blue: 0.98),  // Sky Blue
     Color(red: 1.00, green: 0.88, blue: 0.77),  // Peach

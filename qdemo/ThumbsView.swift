@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import q20kshare
+///import q20kshare
 
 struct ThumbsUpView: View {
  // @EnvironmentObject var logManager: LogEntryManager

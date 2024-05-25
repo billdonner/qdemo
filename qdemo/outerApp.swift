@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import q20kshare
+///import q20kshare
 import TipKit
 
 let PRIMARY_REMOTE = "https://billdonner.com/fs/gd/readyforios01.json"
@@ -31,28 +31,24 @@ let MIN_ROWS = 3.0
 let MIN_COLS = 3.0
 
 
-var challenges:[Challenge] = []
-var gameState = GameState.makeMock() // will replace
-var aiPlayData:PlayData? = nil // loaded from readyforios, topics moved to gamestate, challenges filtered into challenges
-
-
 
 let formatter = NumberFormatter()
 
 //import ComposableArchitecture
-
-
-struct IdentifiableInteger: Identifiable {
-  let id = UUID()
-  let val: Int
+ 
+struct PopoverTip: Tip {
+  var title: Text {
+    Text("Adjust Settings")
+  }
+  var message: Text? {
+    Text("Many Adjustments will force a new game")
+  }
+  var image: Image? {
+    Image(systemName: "star")
+  }
 }
 
-enum ShowingState : Codable,Equatable {
-  case qanda
-  case hint
-  case answerWasCorrect
-  case answerWasIncorrect
-}
+
 enum ChallengeActions: Equatable {
   case cancelButtonTapped
   case nextButtonTapped
@@ -85,7 +81,7 @@ enum ChallengeActions: Equatable {
 //  }
 //}
 
-struct iphoneView : View {
+struct OuterApp : View {
   let settings:AppSettings
   @State private var showSettings = false
   @State private var showTopics = false
@@ -108,10 +104,7 @@ struct iphoneView : View {
         .navigationBarTitle("Q20K ",displayMode: .inline)
         .navigationBarItems(trailing:
         Menu {
-          Button(action:{ exx(0)
-            
-            
-          }) {
+          Button(action:{ exx(0) }) {
             Text("New 3x3 Game")
           }
           Button(action:{ exx(1) }) {
@@ -162,22 +155,5 @@ struct iphoneView : View {
   }
 }
 
-@main
-struct qdemoApp: App {
-  //TBD: rows must be one because full topics not set yet until after download
-  
-  let  settings = AppSettings(elementWidth: 100.0, shaky: false, shuffleUp: true, rows: 3, fontsize: 24, padding: 5, border: 2)
-
-  var body: some Scene {
-    WindowGroup {
-//      if isIpad {
-//        ipadView(settings:settings)
-//      }
-//      else {
-        iphoneView(settings:settings)
-//      }
-    }
-  }
-}
 
 
