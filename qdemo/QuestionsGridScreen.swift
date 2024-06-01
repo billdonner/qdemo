@@ -55,14 +55,37 @@ struct QuestionsGridScreen: View {
   @State  var longPressedNum :IdentifiableInteger?
   @State var flipStates: [Bool]
   @State var globalFlipState: Bool
-                                  
+  @State private var currentZoom = 0.0
+  @State private var totalZoom = 1.0
                                          
                                          
                                          
   var body: some View {
     VStack {
       ScoreBarView(settings: settings)
-      GridView(settings:settings,tappedNum:$tappedNum,longPressedNum: $longPressedNum,flipStates: $flipStates,globalFlipState: $globalFlipState)
+      ZStack {
+        Color.blue.opacity(0.4)
+        GridView(settings:settings,tappedNum:$tappedNum,longPressedNum: $longPressedNum)
+          .scaleEffect(currentZoom + totalZoom)
+          .gesture(
+            MagnifyGesture()
+              .onChanged { value in
+                currentZoom = value.magnification - 1
+              }
+              .onEnded { value in
+                totalZoom += currentZoom
+                currentZoom = 0
+              }
+          )
+      }
+        .accessibilityZoomAction { action in
+            if action.direction == .zoomIn {
+                totalZoom += 1
+            } else {
+                totalZoom -= 1
+            }
+        }
+      
       .sheet(item:$longPressedNum) { fooly in
         LongPressView (theInt: fooly.val)
       }
@@ -77,4 +100,30 @@ struct QuestionsGridScreen: View {
 }
 #Preview ("Screen"){
   QuestionsGridScreen(settings: AppSettings.mock )
+}
+struct ZGridView: View {
+    @State private var currentZoom = 0.0
+    @State private var totalZoom = 1.0
+
+    var body: some View {
+        Image("singapore")
+            .scaleEffect(currentZoom + totalZoom)
+            .gesture(
+                MagnifyGesture()
+                    .onChanged { value in
+                        currentZoom = value.magnification - 1
+                    }
+                    .onEnded { value in
+                        totalZoom += currentZoom
+                        currentZoom = 0
+                    }
+            )
+            .accessibilityZoomAction { action in
+                if action.direction == .zoomIn {
+                    totalZoom += 1
+                } else {
+                    totalZoom -= 1
+                }
+            }
+    }
 }

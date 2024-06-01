@@ -378,103 +378,13 @@ extension Color: Codable {
 ////// Views
 ///
 
-struct MatrixItemView: View {
-    init(text: String, number: Int, settings: AppSettings, isFlipped: Binding<Bool>, globalFlipState: Binding<Bool>, onTap: ((Int) -> Void)? = nil, onLongPress: ((Int) -> Void)? = nil, shownum: Bool = false) {
-        self.text = text
-        self.settings = settings
-        self._isFlipped = isFlipped
-        self._globalFlipState = globalFlipState
-        self.onTap = onTap
-        self.onLongPress = onLongPress
-        self.shownum = shownum
-        self.number = number
-    }
-    
-    let text: String
-    let number: Int
-    let settings: AppSettings
-    let shownum: Bool
-
-    @Binding var isFlipped: Bool // New binding to control the cell color
-    @Binding var globalFlipState: Bool // Binding to the global flip state
-    
-    var onTap: ((Int) -> Void)? // Closure to be executed on tap
-    var onLongPress: ((Int) -> Void)?
-    
-    var body: some View {
-        Text(text)
-            .font(.system(size: settings.fontsize))
-            .lineLimit(8)
-            .minimumScaleFactor(0.2)
-            .frame(width: settings.elementWidth,
-                   height: settings.elementWidth, // square for now
-                   alignment: .center)
-            .padding(.all, settings.padding)
-            .background((globalFlipState || isFlipped) ? Color.gray : cellColorFromTopic(number)) // Change color based on global state or individual state
-            .foregroundColor(.black)
-            .onTapGesture {
-                isFlipped.toggle() // Toggle flip state
-                gameState.selected = number // gameState is class
-                gameState.showing = .qanda
-                onTap?(number) // Execute the closure if it exists
-            }
-            .onLongPressGesture {
-                onLongPress?(number)
-            }
-            .opacity(cellOpacity(number))
-            .border(cellBorderColor(number), width: cellBorderWidth(number))
-            .rotationEffect(settings.shaky ? .degrees(Double(number % 23)) : .degrees(0))
-           // .animation(<#Animation?#>) // Add animation
-    }
-}
-
-struct GridView: View {
-    let settings: AppSettings
-    @Binding var tappedNum: IdentifiableInteger?
-    @Binding var longPressedNum: IdentifiableInteger?
-    
-    @Binding   var flipStates: [Bool] // State to manage individual cell flip states
-    @Binding var globalFlipState: Bool // Binding to the global flip state
-    
-    init(settings: AppSettings, tappedNum: Binding<IdentifiableInteger?>, longPressedNum: Binding<IdentifiableInteger?>, 
-         flipStates:Binding<[Bool]>,
-         globalFlipState: Binding<Bool>) {
-        self.settings = settings
-        self._tappedNum = tappedNum
-        self._longPressedNum = longPressedNum
-        self._flipStates = flipStates//State(initialValue: Array(repeating: false, count: Int(settings.rows) * Int(settings.rows)))
-        self._globalFlipState = globalFlipState
-    }
-    
-    var body: some View {
-        ScrollView([.vertical, .horizontal], showsIndicators: true) {
-            let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
-            LazyVGrid(columns: columns, spacing: settings.border) {
-                ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
-                    MatrixItemView(text: challenges[number].question,
-                                   number: number,
-                                   settings: settings,
-                                   isFlipped: $flipStates[number],
-                                   globalFlipState: $globalFlipState,
-                                   onTap: { renumber in
-                        tappedNum = IdentifiableInteger(val: renumber)
-                    },
-                                   onLongPress: { n in
-                        longPressedNum = IdentifiableInteger(val: n)
-                    })
-                }
-            }
-        } // scrollview
-    }
-}
 
 struct GridView_Previews: PreviewProvider {
     static var previews: some View {
-        GridView(settings: AppSettings.mock, tappedNum: .constant(IdentifiableInteger(val: 1)), longPressedNum: .constant(IdentifiableInteger(val: 2)),
-                 flipStates:.constant([true,false]),
-                 globalFlipState: .constant(false))
+        GridView(settings: AppSettings.mock, tappedNum: .constant(IdentifiableInteger(val: 1)), longPressedNum: .constant(IdentifiableInteger(val: 2)))
     }
 }
+ 
 
 func colorFor(topic:String) -> Color {
   guard let lt = gameState.topics.first(where:{$0.topic == topic}) else {return Color.black}
@@ -504,6 +414,90 @@ func cellColorFromTopic(_ number:Int)->Color {
  challenges.count>0 ? colorFor(topic:challenges[number].topic) : distinctiveColors[number %  distinctiveColors.count]
 }
 
+
+/* Add your existing code here */
+
+struct MatrixItemView: View {
+    init(text: String, number: Int, settings: AppSettings, onTap: ((Int) -> Void)? = nil, onLongPress: ((Int) -> Void)? = nil, shownum: Bool = false) {
+        self.text = text
+        self.settings = settings
+        self.onTap = onTap
+        self.onLongPress = onLongPress
+        self.shownum = shownum
+        self.number = number
+    }
+    
+    let text: String
+    let number: Int
+    let settings: AppSettings
+    let shownum: Bool
+
+    var onTap: ((Int) -> Void)? // Closure to be executed on tap
+    var onLongPress: ((Int) -> Void)?
+    
+    var body: some View {
+        Text(text)
+            .font(.system(size: settings.fontsize))
+            .lineLimit(8)
+            .minimumScaleFactor(0.2)
+            .frame(width: settings.elementWidth,
+                   height: settings.elementWidth, // square for now
+                   alignment: .center)
+            .padding(.all, settings.padding)
+            .background( cellColorFromTopic(number)) // Change color based on global state or individual state
+            .foregroundColor(.black)
+            .onTapGesture {
+              withAnimation {
+                
+                gameState.selected = number // gameState is class
+                gameState.showing = .qanda
+                onTap?(number) // Execute the closure if it exists
+              }
+            }
+            .onLongPressGesture {
+                onLongPress?(number)
+            }
+            .opacity(cellOpacity(number))
+            .border(cellBorderColor(number), width: cellBorderWidth(number))
+            .rotationEffect(settings.shaky ? .degrees(Double(number % 23)) : .degrees(0))
+//            .animation(.default, value: globalFlipState)
+//            .animation(.default, value: isFlipped) // Add animation
+    }
+}
+
+struct GridView: View {
+    let settings: AppSettings
+    @Binding var tappedNum: IdentifiableInteger?
+    @Binding var longPressedNum: IdentifiableInteger?
+
+    
+  init(settings: AppSettings, tappedNum: Binding<IdentifiableInteger?>, longPressedNum: Binding<IdentifiableInteger?>) {
+        self.settings = settings
+        self._tappedNum = tappedNum
+        self._longPressedNum = longPressedNum
+  }
+    
+    var body: some View {
+        ScrollView([.vertical, .horizontal], showsIndicators: true) {
+            let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
+            LazyVGrid(columns: columns, spacing: settings.border) {
+                ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
+                    MatrixItemView(text: challenges[number].question,
+                                   number: number,
+                                   settings: settings,
+                                   onTap: { renumber in
+                        tappedNum = IdentifiableInteger(val: renumber)
+                    },
+                                   onLongPress: { n in
+                        longPressedNum = IdentifiableInteger(val: n)
+                    })
+                }
+            }
+        } // scrollview
+    }
+}
+
+
 #if os(macOS)
 @main
 struct macdemoApp: App {
@@ -515,24 +509,11 @@ struct macdemoApp: App {
     }
 }
 
-
-
 struct OuterApp: View {
-  internal init(settings: AppSettings, tappedNum: IdentifiableInteger? = nil, longPressedNum: IdentifiableInteger? = nil, globalFlipState: Bool = false ) {
-    self.settings = settings
-    self.tappedNum = tappedNum
-    self.longPressedNum = longPressedNum
-    self.globalFlipState = globalFlipState
-    self.flipStates =  Array(repeating: false, count: Int(settings.rows) * Int(settings.rows))
-  }
-  
-  
+    @State var tappedNum: IdentifiableInteger? = nil
+    @State var longPressedNum: IdentifiableInteger? = nil
+
     let settings: AppSettings
-    @State var tappedNum: IdentifiableInteger?
-    @State var longPressedNum: IdentifiableInteger?
-    @State var globalFlipState: Bool // New global flip state
-    @State var flipStates:[Bool]
-  
 
     var body: some View {
         VStack {
@@ -541,10 +522,6 @@ struct OuterApp: View {
                     // Flip all cells to Color.gray
                     withAnimation {
                         globalFlipState = true
-                      for (n,fs) in flipStates.enumerated(){
-                        flipStates[n] = false
-                      }
-                      
                     }
                 }) {
                     Text("Flip All to Gray")
@@ -562,8 +539,10 @@ struct OuterApp: View {
                 .padding()
             }
 
-          GridView(settings: settings, tappedNum: $tappedNum, longPressedNum: $longPressedNum, flipStates: $flipStates, globalFlipState: $globalFlipState)
+            GridView(settings: settings, tappedNum: $tappedNum, longPressedNum: $longPressedNum, 
+                     flipStates: .constant([true,false]),globalFlipState: $globalFlipState)
         }
     }
 }
 #endif
+

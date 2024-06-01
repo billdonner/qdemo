@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8812BD4B2BC56529001E8D42 /* QuterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4A2BC56529001E8D42 /* QuterApp.swift */; };
 		8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8812BD4C2BC56529001E8D42 /* MainScreen.swift */; };
-		8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD512BC5652B001E8D42 /* Preview Assets.xcassets */; };
 		8848B05D2C004E8C00E46658 /* LongPressScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B05C2C004E8C00E46658 /* LongPressScreen.swift */; };
 		8848B05F2C004FAE00E46658 /* MatrixItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B05E2C004FAE00E46658 /* MatrixItemView.swift */; };
 		8848B0612C00516F00E46658 /* subs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0602C00516F00E46658 /* subs.swift */; };
@@ -20,6 +19,8 @@
 		8848B07B2C01762A00E46658 /* standalone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0642C016C9E00E46658 /* standalone.swift */; };
 		8848B0802C017C6A00E46658 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD10B2C000623005B3334 /* Colors.swift */; };
 		8848B0812C017E9E00E46658 /* qdemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0662C01751300E46658 /* qdemo.swift */; };
+		8848B0892C0682A300E46658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
+		8848B08A2C0682A400E46658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		884DD10C2C000623005B3334 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD10B2C000623005B3334 /* Colors.swift */; };
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
 		887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */; };
@@ -59,6 +60,7 @@
 		8848B0722C01761B00E46658 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8848B0752C01761B00E46658 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8848B0772C01761B00E46658 /* macdemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macdemo.entitlements; sourceTree = "<group>"; };
+		8848B08B2C0BA33000E46658 /* ff.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ff.md; sourceTree = "<group>"; };
 		884DD10B2C000623005B3334 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		887E75332BDD8E2A00AC7851 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsListScreen.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		8812BD3E2BC56529001E8D42 = {
 			isa = PBXGroup;
 			children = (
+				8848B08B2C0BA33000E46658 /* ff.md */,
 				88A105362BF958F200FF8C08 /* Info.plist */,
 				88F66CED2BCF3DF10099A4D4 /* README.md */,
 				887E75542BE80FEF00AC7851 /* GameBoardFlow.md */,
@@ -300,7 +303,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8812BD522BC5652B001E8D42 /* Preview Assets.xcassets in Resources */,
+				8848B0892C0682A300E46658 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8848B0762C01761B00E46658 /* Preview Assets.xcassets in Resources */,
+				8848B08A2C0682A400E46658 /* Assets.xcassets in Resources */,
 				8848B0732C01761B00E46658 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
