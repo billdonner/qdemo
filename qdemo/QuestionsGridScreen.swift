@@ -86,9 +86,9 @@ struct QuestionsGridScreen: View {
             }
         }
       
-      .sheet(item:$longPressedNum) { fooly in
-        LongPressView (theInt: fooly.val)
-      }
+//      .sheet(item:$longPressedNum) { fooly in
+//        GimmeeScreen (theInt: fooly.val)
+//      }
       .sheet(item:$tappedNum) { selek in
         if selek.val  >= 0 {
           ChallengesScreen(selected:selek.val)

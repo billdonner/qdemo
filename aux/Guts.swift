@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 // MatrixView displays a grid of cells and corresponding labels
 struct MatrixView: View {
   let rows: Int
@@ -28,7 +26,7 @@ struct MatrixView: View {
         if let topLabel = topLabel {
           Text("\(topLabel)")
             .font(.title)
-            .padding()
+            .padding(.horizontal)
         }
         
         // Grid of cells
@@ -57,12 +55,10 @@ struct MatrixView: View {
 // Move now includes an optional text property and a useSymbol flag
 struct Move {
   internal init(_ outcome: Outcome, text: String? = nil, useSymbol: Bool = true) {
-
     self.outcome = outcome
     self.text = text ?? ""
     self.useSymbol = useSymbol
   }
-  
   let outcome: Outcome
   let text: String
   let useSymbol: Bool
@@ -73,7 +69,6 @@ struct CellView: View {
   var move: Move?
   let correctColor: Color
   let incorrectColor: Color
-  
   var body: some View {
     Group {
       if let move = move {
@@ -98,7 +93,6 @@ struct CellView: View {
   }
 }
 
-
 // Enum to define outcomes
 enum Outcome {
   case correct
@@ -111,7 +105,6 @@ struct PDM {
     self.position = p
     self.move = move
   }
-  
   let position: (row: Int, col: Int)
   let move: Move
 }
@@ -120,7 +113,6 @@ struct PDM {
 func PDMatrix(rows: Int, cols: Int, pdms: [PDM], title: String? = "") -> [[Move?]] {
   // Initialize an empty matrix with nil values
   var matrix: [[Move?]] = Array(repeating: Array(repeating: nil, count: cols), count: rows)
-  
   // Place each predefined move into the matrix
   for predefinedMove in pdms {
     let position = predefinedMove.position
@@ -129,23 +121,21 @@ func PDMatrix(rows: Int, cols: Int, pdms: [PDM], title: String? = "") -> [[Move?
       matrix[position.row][position.col] = predefinedMove.move
     }
   }
-  
   return matrix
 }
 func mkID() -> String {
   return UUID().uuidString
 }
 struct DismissButton: View {
-    @Environment(\.presentationMode) var presentationMode
+  @Environment(\.presentationMode) var presentationMode
   @Binding var  isPresented: Bool
     var body: some View {
         Button(action: {
             isPresented = false
-          
         }) {
             Image(systemName: "x.circle")
                 .font(.title)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
 }
