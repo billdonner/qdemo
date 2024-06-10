@@ -12,14 +12,13 @@ When a new database is downloaded in the background by the mobile app the player
 
 ## Topics 
 
-There are between 1 and 26 Topics active in the Game at any point in time. For the purposes of this document they are just names of categories like Movies,Music,Food, or very specifically German Movies of the 20's and 30's . The topics are sometimes written as TopicA,TopicB,etc thru TopicZ.
-
+There are between 3 and 9 Topics active in the Game at any point in time, depending on board size and player preferences. For the purposes of this document they are just names of categories like Movies,Music,Food, or very specifically German Movies of the 20's and 30's .  
 
 ### Challenges
 
 Challenges are questions and answers for the player. Challenges are organized into Topics through multiple mechanisms including by the remote Chatbot, or by a human user or script. Each challenge has a difficulty level of (easy,normal,hard), or absent a particular difficulty the challenge is considered "normal". Each challenge has four multiple choice answers and is typically presented as a dialog box. 
 
-- On the gameboard, each   Cell is notrmally morked as ".unplayed"
+- On the gameboard, each   Cell is normally marked as ".unplayed"
 
 - Choosing a correct answer  is worth a point and marks the Cell as ".correct" 
 
@@ -52,11 +51,14 @@ Every board will have at most  2*N - M - 3 topics
 - 6x6 has three pre-chosen topics and at most six user chosen
 
 
+Therefore there are at most nine different topics in any particular game, and at least three.
+
+
 ### Topic colorization of cells
 
-Each topic has a color assigned at the start of game. All cells will be colored by the color associated by their topic.
+Each topic has a color assigned at the start of game. All cells will be colored by the color associated by their topic. At most nine colors are required to color the game. 
 
-There are 26 fixed colors and up to 26 topic choices, each of which has a unique color within the game. 
+The game is supplied with a collection of Color Palettes - each of which defines the required colors for the different board sizes. 
 
 A small legend at the bottom of the main screen will reflect the topics colorization scheme in effect for the game
 

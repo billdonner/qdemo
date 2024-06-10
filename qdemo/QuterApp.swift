@@ -84,6 +84,8 @@ enum ChallengeActions: Equatable {
 struct OuterApp : View {
   let settings:AppSettings
   @State private var showSettings = false
+  @State private var showHowToPlay = false
+  @State private var showOnBoarding = false
   @State private var showTopics = false
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
     @State   var showAlert = false
@@ -122,6 +124,12 @@ struct OuterApp : View {
           Button(action:{ exx(5) }) {
             Text("New 8x8 Game")
           }
+          Button(action:{ showHowToPlay.toggle() }) {
+            Text("How To Play")
+          }
+          Button(action:{ showOnBoarding.toggle() }) {
+            Text("OnBoarding")
+          }
           Button(action: { showSettings.toggle() }) {
             Text("Freeport Settings")
           }
@@ -140,7 +148,12 @@ struct OuterApp : View {
           }
         }
     }
-
+    .fullScreenCover(isPresented: $showHowToPlay){
+      HowToPlayScreen(isPresented: $showHowToPlay)
+    }
+    .fullScreenCover(isPresented: $showOnBoarding){
+      OnboardingScreen(isPresented: $showOnBoarding)
+    }
     .sheet(isPresented: $showSettings){
       SettingsFormScreen(settings: settings)
     }

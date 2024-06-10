@@ -1,4 +1,5 @@
 # QDEMO
+version 0.2.4 - integrated onboarding and how to 
 
 version 0.2.3 - fixed scoring - now gives big red x no paths available
 
