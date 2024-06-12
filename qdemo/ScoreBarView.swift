@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
  struct ScoreBarView: View {
   let settings:AppSettings
   var body:some View {

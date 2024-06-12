@@ -97,6 +97,7 @@ struct OuterApp : View {
         self.settings.rows = Double(n + 3);
        let reloaded = try  prepareNewGame(playData, settings: settings,first:false)
         print("Prepared New Game \(reloaded)")
+       settings.shaky.toggle()
         //self.selectedNavItem = Sni(val:n)
       }
   }

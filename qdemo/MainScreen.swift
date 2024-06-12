@@ -30,7 +30,7 @@ struct MainScreen: View {
           // move into a global place where we can reuse this
           aiPlayData = playdata
           let _ =   try  prepareNewGame(playdata,settings: settings, first: true  )
-       
+          settings.shaky.toggle()
           isLoaded = true
         }
       }

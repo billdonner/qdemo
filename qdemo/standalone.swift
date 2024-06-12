@@ -459,7 +459,7 @@ struct MatrixItemView: View {
             }
             .opacity(cellOpacity(number))
             .border(cellBorderColor(number), width: cellBorderWidth(number))
-            .rotationEffect(settings.shaky ? .degrees(Double(number % 23)) : .degrees(0))
+          //  .rotationEffect(settings.shaky ? .degrees(Double(number % 23)) : .degrees(0))
 //            .animation(.default, value: globalFlipState)
 //            .animation(.default, value: isFlipped) // Add animation
     }

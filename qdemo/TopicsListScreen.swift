@@ -131,12 +131,13 @@ struct TopicSelectorScreen: View {
          
       let _ =  try? prepareNewGame(aiPlayData!,  settings: settings,
                                    first: false )
-       
+          settings.shaky.toggle()
           presentationMode.wrappedValue.dismiss()
         }) {
           Text("Save")
         })
         .navigationBarItems(leading: Button(action : {
+          settings.shaky.toggle()
           presentationMode.wrappedValue.dismiss()
         }) {
           Text("Cancel")
