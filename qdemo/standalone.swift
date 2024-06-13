@@ -1,6 +1,6 @@
 
 /**
-
+merged into one file so its easy to pass into chatgpt
 
  
  */
@@ -512,7 +512,7 @@ struct macdemoApp: App {
 struct OuterApp: View {
     @State var tappedNum: IdentifiableInteger? = nil
     @State var longPressedNum: IdentifiableInteger? = nil
-
+@State var globalFlipState = false
     let settings: AppSettings
 
     var body: some View {

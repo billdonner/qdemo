@@ -74,7 +74,7 @@ struct TopicsSelectionView: View {
           ForEach(topics) { livetopic in
             if livetopic.isLive {
             ZStack {
-              Color(livetopic.color)
+             // Color(livetopic.color)
                 showSelectedWithTap(livetopic)
               }
             
@@ -90,7 +90,7 @@ struct TopicsSelectionView: View {
           ForEach(topics) { livetopic in
             if !livetopic.isLive {
             ZStack {
-              Color(livetopic.color)
+              //Color(livetopic.color)
                 showUnSelectedWithTap(livetopic)
               }
             }
@@ -103,7 +103,7 @@ struct TopicsSelectionView: View {
 }
 
 struct TopicSelectorScreen: View { 
-  let settings:AppSettings
+ let settings:AppSettings
   @Binding var isSelectedArray: [Bool]
   let f:()->()
   
@@ -111,12 +111,12 @@ struct TopicSelectorScreen: View {
     @State private var internalTopics: [LiveTopic]
     @Environment(\.presentationMode) var presentationMode
     
-  init(settings:AppSettings,  isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
+  init(settings :AppSettings,  isSelectedArray: Binding<[Bool]>, f: @escaping ()->()) {
       self._internalTopics = State(initialValue: gameState.topics)
       self._isSelectedArray = isSelectedArray
       self.f = f
     self._internalColors = State(initialValue:distinctiveColors.map{$0} )
-    self.settings = settings
+   self.settings = settings
     }
     
   var body: some View {

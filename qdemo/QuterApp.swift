@@ -23,7 +23,7 @@ var isIpad: Bool {
   UIDevice.current.systemName == "iPadOS"
 }
 
-let url = URL(string:SECONDARY_REMOTE)!
+let url = URL(string: PRIMARY_REMOTE )!
 
 let MAX_ROWS = 8.0
 let MAX_COLS = 8.0
@@ -84,6 +84,7 @@ enum ChallengeActions: Equatable {
 struct OuterApp : View {
   let settings:AppSettings
   @State private var showSettings = false
+  @State private var showUserSettings = false
   @State private var showHowToPlay = false
   @State private var showOnBoarding = false
   @State private var showTopics = false
@@ -131,6 +132,9 @@ struct OuterApp : View {
           Button(action:{ showOnBoarding.toggle() }) {
             Text("OnBoarding")
           }
+          Button(action: { showUserSettings.toggle() }) {
+            Text("Game Settings")
+          }
           Button(action: { showSettings.toggle() }) {
             Text("Freeport Settings")
           }
@@ -154,6 +158,9 @@ struct OuterApp : View {
     }
     .fullScreenCover(isPresented: $showOnBoarding){
       OnboardingScreen(isPresented: $showOnBoarding)
+    }
+    .sheet(isPresented: $showUserSettings){
+//      GameSettingsScreen(boardSize: .constant(3), startInCorners: .constant(true), faceUpCards: .constant(true), colorPalette: .constant(2), difficultyLevel: .constant(1))
     }
     .sheet(isPresented: $showSettings){
       SettingsFormScreen(settings: settings)

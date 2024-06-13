@@ -35,6 +35,7 @@
 		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
 		88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF62BD967790099A4D4 /* ThumbsView.swift */; };
+		88F6F8FD2C1AACFC00A50C31 /* GameSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F6F8FC2C1AACFC00A50C31 /* GameSettingsScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormScreen.swift; sourceTree = "<group>"; };
 		88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengesScreen.swift; sourceTree = "<group>"; };
 		88F66CF62BD967790099A4D4 /* ThumbsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbsView.swift; sourceTree = "<group>"; };
+		88F6F8FC2C1AACFC00A50C31 /* GameSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				88A105342BF8FB0100FF8C08 /* AppSettings.swift */,
 				88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */,
 				884DD10B2C000623005B3334 /* Colors.swift */,
+				88F6F8FC2C1AACFC00A50C31 /* GameSettingsScreen.swift */,
 				887E75332BDD8E2A00AC7851 /* GameState.swift */,
 				8848B05C2C004E8C00E46658 /* GimmeeScreen.swift */,
 				8812BD4C2BC56529001E8D42 /* MainScreen.swift */,
@@ -366,6 +369,7 @@
 				8848B0AF2C16ABFF00E46658 /* OnboardingScreen.swift in Sources */,
 				8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */,
 				8848B0B02C16ABFF00E46658 /* HowToPlayScreen.swift in Sources */,
+				88F6F8FD2C1AACFC00A50C31 /* GameSettingsScreen.swift in Sources */,
 				8848B0632C0116FA00E46658 /* ScoreBarView.swift in Sources */,
 				8812BD4B2BC56529001E8D42 /* QuterApp.swift in Sources */,
 			);
@@ -537,6 +541,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -569,6 +574,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
