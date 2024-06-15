@@ -132,7 +132,7 @@ struct EssentialChallengeView: View {
           }
           
           
-        }.frame(minHeight:200)
+        }.frame(minHeight:100)
       } // place to hang
       .sheet(isPresented:$hintpressed) {
         HintBottomSheetView(hint: challenges[gameState.selected].hint)

@@ -9,6 +9,7 @@ import SwiftUI
 
  struct ScoreBarView: View {
   let settings:AppSettings
+   @State var showAlert = false
   var body:some View {
     return  VStack{
       HStack {
@@ -32,10 +33,19 @@ import SwiftUI
             }
         }
       }.font(.headline).padding()
-    }.onChange(of:gameState.outcomes) {
+//    }   .alert(isPresented: $showAlert) {
+//      Alert(title: Text("Hey"),
+//            message: Text("You have already won but you can play on"),
+//            dismissButton: .default(Text("OK")))
+  }
+    
+    
+    
+    .onChange(of:gameState.outcomes) {
       if let sq = try? convertToSquareMatrix(gameState.outcomes) {
         if isWinningPath(in:sq) {
           print("you have already won but can play on")
+          showAlert = true
         } else {
           if !isPossibleWinningPath(in:sq) {
             print("you cant possibly win")

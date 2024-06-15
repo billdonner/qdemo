@@ -124,7 +124,7 @@ fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,rel
     var tt : [LiveTopic ] = []
     // add in all the topics we got from the playing data
     for (n,t) in playdata.topicData.topics.enumerated() {
-      let jj = n % playdata.topicData.topics.count
+      let jj = n %  distinctiveColors.count  // really??
       tt.append(LiveTopic (id: UUID(), topic:t.name,isLive: true,color:distinctiveColors[jj]))
     }
     gameState.topics = tt

@@ -23,3 +23,91 @@ func downloadFile(from url: URL ) async throws -> Data {
   let (data, _) = try await URLSession.shared.data(from: url)
   return data
 }
+enum AppIconProvider {
+    static func appIcon(in bundle: Bundle = .main) -> String {
+       // # 1
+        guard let icons = bundle.object(forInfoDictionaryKey: "CFBundleIcons") as? [String: Any],
+           //   # 2
+              let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+            //  # 3
+              let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+           //   # 4
+              let iconFileName = iconFiles.last else {
+            fatalError("Could not find icons in bundle")
+        }
+
+        return iconFileName
+    }
+}
+enum AppVersionProvider {
+    static func appVersion(in bundle: Bundle = .main) -> String {
+        guard let x = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ,
+              let y =  bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String else {
+            fatalError("CFBundlexxx missing from info dictionary")
+        }
+      
+        return x + "." + y
+    }
+}
+enum AppNameProvider {
+    static func appName(in bundle: Bundle = .main) -> String {
+        guard let x = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else {
+            fatalError("CFBundleName missing from info dictionary")
+        }
+      
+        return x
+    }
+}
+struct AppVersionInformationView: View {
+   // # 1
+  let name:String
+    let versionString: String
+    let appIcon: String
+
+    var body: some View {
+        //# 1
+        HStack(alignment: .center, spacing: 12) {
+          // # 2
+           VStack(alignment: .leading) {
+               Text("App")
+                   .bold()
+               Text("\(name)")
+           }
+           .font(.caption)
+           .foregroundColor(.primary)
+            //# 3
+            // App icons can only be retrieved as named `UIImage`s
+            // https://stackoverflow.com/a/62064533/17421764
+            if let image = UIImage(named: appIcon) {
+                Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+           // # 4
+            VStack(alignment: .leading) {
+                Text("Version")
+                    .bold()
+                Text("v\(versionString)")
+            }
+            .font(.caption)
+            .foregroundColor(.primary)
+        }
+        //# 5
+        .fixedSize()
+        //# 6
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("App version \(versionString)")
+    }
+}
+
+
+struct AppVersionInformationView_Previews: PreviewProvider {
+  static var previews: some View {
+    AppVersionInformationView(
+        name:AppNameProvider.appName(),
+        versionString: AppVersionProvider.appVersion(),
+        appIcon: AppIconProvider.appIcon()
+    )
+  }
+}

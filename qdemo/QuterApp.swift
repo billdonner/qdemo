@@ -89,7 +89,7 @@ struct OuterApp : View {
   @State private var showOnBoarding = false
   @State private var showTopics = false
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
-    @State   var showAlert = false
+
   func exx(_ n:Int) {
     guard let playData = aiPlayData else {
       fatalError("No playdata when we need it")
@@ -119,12 +119,6 @@ struct OuterApp : View {
           }
           Button(action:{ exx(3) }) {
             Text("New 6x6 Game")
-          }
-          Button(action:{ exx(4) }) {
-            Text("New 7x7 Game")
-          }
-          Button(action:{ exx(5) }) {
-            Text("New 8x8 Game")
           }
           Button(action:{ showHowToPlay.toggle() }) {
             Text("How To Play")
@@ -160,6 +154,7 @@ struct OuterApp : View {
       OnboardingScreen(isPresented: $showOnBoarding)
     }
     .sheet(isPresented: $showUserSettings){
+      GameSettingsTesterScreen(ourTopics: gameState.topics.map {$0.topic})
 //      GameSettingsScreen(boardSize: .constant(3), startInCorners: .constant(true), faceUpCards: .constant(true), colorPalette: .constant(2), difficultyLevel: .constant(1))
     }
     .sheet(isPresented: $showSettings){
