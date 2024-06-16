@@ -72,20 +72,6 @@ func areCellsAdjacent(_ cell1: (Int, Int), _ cell2: (Int, Int)) -> Bool {
 /// - Parameter matrix: A square matrix of ChallengeOutcomes representing the current state of the game board.
 /// - Returns: A boolean value indicating whether a winning path exists.
 
-//enum ChallengeOutcomes {
-//   case unplayed
-//   case playedCorrectly
-//   case playedIncorrectly
-//}
-
-
-/// This function determines if there is a winning path in the current matrix.
-/// A winning path is defined as a continuous sequence of cells marked as `correct`
-/// that starts from any corner of the matrix and reaches the diagonally opposite corner.
-///
-/// - Parameter matrix: A square matrix of ChallengeOutcomes representing the current state of the game board.
-/// - Returns: A boolean value indicating whether a winning path exists.
-
 
 
 func isWinningPath(in matrix: [[ChallengeOutcomes]]) -> Bool {
@@ -167,4 +153,23 @@ func isPossibleWinningPath(in matrix: [[ChallengeOutcomes]]) -> Bool {
    
    var visited = Set<String>()
    return dfs(0, 0, &visited)
+}
+//This function takes a set of possible states and checks if any of the adjacent cells in the matrix belong to the given set, returning `true` if such a cell is found, and `false` otherwise.
+func hasAdjacentNeighbor(withStates states: Set<ChallengeOutcomes>, in matrix: [[ChallengeOutcomes]], for cell: (Int, Int)) -> Bool {
+    let n = matrix.count
+    let (row, col) = cell
+
+    // Define directions for the neighboring cells (right, down, left, up, and the four diagonals)
+    let directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+    for direction in directions {
+        let newRow = row + direction.0
+        let newCol = col + direction.1
+        if newRow >= 0 && newRow < n && newCol >= 0 && newCol < n {
+            if states.contains(matrix[newRow][newCol]) {
+                return true
+            }
+        }
+    }
+    return false
 }

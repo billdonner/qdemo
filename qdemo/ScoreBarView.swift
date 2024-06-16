@@ -6,9 +6,19 @@
 //
 
 import SwiftUI
-
+struct zz:View {
+  let showchar:String
+  
+  @AppStorage("boardSize") var boardSize = 6
+  var body: some View{
+    Text(showchar).font(.largeTitle)
+    Text("score:");Text("\(gameState.grandScore)").font(.largeTitle)
+    Text("gimmees:");Text("\(gameState.gimmees)").font(.largeTitle)
+    Text("togo:");Text("\(boardSize*boardSize - gameState.grandScore - gameState.grandLosers)").font(.largeTitle)
+  }
+}
  struct ScoreBarView: View {
-  let settings:AppSettings
+
    @State var showAlert = false
   var body:some View {
     return  VStack{
@@ -22,15 +32,12 @@ import SwiftUI
               "❌"
             }
           }
-          Text(showchar).font(.largeTitle) 
-          Text("score:");Text("\(gameState.grandScore)").font(.largeTitle)
-          Text("gimmees:");Text("\(gameState.gimmees)").font(.largeTitle)
-          Text("togo:");Text("\(Int(settings.rows*settings.rows) - gameState.grandScore - gameState.grandLosers)").font(.largeTitle)
+          zz(showchar: showchar)
            // .popoverTip(tip)
-            .onTapGesture {
-              // Invalidate the tip when someone uses the feature.
-              //tip.invalidate(reason: .actionPerformed)
-            }
+//            .onTapGesture {
+//              // Invalidate the tip when someone uses the feature.
+//              //tip.invalidate(reason: .actionPerformed)
+//            }
         }
       }.font(.headline).padding()
 //    }   .alert(isPresented: $showAlert) {
@@ -56,5 +63,5 @@ import SwiftUI
   }
 }
 #Preview {
-  ScoreBarView(settings: AppSettings())
+  ScoreBarView()
 }

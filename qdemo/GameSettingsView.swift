@@ -69,10 +69,10 @@ func chooseTopics(from topics: [String], count N: Int) -> [String] {
   return Array(chosenTopics)
 }
 
-struct GameSettingsScreen: View {
+struct GameSettingsView: View {
   internal init(boardSize: Binding<Int>, startInCorners: Binding<Bool>, faceUpCards: Binding<Bool>, doubleDiag: Binding<Bool>, colorPalette: Binding<Int>, difficultyLevel: Binding<Int>,
              //   topTopics: String,bottomTopics:String,
-                ourTopics: [String], label: String,returningTopics:Binding<[String]>,
+                ourTopics: [String], returningTopics:Binding<[String]>,
                 onExit:@escaping ()->()) {
     self.onExit = onExit
     _boardSize = boardSize
@@ -81,11 +81,8 @@ struct GameSettingsScreen: View {
     _doubleDiag = doubleDiag
     _colorPalette = colorPalette
     _difficultyLevel = difficultyLevel
-//    self.topTopics = topTopics.components(separatedBy: "|")
-//    self.bottomTopics = bottomTopics.components(separatedBy: "|")
     _returningTopics = returningTopics
     
-    self.label = label
     self.ourTopics = ourTopics
     let randomTopics = ourTopics.shuffled()
     let chosenTopics = Array(randomTopics.prefix(boardSize.wrappedValue - 2))
@@ -103,6 +100,7 @@ struct GameSettingsScreen: View {
     
   }
   var onExit: ()->()
+
   
   @Binding var boardSize: Int
   @Binding var startInCorners: Bool
@@ -128,16 +126,16 @@ struct GameSettingsScreen: View {
   @State var tappedIndices: Set<Int> = []
   @State var replacedTopics: [Int: String] = [:]
   @State var selectedAdditionalTopics: Set<String> = []
-
-  var label: String
+ 
   var ourTopics: [String]
+  @State private var showSettings = false
 
   @Environment(\.presentationMode) var presentationMode
   
   
 
   var colorPaletteBackground: LinearGradient {
-    switch colorPalette {
+    switch l_colorPalette {
     case 1:
       return LinearGradient(gradient: Gradient(colors: [Color.green, Color.yellow]), startPoint: .topLeading, endPoint: .bottomTrailing)
     case 2:
@@ -152,13 +150,8 @@ struct GameSettingsScreen: View {
   }
 
   var body: some View {
-   // NavigationView {
       
       Form {
-//        HStack{Spacer();
-//          
-//          Text("Changing anything starts a new game").font(.subheadline).fontWeight(.light)
-//          Spacer() }
         Section(header: Text("Board Size")) {
           Picker("Board Size", selection: $l_boardSize) {
             Text("3x3").tag(3)
@@ -168,8 +161,14 @@ struct GameSettingsScreen: View {
           }
           .pickerStyle(SegmentedPickerStyle())
       
-          .onChange(of: l_boardSize, initial: false ) { newSize,whoknows in
+          .onChange(of: l_boardSize, initial: false)
+           { newSize,whoknows in
             refreshTopics()
+           if let reloaded = try?  prepareNewGame(aiPlayData!, first:false)
+         {
+               print(" boardsize switch  \(reloaded)- new game choose new topics")
+             }
+         
           }
         }
         
@@ -229,7 +228,7 @@ struct GameSettingsScreen: View {
           .background(colorPaletteBackground.clipShape(RoundedRectangle(cornerRadius: 10)))
         }
         
-        Section(header: Text("We Pre-Selected \($l_boardSize.wrappedValue - 2) Topics for \(label) board"), footer: Text("Click to change any of the pre-selected topics, but only once!")) {
+        Section(header: Text("We Pre-Selected \($l_boardSize.wrappedValue - 2) Topics"), footer: Text("Click to change any of the pre-selected topics, but only once!")) {
           ForEach(selectedTopics.indices, id: \.self) { index in
             HStack {
               Text(selectedTopics[index])
@@ -244,7 +243,7 @@ struct GameSettingsScreen: View {
           }
         }
         
-        Section(header: Text("Choose \($l_boardSize.wrappedValue) Additional Topics for \(label) board"), footer: Text("Pick at least \($l_boardSize.wrappedValue - 2) ")) {
+        Section(header: Text("Choose Up To \($l_boardSize.wrappedValue) Additional Topics"), footer: Text("Pick at least \($l_boardSize.wrappedValue - 2) ")) {
           ForEach(availableTopics, id: \.self) { topic in
             HStack {
               Text(topic)
@@ -273,8 +272,15 @@ struct GameSettingsScreen: View {
               .onChange(of:returningTopics,initial:true ) { old,newer in
               print("New Game With Topics:",returningTopics.joined())
               }
+            
+            Button(action: { showSettings.toggle() }) {
+              Text("Freeport Settings")
+            }
           }
         }
+      }
+      .sheet(isPresented:$showSettings){
+        FreeportSettingsScreen()
       }
       .onDisappear {
         onExit() // do whatever
@@ -294,6 +300,7 @@ struct GameSettingsScreen: View {
           difficultyLevel = l_difficultyLevel
           startInCorners = l_startInCorners
           returningTopics = selectedTopics + selectedAdditionalTopics
+          exx(0)
           self.presentationMode.wrappedValue.dismiss()
         }
       )
@@ -325,51 +332,16 @@ struct GameSettingsScreen: View {
     selectedAdditionalTopics.removeAll()
   }
 }
-
-#Preview {
-  @Previewable @State var returningTopics:[String] = []
-  @Previewable @State var boardSize: Int = 6
-  @Previewable @State var startInCorners: Bool = false
-  @Previewable @State var faceUpCards: Bool = false
-  @Previewable @State var colorPalette: Int = 1
-  @Previewable @State var difficultyLevel: Int = 1
-  @Previewable @State var doubleDiag: Bool = false
-  @Previewable @State var ourTopics = [
-    "Movies",
-    "Brit Royals",
-    "Baseball",
-    "Music",
-    "Technology",
-    "Science",
-    "Literature",
-    "Travel",
-    "Art",
-    "History",
-    "Fashion",
-    "Food & Drink",
-    "Health & Fitness",
-    "Politics",
-    "Education",
-    "Environment",
-    "Finance",
-    "Automobiles",
-    "Gaming",
-    "DIY & Crafts",
-    "Gardening",
-    "Pets",
-    "Photography",
-    "Sports",
-    "Television"
-]
-// let topTopics = [
-//    "Movies",
-//    "Brit Royals",
-//    "Baseball",
-//    "Music",
-// 
-//    "Television"
-//].joined(separator: "|")
-// let bottomTopics = [
+//if #available(iOS 18.0, *) {
+//#Preview {
+//  @Previewable @State var returningTopics:[String] = []
+//  @Previewable @State var boardSize: Int = 6
+//  @Previewable @State var startInCorners: Bool = false
+//  @Previewable @State var faceUpCards: Bool = false
+//  @Previewable @State var colorPalette: Int = 1
+//  @Previewable @State var difficultyLevel: Int = 1
+//  @Previewable @State var doubleDiag: Bool = false
+//  @Previewable @State var ourTopics = [
 //    "Movies",
 //    "Brit Royals",
 //    "Baseball",
@@ -378,65 +350,83 @@ struct GameSettingsScreen: View {
 //    "Science",
 //    "Literature",
 //    "Travel",
-//    "Arts",
+//    "Art",
+//    "History",
+//    "Fashion",
+//    "Food & Drink",
+//    "Health & Fitness",
+//    "Politics",
+//    "Education",
+//    "Environment",
+//    "Finance",
+//    "Automobiles",
+//    "Gaming",
+//    "DIY & Crafts",
+//    "Gardening",
+//    "Pets",
+//    "Photography",
+//    "Sports",
 //    "Television"
-// ].joined(separator: "|")
+//]
+//
+//
+//
+// GameSettingsView(
+//  settings: AppSettings(),
+//    boardSize: $boardSize,
+//    startInCorners: $startInCorners,
+//    faceUpCards: $faceUpCards,
+//    doubleDiag: $doubleDiag,
+//    colorPalette: $colorPalette,
+//    difficultyLevel: $difficultyLevel,
+//    ourTopics: ourTopics, returningTopics: $returningTopics) {
+//      print("GameSettings Exited")
+//    }
+//
+//
+//}
+//}
 
-
- GameSettingsScreen(
-    boardSize: $boardSize,
-    startInCorners: $startInCorners,
-    faceUpCards: $faceUpCards,
-    doubleDiag: $doubleDiag,
-    colorPalette: $colorPalette,
-    difficultyLevel: $difficultyLevel,
-//    topTopics:topTopics,
-//    bottomTopics: bottomTopics,
-    ourTopics: ourTopics,
-    label:"\(boardSize)x\(boardSize)", returningTopics: $returningTopics) {
-      print("GameSettings Exited")
-    }
-
-
-}
-
-
-struct GameSettingsTesterScreen :
+struct GameSettingsScreen :
   View {
-  let  ourTopics:[String]
+  let ourTopics:[String]
+  let onExit: ()->()
+  @AppStorage("moveNumber") var moveNumber = 0
   @AppStorage("boardSize") private var boardSize = 6
   @AppStorage("startInCorners") private var startInCorners = false
   @AppStorage("faceUpCards") private var faceUpCards = false
   @AppStorage("doubleDiag") private var doubleDiag = false
   @AppStorage("colorPalette") private var colorPalette = 1
   @AppStorage("difficultyLevel") private var difficultyLevel = 1
-  @AppStorage("topTopics") private var topTopics : String = ""// pipe separated
-  @AppStorage("bottomTopics") private var bottomTopics : String = ""// pipe separated
+//  @AppStorage("topTopics") private var topTopics : String = ""// pipe separated
+//  @AppStorage("bottomTopics") private var bottomTopics : String = ""// pipe separated
 
   @State var returningTopics: [String] = []
   
   var body: some View {
     NavigationView  {
-      GameSettingsScreen(
+      GameSettingsView(
         boardSize: $boardSize,
         startInCorners: $startInCorners,
         faceUpCards: $faceUpCards,
         doubleDiag: $doubleDiag,
         colorPalette: $colorPalette,
         difficultyLevel: $difficultyLevel,
-//        topTopics:topTopics,
-//        bottomTopics:bottomTopics,
-        ourTopics:  ourTopics,
-        label:"\(boardSize)x\(boardSize)", returningTopics: $returningTopics){
-          print("GameSettingsExited")
+        ourTopics:  ourTopics, 
+        returningTopics: $returningTopics){
+          onExit()
+          
         }
       .onChange(of: returningTopics,initial:true ) {old,newer in
-        let _ = print(returningTopics)
+        let _ = print(old,newer)
       }
     }
   }
 }
 #Preview("Tester") {
   let t  = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-  GameSettingsTesterScreen(ourTopics: t)
+  GameSettingsScreen(ourTopics: t) {
+    
+    print("GameSettingsExited with")
+  }
 }

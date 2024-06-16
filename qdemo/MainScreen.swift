@@ -9,36 +9,36 @@ import SwiftUI
 //import q20kshare
 
 struct MainScreen: View {
-  let settings:AppSettings
-  init (settings:AppSettings) {
-    formatter.numberStyle = .spellOut
-    self.settings = settings
+  init () {
+    formatter.numberStyle = .spellOut 
   }
   @State private var isLoaded = false
   
   var body: some View {
-    //  NavigationView {
-    ZStack {
-      ProgressView().opacity(!isLoaded ? 1.0:0.0)
-      QuestionsGridScreen(settings:settings)
-        .opacity(isLoaded ? 1.0:0.0)
-    }
-    .task {
-      do{
-        let playdata = try await restorePlayDataURL(url)
-        if let playdata = playdata {
-          // move into a global place where we can reuse this
-          aiPlayData = playdata
-          let _ =   try  prepareNewGame(playdata,settings: settings, first: true  )
-          settings.shaky.toggle()
-          isLoaded = true
-        }
+    //NavigationView {
+      // ZStack {
+      if !isLoaded {
+        ProgressView()
+          .task {
+            do{
+              let playdata = try await restorePlayDataURL(url)
+              if let playdata = playdata {
+                // move into a global place where we can reuse this
+                aiPlayData = playdata
+                let _ =   try  prepareNewGame(playdata,   first: true  )
+                isLoaded = true
+              }
+            }
+            catch {
+              print("Could not restore from \(url) \(error.localizedDescription)")
+            }
+          }
       }
-        catch {
-          print("Could not restore from \(url) \(error.localizedDescription)")
-        }
+      else {
+        QuestionsGridScreen()
       }
     }
+  //}
 }
 
 
@@ -69,32 +69,39 @@ fileprivate func restorePlayDataURL(_ url:URL) async  throws -> PlayData? {
 
 
 
-func prepareNewGame(_ playdata: PlayData, settings:AppSettings,first:Bool) throws  -> Int{
+func prepareNewGame(_ playdata: PlayData,  first:Bool) throws  -> Int{
+ 
+  @AppStorage("boardSize") var boardSize = 6
   let x =  gameState.topics.map{$0.topic}
   let y = playdata.topicData.topics.map{$0.name}
   let filter:[String:Bool] = buildTopicsFilter(topics: first ? y : x, first:first)
   var total = 0
-  try nuGame(playdata, settings: settings, reloadTopics: first ){///
+  try nuGame(playdata, reloadTopics: first ){///
     challenge in
     // here is where we can decide  whether to include this question , primarily based on topic
     total += 1
   return filter[challenge.topic] ?? false
   }
-   shuffleChallenges(settings:settings)
+   shuffleChallenges()
   let n = gameState.topics.reduce(0) {$0 + ($1.isLive ? 1:0)}
-  print("New \(Int(settings.rows))x\(Int(settings.rows)) Game Starting -- \(n) selected topics with \(total) challenges")
+  print("New \(boardSize)x\(boardSize) Game Starting -- \(n) selected topics with \(total) challenges")
   return total
 }
 
-fileprivate func nuGame(_ playdata:PlayData, settings:AppSettings,reloadTopics:Bool , isAcceptable:((Challenge)->Bool)) throws {
+fileprivate func nuGame(_ playdata:PlayData, reloadTopics:Bool , isAcceptable:((Challenge)->Bool)) throws {
+  @AppStorage("moveNumber") var moveNumber = 0
   // restore challenges from fresh? playdata
-    challenges  = freshChallenges(settings:settings, from:playdata,isAcceptable: isAcceptable)
-    freshGameState(settings:settings, from:playdata,reloadTopics: reloadTopics)
+    challenges  = freshChallenges(  from:playdata,isAcceptable: isAcceptable)
+    freshGameState(  from:playdata,reloadTopics: reloadTopics)
+  // reset moveNumber to 0, this will allow clicking again
+  moveNumber = 0
     print("************")
 }
 
-fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable:((Challenge)->Bool)) -> [Challenge]{
-  let needs = Int(settings.rows*settings.rows)
+fileprivate func freshChallenges( from:PlayData,isAcceptable:((Challenge)->Bool)) -> [Challenge]{
+  
+  @AppStorage("boardSize") var boardSize = 6
+  let needs = Int(boardSize*boardSize)
   var r:[Challenge] = []
   var totq: Int = 0
   //keep filling till all we can ever need
@@ -102,7 +109,7 @@ fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable
     for gd in from.gameDatum {
       for a in gd.challenges {
         // make sure the topic is acceptable before adding the challenge
-        if isAcceptable(a) || settings.rows==1 {
+        if isAcceptable(a) || boardSize==1 {
           r.append(a)
           totq+=1
         }
@@ -114,12 +121,15 @@ fileprivate func freshChallenges(settings:AppSettings,from:PlayData,isAcceptable
   return r
 }
 
-fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,reloadTopics:Bool = false ) {
+fileprivate func freshGameState( from playdata:PlayData,reloadTopics:Bool = false ) {
+  
+  
+  @AppStorage("boardSize") var boardSize = 6
   // fresh gamestate
   gameState.showing = .qanda
   gameState.selected = 0
-  gameState.gimmees = Int(settings.rows)
-  gameState.outcomes = Array(repeating:.unplayed,count:Int(settings.rows*settings.rows))
+  gameState.gimmees = Int(boardSize)
+  gameState.outcomes = Array(repeating:.unplayed,count:Int(boardSize*boardSize))
   if reloadTopics || gameState.topics.count < 2 {
     var tt : [LiveTopic ] = []
     // add in all the topics we got from the playing data
@@ -131,10 +141,8 @@ fileprivate func freshGameState(settings:AppSettings, from playdata:PlayData,rel
   }
 }
 
-func  shuffleChallenges(  settings:AppSettings) {
-  if settings.shuffleUp {
-    challenges.shuffle()
-  }
+func  shuffleChallenges(   ) {
+    challenges.shuffle() 
 }
 fileprivate func buildTopicsFilter(topics:[String],first:Bool ) -> [String:Bool] {
   var ret:[String:Bool] = [:]
@@ -155,9 +163,9 @@ fileprivate func buildTopicsFilter(topics:[String],first:Bool ) -> [String:Bool]
   }
 
 #Preview ("Outer"){
-  MainScreen(settings:AppSettings.mock)
+  MainScreen()
 }
 #Preview ("OuterBlack"){
-  MainScreen(settings:AppSettings.mock)
+  MainScreen()
     .preferredColorScheme(.dark)
 }

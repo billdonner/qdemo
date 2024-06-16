@@ -17,7 +17,7 @@
 		8848B0762C01761B00E46658 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8848B0752C01761B00E46658 /* Preview Assets.xcassets */; };
 		8848B07B2C01762A00E46658 /* standalone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0642C016C9E00E46658 /* standalone.swift */; };
 		8848B0802C017C6A00E46658 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD10B2C000623005B3334 /* Colors.swift */; };
-		8848B0812C017E9E00E46658 /* qdemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0662C01751300E46658 /* qdemo.swift */; };
+		8848B0812C017E9E00E46658 /* qdemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0662C01751300E46658 /* qdemoApp.swift */; };
 		8848B0892C0682A300E46658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8848B08A2C0682A400E46658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812BD4E2BC5652B001E8D42 /* Assets.xcassets */; };
 		8848B0AF2C16ABFF00E46658 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0AD2C16ABFF00E46658 /* OnboardingScreen.swift */; };
@@ -25,16 +25,15 @@
 		8848B0B42C16AE4700E46658 /* Guts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8848B0B32C16AE4700E46658 /* Guts.swift */; };
 		884DD10C2C000623005B3334 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884DD10B2C000623005B3334 /* Colors.swift */; };
 		887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E75332BDD8E2A00AC7851 /* GameState.swift */; };
-		887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */; };
 		88A105312BF64DDA00FF8C08 /* QuestionsGridScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */; };
 		88A105352BF8FB0100FF8C08 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105342BF8FB0100FF8C08 /* AppSettings.swift */; };
 		88A105412BFBA72700FF8C08 /* WinLose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A105402BFBA72700FF8C08 /* WinLose.swift */; };
 		88A6EA902BFD96C000B89838 /* qdemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA8F2BFD96C000B89838 /* qdemoTests.swift */; };
 		88A6EA962BFD986A00B89838 /* playg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A6EA872BFD4E2A00B89838 /* playg.swift */; };
-		88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */; };
+		88F66CEF2BD8242F0099A4D4 /* FreeportSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CEE2BD8242F0099A4D4 /* FreeportSettingsScreen.swift */; };
 		88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */; };
 		88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F66CF62BD967790099A4D4 /* ThumbsView.swift */; };
-		88F6F8FD2C1AACFC00A50C31 /* GameSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F6F8FC2C1AACFC00A50C31 /* GameSettingsScreen.swift */; };
+		88F6F8FD2C1AACFC00A50C31 /* GameSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F6F8FC2C1AACFC00A50C31 /* GameSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +56,7 @@
 		8848B0602C00516F00E46658 /* subs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subs.swift; sourceTree = "<group>"; };
 		8848B0622C0116FA00E46658 /* ScoreBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBarView.swift; sourceTree = "<group>"; };
 		8848B0642C016C9E00E46658 /* standalone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = standalone.swift; sourceTree = "<group>"; };
-		8848B0662C01751300E46658 /* qdemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qdemo.swift; sourceTree = "<group>"; };
+		8848B0662C01751300E46658 /* qdemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qdemoApp.swift; sourceTree = "<group>"; };
 		8848B06C2C01761A00E46658 /* macdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8848B0722C01761B00E46658 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8848B0752C01761B00E46658 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -68,7 +67,6 @@
 		8848B0B32C16AE4700E46658 /* Guts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guts.swift; sourceTree = "<group>"; };
 		884DD10B2C000623005B3334 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		887E75332BDD8E2A00AC7851 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
-		887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsListScreen.swift; sourceTree = "<group>"; };
 		887E75542BE80FEF00AC7851 /* GameBoardFlow.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GameBoardFlow.md; sourceTree = "<group>"; };
 		88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsGridScreen.swift; sourceTree = "<group>"; };
 		88A105342BF8FB0100FF8C08 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -78,10 +76,10 @@
 		88A6EA8D2BFD96C000B89838 /* qdemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qdemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A6EA8F2BFD96C000B89838 /* qdemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qdemoTests.swift; sourceTree = "<group>"; };
 		88F66CED2BCF3DF10099A4D4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormScreen.swift; sourceTree = "<group>"; };
+		88F66CEE2BD8242F0099A4D4 /* FreeportSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeportSettingsScreen.swift; sourceTree = "<group>"; };
 		88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengesScreen.swift; sourceTree = "<group>"; };
 		88F66CF62BD967790099A4D4 /* ThumbsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbsView.swift; sourceTree = "<group>"; };
-		88F6F8FC2C1AACFC00A50C31 /* GameSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsScreen.swift; sourceTree = "<group>"; };
+		88F6F8FC2C1AACFC00A50C31 /* GameSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,22 +136,21 @@
 		8812BD492BC56529001E8D42 /* qdemo */ = {
 			isa = PBXGroup;
 			children = (
+				8848B0662C01751300E46658 /* qdemoApp.swift */,
 				8848B0642C016C9E00E46658 /* standalone.swift */,
-				8848B0662C01751300E46658 /* qdemo.swift */,
-				8812BD4A2BC56529001E8D42 /* QuterApp.swift */,
 				8848B0602C00516F00E46658 /* subs.swift */,
 				88A105342BF8FB0100FF8C08 /* AppSettings.swift */,
 				88F66CF22BD964CE0099A4D4 /* ChallengesScreen.swift */,
 				884DD10B2C000623005B3334 /* Colors.swift */,
-				88F6F8FC2C1AACFC00A50C31 /* GameSettingsScreen.swift */,
+				88F6F8FC2C1AACFC00A50C31 /* GameSettingsView.swift */,
 				887E75332BDD8E2A00AC7851 /* GameState.swift */,
 				8848B05C2C004E8C00E46658 /* GimmeeScreen.swift */,
 				8812BD4C2BC56529001E8D42 /* MainScreen.swift */,
+				8812BD4A2BC56529001E8D42 /* QuterApp.swift */,
 				88A105302BF64DDA00FF8C08 /* QuestionsGridScreen.swift */,
 				8848B0622C0116FA00E46658 /* ScoreBarView.swift */,
-				88F66CEE2BD8242F0099A4D4 /* SettingsFormScreen.swift */,
+				88F66CEE2BD8242F0099A4D4 /* FreeportSettingsScreen.swift */,
 				88F66CF62BD967790099A4D4 /* ThumbsView.swift */,
-				887E753D2BE189EB00AC7851 /* TopicsListScreen.swift */,
 				8812BD4E2BC5652B001E8D42 /* Assets.xcassets */,
 				88A105402BFBA72700FF8C08 /* WinLose.swift */,
 				8812BD502BC5652B001E8D42 /* Preview Content */,
@@ -352,11 +349,10 @@
 				88F66CF72BD967790099A4D4 /* ThumbsView.swift in Sources */,
 				884DD10C2C000623005B3334 /* Colors.swift in Sources */,
 				8848B0652C016C9E00E46658 /* standalone.swift in Sources */,
-				8848B0812C017E9E00E46658 /* qdemo.swift in Sources */,
+				8848B0812C017E9E00E46658 /* qdemoApp.swift in Sources */,
 				88F66CF32BD964CE0099A4D4 /* ChallengesScreen.swift in Sources */,
-				88F66CEF2BD8242F0099A4D4 /* SettingsFormScreen.swift in Sources */,
+				88F66CEF2BD8242F0099A4D4 /* FreeportSettingsScreen.swift in Sources */,
 				8848B0B42C16AE4700E46658 /* Guts.swift in Sources */,
-				887E753E2BE189EB00AC7851 /* TopicsListScreen.swift in Sources */,
 				887E75342BDD8E2A00AC7851 /* GameState.swift in Sources */,
 				88A105412BFBA72700FF8C08 /* WinLose.swift in Sources */,
 				88A105352BF8FB0100FF8C08 /* AppSettings.swift in Sources */,
@@ -365,7 +361,7 @@
 				8848B0AF2C16ABFF00E46658 /* OnboardingScreen.swift in Sources */,
 				8812BD4D2BC56529001E8D42 /* MainScreen.swift in Sources */,
 				8848B0B02C16ABFF00E46658 /* HowToPlayScreen.swift in Sources */,
-				88F6F8FD2C1AACFC00A50C31 /* GameSettingsScreen.swift in Sources */,
+				88F6F8FD2C1AACFC00A50C31 /* GameSettingsView.swift in Sources */,
 				8848B0632C0116FA00E46658 /* ScoreBarView.swift in Sources */,
 				8812BD4B2BC56529001E8D42 /* QuterApp.swift in Sources */,
 			);
@@ -526,7 +522,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -537,7 +533,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -559,7 +555,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"qdemo/Preview Content\"";
 				DEVELOPMENT_TEAM = NEAY582ME4;
 				ENABLE_PREVIEWS = YES;
@@ -570,7 +566,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

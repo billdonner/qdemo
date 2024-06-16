@@ -24,14 +24,7 @@ var isIpad: Bool {
 }
 
 let url = URL(string: PRIMARY_REMOTE )!
-
-let MAX_ROWS = 8.0
-let MAX_COLS = 8.0
-let MIN_ROWS = 3.0
-let MIN_COLS = 3.0
-
-
-
+ 
 let formatter = NumberFormatter()
 
 //import ComposableArchitecture
@@ -66,23 +59,18 @@ enum ChallengeActions: Equatable {
   case virtualTimerButtonTapped
   case onceOnlyVirtualyTapped//(Int)
 }
-
-//struct ipadView:View {
-//  let settings:AppSettings
-//  @State var col: NavigationSplitViewColumn =  .detail
-//  var body: some View {
-//    //open with detail view on top
-//    NavigationSplitView(preferredCompactColumn: $col) {
-//      SettingsFormScreen(settings: settings )
-//    } detail: {
-//      MainScreen(settings: settings)
-//        .navigationTitle("Q20K for iPad")
-//    }
-//  }
-//}
-
+func exx(_ n:Int) {
+  guard let playData = aiPlayData else {
+    fatalError("No playdata when we need it")
+  }
+   Task {
+     let reloaded = try  prepareNewGame(playData,  first:false)
+      print("Prepared New Game \(reloaded)") 
+      //self.selectedNavItem = Sni(val:n)
+    }
+}
 struct OuterApp : View {
-  let settings:AppSettings
+
   @State private var showSettings = false
   @State private var showUserSettings = false
   @State private var showHowToPlay = false
@@ -90,86 +78,54 @@ struct OuterApp : View {
   @State private var showTopics = false
   @State private var isSelectedArray = [Bool](repeating: false, count: 26)
 
-  func exx(_ n:Int) {
-    guard let playData = aiPlayData else {
-      fatalError("No playdata when we need it")
-    }
-     Task {
-        self.settings.rows = Double(n + 3);
-       let reloaded = try  prepareNewGame(playData, settings: settings,first:false)
-        print("Prepared New Game \(reloaded)")
-       settings.shaky.toggle()
-        //self.selectedNavItem = Sni(val:n)
-      }
-  }
+
   var body: some View{
     NavigationStack {
-      MainScreen(settings: settings)
+      MainScreen()
         .navigationBarTitle("Q20K ",displayMode: .inline)
         .navigationBarItems(trailing:
-        Menu {
+                              Menu {
           Button(action:{ exx(0) }) {
-            Text("New 3x3 Game")
+            Text("New Game")
           }
-          Button(action:{ exx(1) }) {
-            Text("New 4x4 Game")
-          }
-          Button(action:{ exx(2) }) {
-            Text("New 5x5 Game")
-          }
-          Button(action:{ exx(3) }) {
-            Text("New 6x6 Game")
-          }
+          
           Button(action:{ showHowToPlay.toggle() }) {
-            Text("How To Play")
+            Text("Help")
           }
-          Button(action:{ showOnBoarding.toggle() }) {
-            Text("OnBoarding")
-          }
+   
           Button(action: { showUserSettings.toggle() }) {
-            Text("Game Settings")
+            Text("Settings")
           }
-          Button(action: { showSettings.toggle() }) {
-            Text("Freeport Settings")
-          }
+      
         } label: {
-          Label("Select Action", systemImage: "arrowtriangle.down.circle")
+          Label("Select Action", systemImage: "filemenu.and.selection")
         }
         )
-      
-        .toolbar {
-          ToolbarItem(placement: .navigationBarLeading) {
-            Button {
-              showTopics.toggle()
-            } label: {
-              Image(systemName: "list.bullet")//.padding()//EdgeInsets(top:isIpad ? 40:10, leading: 0, bottom: 40, trailing: 20))
-            }
-          }
-        }
+
     }
     .fullScreenCover(isPresented: $showHowToPlay){
       HowToPlayScreen(isPresented: $showHowToPlay)
     }
-    .fullScreenCover(isPresented: $showOnBoarding){
-      OnboardingScreen(isPresented: $showOnBoarding)
-    }
+
     .sheet(isPresented: $showUserSettings){
-      GameSettingsTesterScreen(ourTopics: gameState.topics.map {$0.topic})
-//      GameSettingsScreen(boardSize: .constant(3), startInCorners: .constant(true), faceUpCards: .constant(true), colorPalette: .constant(2), difficultyLevel: .constant(1))
-    }
-    .sheet(isPresented: $showSettings){
-      SettingsFormScreen(settings: settings)
-    }
-    .sheet(isPresented: $showTopics){
-      TopicSelectorScreen( settings:settings, isSelectedArray: $isSelectedArray ){ // on the way back
-        // necessary to recreate
-        for (n,t) in gameState.topics.enumerated() {
-          gameState.topics[n] = LiveTopic(id: UUID(), topic:t.topic,isLive:isSelectedArray[n],color: distinctiveColors[n])
-        }
+      GameSettingsScreen(ourTopics: gameState.topics.map {$0.topic}) {
+        //        // necessary to recreate
+//        for (n,t) in gameState.topics.enumerated() {
+//        
+//          gameState.topics[n] = LiveTopic(id: UUID(),
+//                                          topic:t.topic,isLive:false ,color: colorFor(topic: t.topic))
+//          exx(0)
+//        }
       }
     }
+    .sheet(isPresented: $showSettings){
+      FreeportSettingsScreen()
+    }
+
   }
 }
 
 
-
+#Preview {
+  OuterApp()
+}

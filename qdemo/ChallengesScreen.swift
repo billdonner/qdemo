@@ -87,7 +87,7 @@ struct ChallengesScreen: View {
       GimmeeScreen(theInt: self.selected, isPresented: $showGimmeeScreen)
     }
     .onDisappear() {
-      print("Disappearing challenges")
+      //print("Disappearing challenges")
       //          gameState.isTimerRunning = false
       
       //   gameState.addTime(gameState.currentTopic, timeInSecs: Double(gameState.timerCount)/10.0)// get the time

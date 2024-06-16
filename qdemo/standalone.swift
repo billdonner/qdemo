@@ -235,72 +235,66 @@ struct LiveTopic:Identifiable,Codable  {
   }
 }
 
-@Observable class AppSettings : Codable {
-  
- static func saveAppSettings(_ settings: AppSettings, to fileName: String) {
-      let encoder = JSONEncoder()
-      do {
-          let data = try encoder.encode(settings)
-          if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-              let fileURL = directory.appendingPathComponent(fileName)
-              try data.write(to: fileURL)
-              print("AppSettings saved to \(fileURL.path)")
-          }
-      } catch {
-          print("Failed to save app settings: \(error.localizedDescription)")
-      }
-  }
-  static func loadAppSettings(from fileName: String) -> AppSettings? {
-      if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-          let fileURL = directory.appendingPathComponent(fileName)
-          let decoder = JSONDecoder()
-          do {
-              let data = try Data(contentsOf: fileURL)
-              let settings = try decoder.decode(AppSettings.self, from: data)
-              print("AppSettings loaded from \(fileURL.path)")
-              return settings
-          } catch {
-              print("Failed to load app settings: \(error.localizedDescription)")
-          }
-      }
-      return nil
-  }
-
-  internal init(elementWidth: CGFloat = 100, shaky: Bool = false, shuffleUp: Bool = true, rows: Double = 3, fontsize: Double = 24, padding: Double=5, border: Double=2,topics:[LiveTopic]=[]) {
-    self.elementWidth = elementWidth
-    self.shaky = shaky
-    self.shuffleUp = shuffleUp
-    self.rows = rows
-    self.fontsize = fontsize
-    self.padding = padding
-    self.border = border
-    self.topics = topics
-  }
-  static var mock = AppSettings(elementWidth: 100, shaky: false, shuffleUp: false, rows: 1, fontsize: 24, padding: 5, border: 2)
-  
-  var elementWidth: CGFloat
-  var shaky: Bool
-  var shuffleUp: Bool
-  var rows: Double
-  var fontsize: Double
-  var padding: Double
-  var border: Double
-  var topics:[LiveTopic]
-  
-  // these are needed when @Observable needs to be codable
-  enum CodingKeys: String, CodingKey {
-    case _border = "border"
-    case _padding = "padding"
-    case _fontsize = "fontsize"
-    case _rows = "rows"
-    case _elementWidth = "elementWidth"
-    case _shaky = "shaky"
-    case _shuffleUp = "shuffleUp"
-    case _topics = "topics"
-    
-  }
-  
-}
+//@Observable class AppSettings : Codable {
+//  
+// static func saveAppSettings(_ settings: AppSettings, to fileName: String) {
+//      let encoder = JSONEncoder()
+//      do {
+//          let data = try encoder.encode(settings)
+//          if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//              let fileURL = directory.appendingPathComponent(fileName)
+//              try data.write(to: fileURL)
+//              print("AppSettings saved to \(fileURL.path)")
+//          }
+//      } catch {
+//          print("Failed to save app settings: \(error.localizedDescription)")
+//      }
+//  }
+//  static func loadAppSettings(from fileName: String) -> AppSettings? {
+//      if let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//          let fileURL = directory.appendingPathComponent(fileName)
+//          let decoder = JSONDecoder()
+//          do {
+//              let data = try Data(contentsOf: fileURL)
+//              let settings = try decoder.decode(AppSettings.self, from: data)
+//              print("AppSettings loaded from \(fileURL.path)")
+//              return settings
+//          } catch {
+//              print("Failed to load app settings: \(error.localizedDescription)")
+//          }
+//      }
+//      return nil
+//  }
+//
+//  internal init(elementWidth: CGFloat = 100,  shuffleUp: Bool = true, fontsize: Double = 24, padding: Double=5, border: Double=2){//},topics:[LiveTopic]=[]) {
+//    self.elementWidth = elementWidth
+//    self.shuffleUp = shuffleUp
+//    self.fontsize = fontsize
+//    self.padding = padding
+//    self.border = border
+//  //  self.topics = topics
+//  }
+//  static var mock = AppSettings(elementWidth: 100,  shuffleUp: false,fontsize: 24, padding: 5, border: 2)
+//  
+//  var elementWidth: CGFloat
+//  var shuffleUp: Bool
+//  var fontsize: Double
+//  var padding: Double
+//  var border: Double
+// // var topics:[LiveTopic]
+//  
+//  // these are needed when @Observable needs to be codable
+//  enum CodingKeys: String, CodingKey {
+//    case _border = "border"
+//    case _padding = "padding"
+//    case _fontsize = "fontsize"
+//    case _elementWidth = "elementWidth"
+//    case _shuffleUp = "shuffleUp"
+//  //  case _topics = "topics"
+//    
+//  }
+//  
+//}
 
 
 
@@ -381,7 +375,7 @@ extension Color: Codable {
 
 struct GridView_Previews: PreviewProvider {
     static var previews: some View {
-        GridView(settings: AppSettings.mock, tappedNum: .constant(IdentifiableInteger(val: 1)), longPressedNum: .constant(IdentifiableInteger(val: 2)))
+        GridView(tappedNum: .constant(IdentifiableInteger(val: 1)), longPressedNum: .constant(IdentifiableInteger(val: 2)))
     }
 }
  
@@ -418,9 +412,8 @@ func cellColorFromTopic(_ number:Int)->Color {
 /* Add your existing code here */
 
 struct MatrixItemView: View {
-    init(text: String, number: Int, settings: AppSettings, onTap: ((Int) -> Void)? = nil, onLongPress: ((Int) -> Void)? = nil, shownum: Bool = false) {
+    init(text: String, number: Int,  onTap: ((Int) -> Void)? = nil, onLongPress: ((Int) -> Void)? = nil, shownum: Bool = false) {
         self.text = text
-        self.settings = settings
         self.onTap = onTap
         self.onLongPress = onLongPress
         self.shownum = shownum
@@ -429,29 +422,36 @@ struct MatrixItemView: View {
     
     let text: String
     let number: Int
-    let settings: AppSettings
     let shownum: Bool
 
     var onTap: ((Int) -> Void)? // Closure to be executed on tap
     var onLongPress: ((Int) -> Void)?
-    
+  @AppStorage("boardSize") var boardSize = 6
+  @AppStorage("moveNumber") var moveNumber = 0
+  @AppStorage("elementWidth") var elementWidth = 100.0
+  @AppStorage("padding")  var padding = 2.0
+  @AppStorage("fontsize") private var fontsize = 24.0
     var body: some View {
         Text(text)
-            .font(.system(size: settings.fontsize))
+            .font(.system(size:  fontsize))
             .lineLimit(8)
             .minimumScaleFactor(0.2)
-            .frame(width: settings.elementWidth,
-                   height: settings.elementWidth, // square for now
+            .frame(width: elementWidth,
+                   height:  elementWidth, // square for now
                    alignment: .center)
-            .padding(.all, settings.padding)
+            .padding(.all,  padding)
             .background( cellColorFromTopic(number)) // Change color based on global state or individual state
             .foregroundColor(.black)
+            
             .onTapGesture {
               withAnimation {
-                
-                gameState.selected = number // gameState is class
-                gameState.showing = .qanda
-                onTap?(number) // Execute the closure if it exists
+                // check to make sure this cell is adjacent to a cell that is already marked
+                if  hasAdjacentNeighbor(withStates: [.playedCorrectly,.playedIncorrectly], in: try! convertToSquareMatrix(gameState.outcomes), for: (number / boardSize,number % boardSize)) || moveNumber == 0  {
+                  moveNumber += 1
+                  gameState.selected = number // gameState is class
+                  gameState.showing = .qanda
+                  onTap?(number) // Execute the closure if it exists
+                }
               }
             }
             .onLongPressGesture {
@@ -466,25 +466,25 @@ struct MatrixItemView: View {
 }
 
 struct GridView: View {
-    let settings: AppSettings
     @Binding var tappedNum: IdentifiableInteger?
     @Binding var longPressedNum: IdentifiableInteger?
 
-    
-  init(settings: AppSettings, tappedNum: Binding<IdentifiableInteger?>, longPressedNum: Binding<IdentifiableInteger?>) {
-        self.settings = settings
+  @AppStorage("boardSize") var boardSize = 6
+  @AppStorage("padding") private var padding = 2.0
+  @AppStorage("border") private var border = 3.0
+  init(  tappedNum: Binding<IdentifiableInteger?>, longPressedNum: Binding<IdentifiableInteger?>) {
+       
         self._tappedNum = tappedNum
         self._longPressedNum = longPressedNum
   }
     
     var body: some View {
         ScrollView([.vertical, .horizontal], showsIndicators: true) {
-            let columns = Array(repeating: GridItem(.flexible(), spacing: settings.padding), count: Int(settings.rows))
-            LazyVGrid(columns: columns, spacing: settings.border) {
-                ForEach(0..<Int(settings.rows) * Int(settings.rows), id: \.self) { number in
+            let columns = Array(repeating: GridItem(.flexible(), spacing:  padding), count: boardSize)
+            LazyVGrid(columns: columns, spacing:  border) {
+                ForEach(0 ..< boardSize * boardSize, id: \.self) { number in
                     MatrixItemView(text: challenges[number].question,
                                    number: number,
-                                   settings: settings,
                                    onTap: { renumber in
                         tappedNum = IdentifiableInteger(val: renumber)
                     },

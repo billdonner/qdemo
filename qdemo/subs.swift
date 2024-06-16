@@ -111,3 +111,23 @@ struct AppVersionInformationView_Previews: PreviewProvider {
     )
   }
 }
+
+
+
+/**
+ @AppStorage("moveNumber") var moveNumber = 0
+ @AppStorage("boardSize") private var boardSize = 6
+ @AppStorage("startInCorners") private var startInCorners = false
+ @AppStorage("faceUpCards") private var faceUpCards = false
+ @AppStorage("doubleDiag") private var doubleDiag = false
+ @AppStorage("colorPalette") private var colorPalette = 1
+ @AppStorage("difficultyLevel") private var difficultyLevel = 1
+ @AppStorage("elementWidth") var elementWidth = 100.0
+ @AppStorage("shuffleUp") private var shuffleUp = true
+ @AppStorage("fontsize") private var fontsize = 24.0
+ @AppStorage("padding") private var padding = 2.0
+ @AppStorage("border") private var border = 3.0
+  
+  
+ */
+

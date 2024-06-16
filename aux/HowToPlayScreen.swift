@@ -61,8 +61,8 @@ struct HowToPlayScreen: View {
 struct FrontMatter :View{
   var body: some View {
     ZStack{
-      Color.yellow
-      Text("How to Play").font(.largeTitle)
+      Color.black
+      Text("How to Play").font(.largeTitle).foregroundStyle(.white)
     }.ignoresSafeArea()
   }
 }
@@ -77,9 +77,9 @@ struct FrontMatter :View{
 struct Intermission :View{
   var body: some View {
     ZStack{
-      Color.yellow
-      Text("Some Examples").font(.largeTitle)
-    }.ignoresSafeArea()
+      Color.black.ignoresSafeArea()
+      Text("Some Examples").font(.largeTitle).foregroundStyle(.white)
+    }
   }
 }
 
